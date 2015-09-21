@@ -13,7 +13,7 @@
 /// \li Supports acceleration and deceleration
 /// \li Supports multiple simultaneous steppers, with independent concurrent stepping on each stepper
 /// \li API functions never delay() or block
-/// \li Supports 2 and 4 wire steppers
+/// \li Supports 2 and 4 wire steppers, plus 4 wire half steppers.
 /// \li Supports alternate stepping functions to enable support of AFMotor (https://github.com/adafruit/Adafruit-Motor-Shield-library)
 /// \li Supports stepper drivers such as the Sparkfun EasyDriver (based on 3967 driver chip)
 /// \li Very slow speeds are supported
@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.6.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.8.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
@@ -69,6 +69,7 @@
 /// \version 1.7 Fixed a bug where setCurrentPosition() did always work as expected. Reported by Peter Linhart.
 ///              Reported by Sandy Noble.
 ///              Removed redundant _lastRunTime member.
+/// \version 1.8 Added support for 4 pin half-steppers, requested by Harvey Moon
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
@@ -131,7 +132,7 @@ public:
     /// constructor by a call to enableOutputs().
     /// \param[in] pins Number of pins to interface to. 1, 2 or 4 are
     /// supported. 1 means a stepper driver (with Step and Direction pins)
-    /// 2 means a 2 wire stepper. 4 means a 4 wire stepper.
+    /// 2 means a 2 wire stepper. 4 means a 4 wire stepper. 8 means a 4 wire half stepper
     /// Defaults to 4 pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
     /// to pin 2. For a driver (pins==1), this is the Step input to the driver. Low to high transition means to step)
@@ -268,9 +269,9 @@ protected:
 
     /// Called to execute a step. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
-    /// interfaces. The default calls step1(), step2() or step4() depending on the
+    /// interfaces. The default calls step1(), step2(), step4() or step8() depending on the
     /// number of pins defined for the stepper.
-    /// \param[in] step The current step phase number (0 to 3)
+    /// \param[in] step The current step phase number (0 to 7)
     virtual void   step(uint8_t step);
 
     /// Called to execute a step using stepper functions (pins = 0) Only called when a new step is
@@ -282,21 +283,28 @@ protected:
     /// interfaces. The default sets or clears the outputs of Step pin1 to step, 
     /// and sets the output of _pin2 to the desired direction. The Step pin (_pin1) is pulsed for 1 microsecond
     /// which is the minimum STEP pulse width for the 3967 driver.
-    /// \param[in] step The current step phase number (0 to 3)
+    /// \param[in] step The current step phase number (0 to 7)
     virtual void   step1(uint8_t step);
 
     /// Called to execute a step on a 2 pin motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1 and pin2
-    /// \param[in] step The current step phase number (0 to 3)
+    /// \param[in] step The current step phase number (0 to 7)
     virtual void   step2(uint8_t step);
 
     /// Called to execute a step on a 4 pin motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1, pin2,
     /// pin3, pin4.
-    /// \param[in] step The current step phase number (0 to 3)
+    /// \param[in] step The current step phase number (0 to 7)
     virtual void   step4(uint8_t step);
+
+    /// Called to execute a step on a 4 pin half-steper motor. Only called when a new step is
+    /// required. Subclasses may override to implement new stepping
+    /// interfaces. The default sets or clears the outputs of pin1, pin2,
+    /// pin3, pin4.
+    /// \param[in] step The current step phase number (0 to 7)
+    virtual void   step8(uint8_t step);
 
     /// Compute and return the desired speed. The default algorithm uses
     /// maxSpeed, acceleration and the current speed to set a new speed to

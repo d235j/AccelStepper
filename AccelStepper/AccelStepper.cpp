@@ -51,7 +51,7 @@ boolean AccelStepper::runSpeed()
 	    // Anticlockwise  
 	    _currentPos -= 1;
 	}
-	step(_currentPos & 0x3); // Bottom 2 bits (same as mod 4, but works with + and - numbers) 
+	step(_currentPos & 0x7); // Bottom 3 bits (same as mod 8, but works with + and - numbers) 
 
 //	_lastRunTime = time;
 	_lastStepTime = time;
@@ -266,6 +266,10 @@ void AccelStepper::step(uint8_t step)
 	case 4:
 	    step4(step);
 	    break;  
+
+	case 8:
+	    step8(step);
+	    break;  
     }
 }
 
@@ -280,7 +284,7 @@ void AccelStepper::step0()
 }
 
 // 1 pin step function (ie for stepper drivers)
-// This is passed the current step number (0 to 3)
+// This is passed the current step number (0 to 7)
 // Subclasses can override
 void AccelStepper::step1(uint8_t step)
 {
@@ -293,11 +297,11 @@ void AccelStepper::step1(uint8_t step)
 }
 
 // 2 pin step function
-// This is passed the current step number (0 to 3)
+// This is passed the current step number (0 to 7)
 // Subclasses can override
 void AccelStepper::step2(uint8_t step)
 {
-    switch (step)
+    switch (step & 0x3)
     {
 	case 0: /* 01 */
 	    digitalWrite(_pin1, LOW);
@@ -321,12 +325,12 @@ void AccelStepper::step2(uint8_t step)
     }
 }
 
-// 4 pin step function
-// This is passed the current step number (0 to 3)
+// 4 pin step function for half stepper
+// This is passed the current step number (0 to 7)
 // Subclasses can override
 void AccelStepper::step4(uint8_t step)
 {
-    switch (step)
+    switch (step & 0x3)
     {
 	case 0:    // 1010
 	    digitalWrite(_pin1, HIGH);
@@ -359,14 +363,79 @@ void AccelStepper::step4(uint8_t step)
 }
 
 
+// 4 pin step function
+// This is passed the current step number (0 to 3)
+// Subclasses can override
+void AccelStepper::step8(uint8_t step)
+{
+    switch (step & 0x7)
+    {
+	case 0:    // 1000
+            digitalWrite(_pin1, HIGH);
+            digitalWrite(_pin2, LOW);
+            digitalWrite(_pin3, LOW);
+            digitalWrite(_pin4, LOW);
+            break;
+	    
+        case 1:    // 1010
+            digitalWrite(_pin1, HIGH);
+            digitalWrite(_pin2, LOW);
+            digitalWrite(_pin3, HIGH);
+            digitalWrite(_pin4, LOW);
+            break;
+	    
+	case 2:    // 0010
+            digitalWrite(_pin1, LOW);
+            digitalWrite(_pin2, LOW);
+            digitalWrite(_pin3, HIGH);
+            digitalWrite(_pin4, LOW);
+            break;
+	    
+        case 3:    // 0110
+            digitalWrite(_pin1, LOW);
+            digitalWrite(_pin2, HIGH);
+            digitalWrite(_pin3, HIGH);
+            digitalWrite(_pin4, LOW);
+            break;
+	    
+	case 4:    // 0100
+            digitalWrite(_pin1, LOW);
+            digitalWrite(_pin2, HIGH);
+            digitalWrite(_pin3, LOW);
+            digitalWrite(_pin4, LOW);
+            break;
+	    
+        case 5:    //0101
+            digitalWrite(_pin1, LOW);
+            digitalWrite(_pin2, HIGH);
+            digitalWrite(_pin3, LOW);
+            digitalWrite(_pin4, HIGH);
+            break;
+	    
+	case 6:    // 0001
+            digitalWrite(_pin1, LOW);
+            digitalWrite(_pin2, LOW);
+            digitalWrite(_pin3, LOW);
+            digitalWrite(_pin4, HIGH);
+            break;
+	    
+        case 7:    //1001
+            digitalWrite(_pin1, HIGH);
+            digitalWrite(_pin2, LOW);
+            digitalWrite(_pin3, LOW);
+            digitalWrite(_pin4, HIGH);
+            break;
+    }
+}
+    
 // Prevents power consumption on the outputs
 void    AccelStepper::disableOutputs()
 {   
-  if (! _pins) return;
+    if (! _pins) return;
 
     digitalWrite(_pin1, LOW);
     digitalWrite(_pin2, LOW);
-    if (_pins == 4)
+    if (_pins == 4 || _pins == 8)
     {
 	digitalWrite(_pin3, LOW);
 	digitalWrite(_pin4, LOW);
@@ -379,7 +448,7 @@ void    AccelStepper::enableOutputs()
 
     pinMode(_pin1, OUTPUT);
     pinMode(_pin2, OUTPUT);
-    if (_pins == 4)
+    if (_pins == 4 || _pins == 8)
     {
 	pinMode(_pin3, OUTPUT);
 	pinMode(_pin4, OUTPUT);
