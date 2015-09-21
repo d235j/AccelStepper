@@ -23,23 +23,28 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.39.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.40.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
 /// Please use that group for all questions and discussions on this topic. 
 /// Do not contact the author directly, unless it is to discuss commercial licensing.
+/// Before asking a question or reporting a bug, please read http://www.catb.org/esr/faqs/smart-questions.html
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
 /// on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
 /// cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.
+/// Tested on Teensy http://www.pjrc.com/teensy including Teensy 3.1 built using Arduino IDE 1.0.5 with 
+/// teensyduino addon 1.18 and later.
 ///
 /// \par Installation
+///
 /// Install in the usual way: unzip the distribution zip file to the libraries
 /// sub-folder of your sketchbook. 
 ///
 /// \par Theory
+///
 /// This code uses speed calculations as described in 
 /// "Generate stepper-motor speed profiles in real time" by David Austin 
 /// http://fab.cba.mit.edu/classes/MIT/961.09/projects/i0/Stepper_Motor_Speed_Profile.pdf
@@ -49,6 +54,23 @@
 /// On subsequent steps, shorter step intervals are calculated based 
 /// on the previous step until max speed is achieved.
 /// 
+/// \par Donations
+///
+/// This library is offered under a free GPL license for those who want to use it that way. 
+/// We try hard to keep it up to date, fix bugs
+/// and to provide free support. If this library has helped you save time or money, please consider donating at
+/// http://www.airspayce.com or here:
+///
+/// \htmlonly <form action="https://www.paypal.com/cgi-bin/webscr" method="post"><input type="hidden" name="cmd" value="_donations" /> <input type="hidden" name="business" value="mikem@airspayce.com" /> <input type="hidden" name="lc" value="AU" /> <input type="hidden" name="item_name" value="Airspayce" /> <input type="hidden" name="item_number" value="AccelStepper" /> <input type="hidden" name="currency_code" value="USD" /> <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted" /> <input type="image" alt="PayPal — The safer, easier way to pay online." name="submit" src="https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif" /> <img alt="" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1" border="0" /></form> \endhtmlonly
+/// 
+/// \par Trademarks
+///
+/// AccelStepper is a trademark of AirSpayce Pty Ltd. The AccelStepper mark was first used on April 26 2010 for
+/// international trade, and is used only in relation to motor control hardware and software.
+/// It is not to be confused with any other similar marks covering other goods and services.
+///
+/// \par Copyright
+///
 /// This software is Copyright (C) 2010 Mike McCauley. Use is subject to license
 /// conditions. The main licensing options available are GPL V2 or Commercial:
 ///
@@ -156,6 +178,7 @@
 /// \version 1.38  run() function incorrectly always returned true. Updated function and doc so it returns true 
 ///                if the motor is still running to the target position.
 /// \version 1.39  Updated typos in keywords.txt, courtesey Jon Magill.
+/// \version 1.40  Updated documentation, including testing on Teensy 3.1
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
