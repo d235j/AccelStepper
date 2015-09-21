@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.9.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.10.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
@@ -71,6 +71,7 @@
 ///              Removed redundant _lastRunTime member.
 /// \version 1.8 Added support for 4 pin half-steppers, requested by Harvey Moon
 /// \version 1.9 setCurrentPosition() now also sets motor speed to 0.
+/// \version 1.10 Builds on Arduino 1.0
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
@@ -81,7 +82,11 @@
 #define AccelStepper_h
 
 #include <stdlib.h>
+#if ARDUINO >= 100
+#include <Arduino.h>
+#else
 #include <wiring.h>
+#endif
 
 // These defs cause trouble on some versions of Arduino
 #undef round

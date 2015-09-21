@@ -3,7 +3,9 @@
 // Copyright (C) 2009 Mike McCauley
 // $Id: AccelStepper.cpp,v 1.4 2011/01/05 01:51:01 mikem Exp $
 
+#if (ARDUINO < 100)
 #include "WProgram.h"
+#endif
 #include "AccelStepper.h"
 
 void AccelStepper::moveTo(long absolute)
