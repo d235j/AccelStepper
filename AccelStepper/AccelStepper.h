@@ -13,7 +13,7 @@
 /// \li Supports acceleration and deceleration
 /// \li Supports multiple simultaneous steppers, with independent concurrent stepping on each stepper
 /// \li API functions never delay() or block
-/// \li Supports 2 and 4 wire steppers, plus 4 wire half steppers.
+/// \li Supports 2, 3 and 4 wire steppers, plus 3 and 4 wire half steppers.
 /// \li Supports alternate stepping functions to enable support of AFMotor (https://github.com/adafruit/Adafruit-Motor-Shield-library)
 /// \li Supports stepper drivers such as the Sparkfun EasyDriver (based on 3967 driver chip)
 /// \li Very slow speeds are supported
@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.27.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.28.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -128,10 +128,14 @@
 ///                oscillation about the target position.
 /// \version 1.27  Added stop() function to stop as fast as possible with current acceleration parameters.
 ///                Also added new Quickstop example showing its use.
+/// \version 1.28  Fixed another problem where certain combinations of speed and accelration could cause
+///                oscillation about the target position.
+///                Added support for 3 wire full and half steppers such as Hard Disk Drive spindle.
+///                Contributed by Yuri Ivatchkovitch.
 ///
 /// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.14 2012/11/28 09:28:24 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.15 2012/12/22 21:41:22 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -200,7 +204,9 @@ public:
 	FUNCTION  = 0, ///< Use the functional interface, implementing your own driver functions (internal use only)
 	DRIVER    = 1, ///< Stepper Driver, 2 driver pins required
 	FULL2WIRE = 2, ///< 2 wire stepper, 2 motor pins required
+	FULL3WIRE = 3, ///< 3 wire stepper, such as HDD spindle, 3 motor pins required
         FULL4WIRE = 4, ///< 4 wire full stepper, 4 motor pins required
+	HALF3WIRE = 6, ///< 3 wire half stepper, such as HDD spindle, 3 motor pins required
 	HALF4WIRE = 8  ///< 4 wire half stepper, 4 motor pins required
     } MotorInterfaceType;
 
@@ -216,7 +222,9 @@ public:
     /// If an enable line is also needed, call setEnablePin() after construction.
     /// You may also invert the pins using setPinsInverted().
     /// AccelStepper::FULL2WIRE (2) means a 2 wire stepper (2 pins required). 
+    /// AccelStepper::FULL3WIRE (3) means a 3 wire stepper, such as HDD spindle (3 pins required). 
     /// AccelStepper::FULL4WIRE (4) means a 4 wire stepper (4 pins required). 
+    /// AccelStepper::HALF3WIRE (6) means a 3 wire half stepper, such as HDD spindle (4 pins required)
     /// AccelStepper::HALF4WIRE (8) means a 4 wire half stepper (4 pins required)
     /// Defaults to AccelStepper::FULL4WIRE (4) pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
@@ -332,7 +340,7 @@ public:
     void    runToNewPosition(long position);
 
     /// Sets a new target position that causes the stepper
-    /// to stop as quickly as possible
+    /// to stop as quickly as possible, using to the current speed and acceleration parameters.
     void stop();
 
     /// Disable motor pin outputs by setting them all LOW
@@ -347,8 +355,10 @@ public:
     /// mode. Called automatically by the constructor.
     void    enableOutputs();
 
-    /// Sets the minimum pulse width allowed by the stepper driver.
-    /// \param[in] minWidth The minimum pulse width in microseconds.
+    /// Sets the minimum pulse width allowed by the stepper driver. The minimum practical pulse width is 
+    /// approximately 20 microseconds. Times less than 20 microseconds
+    /// will usually result in 20 microseconds or so.
+    /// \param[in] minWidth The minimum pulse width in microseconds. 
     void    setMinPulseWidth(unsigned int minWidth);
 
     /// Sets the enable pin number for stepper drivers.
@@ -419,12 +429,26 @@ protected:
     /// \param[in] step The current step phase number (0 to 7)
     virtual void   step2(uint8_t step);
 
+    /// Called to execute a step on a 3 pin motor, such as HDD spindle. Only called when a new step is
+    /// required. Subclasses may override to implement new stepping
+    /// interfaces. The default sets or clears the outputs of pin1, pin2,
+    /// pin3
+    /// \param[in] step The current step phase number (0 to 7)
+    virtual void   step3(uint8_t step);
+
     /// Called to execute a step on a 4 pin motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1, pin2,
     /// pin3, pin4.
     /// \param[in] step The current step phase number (0 to 7)
     virtual void   step4(uint8_t step);
+
+    /// Called to execute a step on a 3 pin motor, such as HDD spindle. Only called when a new step is
+    /// required. Subclasses may override to implement new stepping
+    /// interfaces. The default sets or clears the outputs of pin1, pin2,
+    /// pin3
+    /// \param[in] step The current step phase number (0 to 7)
+    virtual void   step6(uint8_t step);
 
     /// Called to execute a step on a 4 pin half-steper motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping

@@ -46,7 +46,7 @@
 <li>Supports acceleration and deceleration </li>
 <li>Supports multiple simultaneous steppers, with independent concurrent stepping on each stepper </li>
 <li>API functions never delay() or block </li>
-<li>Supports 2 and 4 wire steppers, plus 4 wire half steppers. </li>
+<li>Supports 2, 3 and 4 wire steppers, plus 3 and 4 wire half steppers. </li>
 <li>Supports alternate stepping functions to enable support of AFMotor (<a href="https://github.com/adafruit/Adafruit-Motor-Shield-library">https://github.com/adafruit/Adafruit-Motor-Shield-library</a>) </li>
 <li>Supports stepper drivers such as the Sparkfun EasyDriver (based on 3967 driver chip) </li>
 <li>Very slow speeds are supported </li>
@@ -55,7 +55,7 @@
 </ul>
 <p>The latest version of this documentation can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a></p>
 <p>Example Arduino programs are included to show the main modes of use.</p>
-<p>The version of the package that this documentation refers to can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.27.zip">http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.27.zip</a> You can find the latest version at <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a></p>
+<p>The version of the package that this documentation refers to can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.28.zip">http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.28.zip</a> You can find the latest version at <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a></p>
 <p>You can also find online help and discussion at <a href="http://groups.google.com/group/accelstepper">http://groups.google.com/group/accelstepper</a> Please use that group for all questions and discussions on this topic. Do not contact the author directly, unless it is to discuss commercial licensing.</p>
 <p>Tested on Arduino Diecimila and Mega with arduino-0018 &amp; arduino-0021 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15, cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.</p>
 <dl class="section user"><dt>Installation</dt><dd>Install in the usual way: unzip the distribution zip file to the libraries sub-folder of your sketchbook.</dd></dl>
@@ -118,7 +118,9 @@
 <dd>
 1.26 Fixed a problem where certina combinations of speed and accelration could cause oscillation about the target position. </dd>
 <dd>
-1.27 Added stop() function to stop as fast as possible with current acceleration parameters. Also added new Quickstop example showing its use.</dd></dl>
+1.27 Added stop() function to stop as fast as possible with current acceleration parameters. Also added new Quickstop example showing its use. </dd>
+<dd>
+1.28 Fixed another problem where certain combinations of speed and accelration could cause oscillation about the target position. Added support for 3 wire full and half steppers such as Hard Disk Drive spindle. Contributed by Yuri Ivatchkovitch.</dd></dl>
 <dl class="section author"><dt>Author:</dt><dd>Mike McCauley (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'em'+'@op'+'en'+'.co'+'m.'+'au'; return false;">mikem<span style="display: none;">.nosp@m.</span>@ope<span style="display: none;">.nosp@m.</span>n.com<span style="display: none;">.nosp@m.</span>.au</a>) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->

@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.13 2012/11/28 09:28:24 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.14 2012/12/22 21:41:22 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -100,16 +100,15 @@ void AccelStepper::computeNewSpeed()
 {
     long distanceTo = distanceToGo(); // +ve is clockwise from curent location
 
-    long stepsToStop = (long)((_speed * _speed) / (2.0 * _acceleration)) + 1; // Equation 16 (+integer rounding)
+    long stepsToStop = (long)((_speed * _speed) / (2.0 * _acceleration)); // Equation 16
 
-    if (distanceTo == 0 && _n == 0)
+    if (distanceTo == 0 && stepsToStop <= 1)
     {
-	// We are at the target and not moving. Stop here
+	// We are at the target and its time to stop
 	_stepInterval = 0;
 	_speed = 0.0;
 	return;
     }
-
 
     if (distanceTo > 0)
     {
@@ -319,10 +318,18 @@ void AccelStepper::step(uint8_t step)
 	    step2(step);
 	    break;
     
+	case FULL3WIRE:
+	    step3(step);
+	    break;  
+
 	case FULL4WIRE:
 	    step4(step);
 	    break;  
 
+	case HALF3WIRE:
+	    step6(step);
+	    break;  
+		
 	case HALF4WIRE:
 	    step8(step);
 	    break;  
@@ -390,6 +397,27 @@ void AccelStepper::step2(uint8_t step)
 	    break;
     }
 }
+// 3 pin step function
+// This is passed the current step number (0 to 7)
+// Subclasses can override
+void AccelStepper::step3(uint8_t step)
+{
+    switch (step % 3)
+    {
+	case 0:    // 100
+	    setOutputPins(0b100);
+	    break;
+
+	case 1:    // 001
+	    setOutputPins(0b001);
+	    break;
+
+	case 2:    //010
+	    setOutputPins(0b010);
+	    break;
+	    
+    }
+}
 
 // 4 pin step function for half stepper
 // This is passed the current step number (0 to 7)
@@ -416,6 +444,39 @@ void AccelStepper::step4(uint8_t step)
     }
 }
 
+// 3 pin step function
+// This is passed the current step number (0 to 7)
+// Subclasses can override
+void AccelStepper::step6(uint8_t step)
+{
+    switch (step % 6)
+    {
+	case 0:    // 100
+	    setOutputPins(0b100);
+            break;
+	    
+        case 1:    // 101
+	    setOutputPins(0b101);
+            break;
+	    
+	case 2:    // 001
+	    setOutputPins(0b001);
+            break;
+	    
+        case 3:    // 011
+	    setOutputPins(0b011);
+            break;
+	    
+	case 4:    // 010
+	    setOutputPins(0b010);
+            break;
+	    
+    case 5:    //011
+	    setOutputPins(0b110);
+            break;
+	    
+    }
+}
 
 // 4 pin step function
 // This is passed the current step number (0 to 7)
