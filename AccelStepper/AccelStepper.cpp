@@ -537,3 +537,15 @@ void AccelStepper::runToNewPosition(long position)
     moveTo(position);
     runToPosition();
 }
+
+void AccelStepper::stop()
+{
+    if (_speed != 0.0)
+    {    
+	long stepsToStop = (long)((_speed * _speed) / (2.0 * _acceleration)) + 1; // Equation 16 (+integer rounding)
+	if (_speed > 0)
+	    move(stepsToStop);
+	else
+	    move(-stepsToStop);
+    }
+}

@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.26.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.27.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -126,6 +126,8 @@
 /// \version 1.25  Now ignore attempts to set acceleration to 0.0
 /// \version 1.26  Fixed a problem where certina combinations of speed and accelration could cause
 ///                oscillation about the target position.
+/// \version 1.27  Added stop() function to stop as fast as possible with current acceleration parameters.
+///                Also added new Quickstop example showing its use.
 ///
 /// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2012 Mike McCauley
@@ -328,6 +330,10 @@ public:
     /// position. Dont use this in event loops, since it blocks.
     /// \param[in] position The new target position.
     void    runToNewPosition(long position);
+
+    /// Sets a new target position that causes the stepper
+    /// to stop as quickly as possible
+    void stop();
 
     /// Disable motor pin outputs by setting them all LOW
     /// Depending on the design of your electronics this may turn off
@@ -542,5 +548,11 @@ private:
 /// @example Bounce.pde
 /// Make a single stepper bounce from one limit to another, observing
 /// accelrations at each end of travel
+
+/// @example Quickstop.pde
+/// Check stop handling.
+/// Calls stop() while the stepper is travelling at full speed, causing
+/// the stepper to stop as quickly as possible, within the constraints of the
+/// current acceleration.
 
 #endif 
