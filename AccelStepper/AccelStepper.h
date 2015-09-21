@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.19.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.20.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -98,6 +98,8 @@
 ///               Added new function setOutputPins() which sets the motor output pins.
 ///               It can be overridden in order to provide, say, serial output instead of parallel output
 ///               Some refactoring and code size reduction.
+/// \version 1.20 Improved documentation and examples to show need for correctly
+///               specifying AccelStepper::FULL4WIRE and friends.
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009-2012 Mike McCauley
@@ -177,22 +179,24 @@ public:
     /// constructor by a call to enableOutputs().
     /// \param[in] interface Number of pins to interface to. 1, 2, 4 or 8 are
     /// supported, but it is preferred to use the \ref MotorInterfaceType symbolic names. 
-    /// DRIVER (1) means a stepper driver (with Step and Direction pins).
+    /// AccelStepper::DRIVER (1) means a stepper driver (with Step and Direction pins).
     /// If an enable line is also needed, call setEnablePin() after construction.
     /// You may also invert the pins using setPinsInverted().
-    /// FULL2WIRE (2) means a 2 wire stepper (2 pins required). 
-    /// FULL4WIRE (4) means a 4 wire stepper (4 pins required). 
-    /// HALF4WIRE (8) means a 4 wire half stepper (4 pins required)
-    /// Defaults to FULL4WIRE (4) pins.
+    /// AccelStepper::FULL2WIRE (2) means a 2 wire stepper (2 pins required). 
+    /// AccelStepper::FULL4WIRE (4) means a 4 wire stepper (4 pins required). 
+    /// AccelStepper::HALF4WIRE (8) means a 4 wire half stepper (4 pins required)
+    /// Defaults to AccelStepper::FULL4WIRE (4) pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
-    /// to pin 2. For a DRIVER (pins==1), this is the Step input to the driver. Low to high transition means to step)
+    /// to pin 2. For a AccelStepper::DRIVER (pins==1), 
+    /// this is the Step input to the driver. Low to high transition means to step)
     /// \param[in] pin2 Arduino digital pin number for motor pin 2. Defaults
-    /// to pin 3. For a DRIVER (pins==1), this is the Direction input the driver. High means forward.
+    /// to pin 3. For a AccelStepper::DRIVER (pins==1), 
+    /// this is the Direction input the driver. High means forward.
     /// \param[in] pin3 Arduino digital pin number for motor pin 3. Defaults
     /// to pin 4.
     /// \param[in] pin4 Arduino digital pin number for motor pin 4. Defaults
     /// to pin 5.
-    AccelStepper(uint8_t interface = FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5);
+    AccelStepper(uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5);
 
     /// Alternate Constructor which will call your own functions for forward and backward steps. 
     /// You can have multiple simultaneous steppers, all moving
