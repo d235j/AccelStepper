@@ -167,6 +167,11 @@ void AccelStepper::setSpeed(float speed)
     _stepInterval = abs(1000.0 / _speed);
 }
 
+float AccelStepper::speed()
+{
+    return _speed;
+}
+
 // Subclasses can override
 void AccelStepper::step(uint8_t step)
 {

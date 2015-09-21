@@ -7,7 +7,8 @@
 # $Id: Makefile,v 1.1 2010/04/25 02:21:18 mikem Exp mikem $
 
 PROJNAME = AccelStepper
-DISTFILE = $(PROJNAME)-1.0.zip
+# Dont forget to also change the version at the top of AccelStepper.h:
+DISTFILE = $(PROJNAME)-1.1.zip
 
 all:	doxygen dist upload
 

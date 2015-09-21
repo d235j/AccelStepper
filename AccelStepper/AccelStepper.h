@@ -2,7 +2,7 @@
 //
 /// \mainpage AccelStepper library for Arduino
 ///
-/// This is the Arduino AccelStepper library.
+/// This is the Arduino AccelStepper 1.1 library.
 /// It provides an object-oriented interface for 2 or 4 pin stepper motors.
 ///
 /// The standard Arduino IDE includes the Stepper library
@@ -24,7 +24,8 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.0.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.1.zip
+/// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
 /// cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.
@@ -48,6 +49,12 @@
 /// This is the appropriate option if you are creating proprietary applications
 /// and you are not prepared to distribute and share the source code of your
 /// application. Contact info@open.com.au for details.
+///
+/// \par Revision History
+/// \version 1.0 Initial release
+///
+/// \version 1.1 Added speed() function to get the current speed.
+/// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
@@ -103,7 +110,7 @@ class AccelStepper
 public:
     /// Constructor. You can have multiple simultaneous steppers, all moving
     /// at different speeds and accelerations, provided you call their run()
-    /// functions at frequent intervals. Current Position is set to 0, target
+    /// functions at frequent enough intervals. Current Position is set to 0, target
     /// position is set to 0. MaxSpeed and Acceleration default to 1.0.
     /// The motor pins will be initialised to OUTPUT mode during the
     /// constructor by a call to enableOutputs().
@@ -161,6 +168,10 @@ public:
     /// once per hour, approximately. Speed accuracy depends on the Arduino
     /// crystal. Jitter depends on how frequently you call the runSpeed() function.
     void    setSpeed(float speed);
+
+    /// The most recently set speed
+    /// \return the most recent speed in steps per second
+    float   speed();
 
     /// The distance from the current position to the target position.
     /// \return the distance from the current position to the target position
