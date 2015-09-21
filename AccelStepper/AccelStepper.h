@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.16.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.17.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and disussion at http://groups.google.com/group/accelstepper
@@ -88,6 +88,7 @@
 /// \version 1.15 Fixed a problem with runSpeedToPosition which did not correctly handle
 ///    running backwards to a smaller target position. Added examples
 /// \version 1.16 Fixed some cases in the code where abs() was used instead of fabs().
+/// \version 1.17 Added example ProportionalControl
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
@@ -443,5 +444,10 @@ private:
 /// @example AFMotor_ConstantSpeed.pde
 /// Shows how to run AccelStepper in the simplest,
 /// fixed speed mode with no accelerations
+
+/// @example ProportionalControl.pde
+/// Make a single stepper follow the analog value read from a pot or whatever
+/// The stepper will move at a constant speed to each newly set posiiton, 
+/// depending on the value of the pot.
 
 #endif 
