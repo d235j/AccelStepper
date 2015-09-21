@@ -8,7 +8,7 @@
 
 PROJNAME = AccelStepper
 # Dont forget to also change the version at the top of AccelStepper.h:
-DISTFILE = $(PROJNAME)-1.33.zip
+DISTFILE = $(PROJNAME)-1.34.zip
 
 all:	doxygen dist upload
 

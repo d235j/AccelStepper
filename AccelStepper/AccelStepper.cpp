@@ -568,13 +568,21 @@ void AccelStepper::setEnablePin(uint8_t enablePin)
     }
 }
 
-void AccelStepper::setPinsInverted(bool direction, bool step, bool enable)
+void AccelStepper::setPinsInverted(bool directionInvert, bool stepInvert, bool enableInvert)
 {
-    _pinInverted[0] = step;
-    _pinInverted[1] = direction;
-    _enableInverted = enable;
+    _pinInverted[0] = stepInvert;
+    _pinInverted[1] = directionInvert;
+    _enableInverted = enableInvert;
 }
 
+void AccelStepper::setPinsInverted(bool pin1Invert, bool pin2Invert, bool pin3Invert, bool pin4Invert, bool enableInvert)
+{    
+    _pinInverted[0] = pin1Invert;
+    _pinInverted[1] = pin2Invert;
+    _pinInverted[2] = pin3Invert;
+    _pinInverted[3] = pin4Invert;
+    _enableInverted = enableInvert;
+}
 
 // Blocks until the target position is reached and stopped
 void AccelStepper::runToPosition()
