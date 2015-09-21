@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.35.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.36.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -144,12 +144,15 @@
 ///                a 3 phase motor such as a HDD spindle motor (and without using the AFMotor library.
 /// \version 1.34  Added setPinsInverted(bool pin1Invert, bool pin2Invert, bool pin3Invert, bool pin4Invert, bool enableInvert) 
 ///                to allow inversion of 2, 3 and 4 wire stepper pins. Requested by Oleg.
-/// \version 1.34  Removed default args from setPinsInverted(bool, bool, bool, bool, bool) to prevent ambiguity with 
+/// \version 1.35  Removed default args from setPinsInverted(bool, bool, bool, bool, bool) to prevent ambiguity with 
 ///                setPinsInverted(bool, bool, bool). Reported by Mac Mac.
+/// \version 1.36  Changed enableOutputs() and disableOutputs() to be virtual so can be overridden.
+///                Added new optional argument 'enable' to constructor, which allows you toi disable the 
+///                automatic enabling of outputs at construction time. Suggested by Guido.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.h,v 1.17 2013/05/30 22:41:21 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.18 2013/08/01 21:47:22 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -251,7 +254,9 @@ public:
     /// to pin 4.
     /// \param[in] pin4 Arduino digital pin number for motor pin 4. Defaults
     /// to pin 5.
-    AccelStepper(uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5);
+    /// \param[in] enable If this is true (the default), enableOutpuys() will be called to enable
+    /// the output pins at construction time.
+    AccelStepper(uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true);
 
     /// Alternate Constructor which will call your own functions for forward and backward steps. 
     /// You can have multiple simultaneous steppers, all moving
@@ -363,11 +368,11 @@ public:
     /// This is useful to support Arduino low power modes: disable the outputs
     /// during sleep and then reenable with enableOutputs() before stepping
     /// again.
-    void    disableOutputs();
+    virtual void    disableOutputs();
 
     /// Enable motor pin outputs by setting the motor pins to OUTPUT
     /// mode. Called automatically by the constructor.
-    void    enableOutputs();
+    virtual void    enableOutputs();
 
     /// Sets the minimum pulse width allowed by the stepper driver. The minimum practical pulse width is 
     /// approximately 20 microseconds. Times less than 20 microseconds
@@ -388,7 +393,7 @@ public:
     /// \param[in] directionInvert True for inverted direction pin, false for non-inverted
     /// \param[in] stepInvert      True for inverted step pin, false for non-inverted
     /// \param[in] enableInvert    True for inverted enable pin, false (default) for non-inverted
-    void    setPinsInverted(bool directionInvert = false, bool stepInvert = false, bool enable = false);
+    void    setPinsInverted(bool directionInvert = false, bool stepInvert = false, bool enableInvert = false);
 
     /// Sets the inversion for 2, 3 and 4 wire stepper pins
     /// \param[in] pin1Invert True for inverted pin1, false for non-inverted

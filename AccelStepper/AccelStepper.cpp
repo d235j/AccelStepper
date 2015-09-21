@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.15 2013/05/30 22:41:25 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.16 2013/08/01 21:47:22 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -189,7 +189,7 @@ boolean AccelStepper::run()
     return true;
 }
 
-AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4)
+AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, bool enable)
 {
     _interface = interface;
     _currentPos = 0;
@@ -217,7 +217,8 @@ AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_
     int i;
     for (i = 0; i < 4; i++)
 	_pinInverted[i] = 0;
-    enableOutputs();
+    if (enable)
+	enableOutputs();
 }
 
 AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
