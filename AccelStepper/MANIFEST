@@ -13,6 +13,8 @@ AccelStepper/examples/ConstantSpeed/ConstantSpeed.pde
 AccelStepper/examples/Random/Random.pde
 AccelStepper/examples/AFMotor_ConstantSpeed/AFMotor_ConstantSpeed.pde
 AccelStepper/examples/AFMotor_MultiStepper/AFMotor_MultiStepper.pde
+AccelStepper/examples/ProportionalControl/ProportionalControl.pde
+AccelStepper/examples/Bounce/Bounce.pde
 AccelStepper/doc
 AccelStepper/doc/index.html
 AccelStepper/doc/functions.html

@@ -1,14 +1,17 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.9 2012/09/28 22:41:19 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.10 2012/10/06 05:51:07 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
 void AccelStepper::moveTo(long absolute)
 {
-    _targetPos = absolute;
-    computeNewSpeed();
+    if (_targetPos != absolute)
+    {
+	_targetPos = absolute;
+	computeNewSpeed();
+    }
 }
 
 void AccelStepper::move(long relative)
@@ -195,15 +198,21 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
 
 void AccelStepper::setMaxSpeed(float speed)
 {
-    _maxSpeed = speed;
-    computeNewSpeed();
+    if (_maxSpeed != speed)
+    {
+	_maxSpeed = speed;
+	computeNewSpeed();
+    }
 }
 
 void AccelStepper::setAcceleration(float acceleration)
 {
-    _acceleration = acceleration;
-    _sqrt_twoa = sqrt(2.0f * _acceleration);
-    computeNewSpeed();
+    if (_acceleration != acceleration)
+    {
+	_acceleration = acceleration;
+	_sqrt_twoa = sqrt(2.0f * _acceleration);
+	computeNewSpeed();
+    }
 }
 
 void AccelStepper::setSpeed(float speed)

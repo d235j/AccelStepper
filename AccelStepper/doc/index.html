@@ -65,7 +65,7 @@
 </ul>
 <p>The latest version of this documentation can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a></p>
 <p>Example Arduino programs are included to show the main modes of use.</p>
-<p>The version of the package that this documentation refers to can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.21.zip">http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.21.zip</a> You can find the latest version at <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a></p>
+<p>The version of the package that this documentation refers to can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.22.zip">http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.22.zip</a> You can find the latest version at <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a></p>
 <p>You can also find online help and discussion at <a href="http://groups.google.com/group/accelstepper">http://groups.google.com/group/accelstepper</a> Please use that group for all questions and discussions on this topic. Do not contact the author directly, unless it is to discuss commercial licensing.</p>
 <p>Tested on Arduino Diecimila and Mega with arduino-0018 &amp; arduino-0021 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15, cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.</p>
 <dl class="user"><dt><b>Installation</b></dt><dd>Install in the usual way: unzip the distribution zip file to the libraries sub-folder of your sketchbook.</dd></dl>
@@ -115,7 +115,9 @@
 <dd>
 1.20 Improved documentation and examples to show need for correctly specifying <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f" title="4 wire full stepper, 4 motor pins required">AccelStepper::FULL4WIRE</a> and friends. </dd>
 <dd>
-1.21 Fixed a problem where desiredSpeed could compute the wrong step acceleration when _speed was small but non-zero. Precompute sqrt_twoa to improve performance and max possible stepping speed</dd></dl>
+1.21 Fixed a problem where desiredSpeed could compute the wrong step acceleration when _speed was small but non-zero. Reported by Brian Schmalz. Precompute sqrt_twoa to improve performance and max possible stepping speed </dd>
+<dd>
+1.22 Added Bounce.pde example Fixed a problem where calling moveTo(), setMaxSpeed(), setAcceleration() more frequesntly than the step time, even with the same values, would interfere with speed calcs. Now a new speed is computed only if there was a change in the set value. Reported by Brian Schmalz.</dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Mike McCauley (<a href="mailto:mikem@open.com.au">mikem@open.com.au</a>) </dd></dl>
 </div></div>
 

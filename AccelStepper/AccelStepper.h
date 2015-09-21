@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.21.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.22.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -101,12 +101,17 @@
 /// \version 1.20 Improved documentation and examples to show need for correctly
 ///               specifying AccelStepper::FULL4WIRE and friends.
 /// \version 1.21 Fixed a problem where desiredSpeed could compute the wrong step acceleration
-///               when _speed was small but non-zero. 
+///               when _speed was small but non-zero. Reported by Brian Schmalz.
 ///               Precompute sqrt_twoa to improve performance and max possible stepping speed
+/// \version 1.22 Added Bounce.pde example
+///               Fixed a problem where calling moveTo(), setMaxSpeed(), setAcceleration() more 
+///               frequesntly than the step time, even
+///               with the same values, would interfere with speed calcs. Now a new speed is computed 
+///               only if there was a change in the set value. Reported by Brian Schmalz.
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.10 2012/09/28 22:44:54 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.11 2012/10/06 05:51:07 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -492,5 +497,9 @@ private:
 /// Make a single stepper follow the analog value read from a pot or whatever
 /// The stepper will move at a constant speed to each newly set posiiton, 
 /// depending on the value of the pot.
+
+/// @example Bounce.pde
+/// Make a single stepper bounce from one limit to another, observing
+/// accelrations at each end of travel
 
 #endif 
