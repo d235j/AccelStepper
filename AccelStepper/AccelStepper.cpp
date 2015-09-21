@@ -82,7 +82,7 @@ long AccelStepper::currentPosition()
 // Useful during initialisations or after initial positioning
 void AccelStepper::setCurrentPosition(long position)
 {
-    _currentPos = position;
+    _targetPos = _currentPos = position;
 }
 
 void AccelStepper::computeNewSpeed()

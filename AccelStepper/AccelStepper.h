@@ -66,6 +66,9 @@
 /// \version 1.6 Fixed a problem with wrapping of microsecond stepping that could cause stepping to hang. 
 ///              Reported by Sandy Noble.
 ///              Removed redundant _lastRunTime member.
+/// \version 1.7 Fixed a bug where setCurrentPosition() did always work as expected. Reported by Peter Linhart.
+///              Reported by Sandy Noble.
+///              Removed redundant _lastRunTime member.
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
@@ -213,7 +216,7 @@ public:
     /// in steps. Positive is clockwise from the 0 position.
     long    currentPosition();  
 
-    /// Resets the current position of the motor, so that wherever the mottor
+    /// Resets the current position of the motor, so that wherever the motor
     /// happens to be right now is considered to be the new position. Useful
     /// for setting a zero position on a stepper after an initial hardware
     /// positioning move.
