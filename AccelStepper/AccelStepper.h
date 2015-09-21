@@ -3,7 +3,7 @@
 /// \mainpage AccelStepper library for Arduino
 ///
 /// This is the Arduino AccelStepper library.
-/// It provides an object-oriented interface for 2 or 4 pin stepper motors.
+/// It provides an object-oriented interface for 2, 3 or 4 pin stepper motors.
 ///
 /// The standard Arduino IDE includes the Stepper library
 /// (http://arduino.cc/en/Reference/Stepper) for stepper motors. It is
@@ -21,13 +21,11 @@
 /// \li Subclass support
 ///
 /// The latest version of this documentation can be downloaded from 
-/// http://www.open.com.au/mikem/arduino/AccelStepper
+/// http://www.airspayce.com/mikem/arduino/AccelStepper
+/// The version of the package that this documentation refers to can be downloaded 
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.31.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
-///
-/// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.30.zip
-/// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
 /// Please use that group for all questions and discussions on this topic. 
@@ -65,7 +63,7 @@
 /// \par Commercial Licensing
 /// This is the appropriate option if you are creating proprietary applications
 /// and you are not prepared to distribute and share the source code of your
-/// application. Contact info@open.com.au for details.
+/// application. Contact info@airspayce.com for details.
 ///
 /// \par Revision History
 /// \version 1.0 Initial release
@@ -136,10 +134,11 @@
 ///                with some sketches. Reported by Vadim.
 /// \version 1.30  Fixed a problem that could cause stepper to back up a few steps at the end of
 ///                accelerated travel with certain speeds. Reported and patched by jolo.
+/// \version 1.31  Updated author and distribution location details to airspayce.com
 ///
-/// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
-// Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.15 2012/12/22 21:41:22 mikem Exp mikem $
+/// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
+// Copyright (C) 2009-2013 Mike McCauley
+// $Id: AccelStepper.h,v 1.16 2013/03/21 21:48:27 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h

@@ -1,6 +1,6 @@
 // AccelStepper.cpp
 //
-// Copyright (C) 2009 Mike McCauley
+// Copyright (C) 2009-2013 Mike McCauley
 // $Id: AccelStepper.cpp,v 1.14 2012/12/22 21:41:22 mikem Exp mikem $
 
 #include "AccelStepper.h"
