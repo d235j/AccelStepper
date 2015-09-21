@@ -143,7 +143,9 @@ Protected Member Functions</h2></td></tr>
 <dd>
 1.16 Fixed some cases in the code where abs() was used instead of fabs(). </dd>
 <dd>
-1.17 Added example ProportionalControl</dd></dl>
+1.17 Added example ProportionalControl </dd>
+<dd>
+1.18 Fixed a problem: If one calls the funcion <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a> when Speed is zero, it makes steps without counting. reported by Friedrich, Klappenbach.</dd></dl>
 <dl class="author"><dt><b>Author:</b></dt><dd>Mike McCauley (<a href="mailto:mikem@open.com.au">mikem@open.com.au</a>)</dd></dl>
 <p>This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional acceleration, deceleration, absolute positioning commands etc. Multiple simultaneous steppers are supported, all moving at different speeds and accelerations.</p>
 <dl class="user"><dt><b>Operation</b></dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>

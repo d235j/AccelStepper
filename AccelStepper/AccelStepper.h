@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.17.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.18.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and disussion at http://groups.google.com/group/accelstepper
@@ -89,6 +89,8 @@
 ///    running backwards to a smaller target position. Added examples
 /// \version 1.16 Fixed some cases in the code where abs() was used instead of fabs().
 /// \version 1.17 Added example ProportionalControl
+/// \version 1.18 Fixed a problem: If one calls the funcion runSpeed() when Speed is zero, it makes steps 
+///    without counting. reported by  Friedrich, Klappenbach.
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley

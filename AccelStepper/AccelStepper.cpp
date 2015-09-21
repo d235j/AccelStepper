@@ -21,19 +21,11 @@ void AccelStepper::move(long relative)
 // returns true if a step occurred
 boolean AccelStepper::runSpeed()
 {
+    // Dont do anything unless we actually have a speed
+    if (_speed == 0.0f)
+	return false;
+
     unsigned long time = micros();
-
-//    if (    (time >= (_lastStepTime + _stepInterval))  // okay if both current time and next step time wrap
-//         || ((time < _lastRunTime) && (time > (0xFFFFFFFF-(_lastStepTime+_stepInterval)))) )  // check if only current time has wrapped
-
-//    unsigned long nextStepTime = _lastStepTime + _stepInterval;
-//    if (   ((nextStepTime < _lastStepTime) && (time < _lastStepTime) && (time >= nextStepTime))
-//	|| ((nextStepTime >= _lastStepTime) && (time >= nextStepTime)))
-
-// TESTING:
-//time += (0xffffffff - 10000000);
-
-
     // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
     unsigned long nextStepTime = _lastStepTime + _stepInterval;
     if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
@@ -347,7 +339,7 @@ void AccelStepper::step4(uint8_t step)
 
 
 // 4 pin step function
-// This is passed the current step number (0 to 3)
+// This is passed the current step number (0 to 7)
 // Subclasses can override
 void AccelStepper::step8(uint8_t step)
 {
@@ -442,7 +434,8 @@ void    AccelStepper::disableOutputs()
 
 void    AccelStepper::enableOutputs()
 {
-	if (! _pins) return;
+    if (! _pins) 
+	return;
 
     pinMode(_pin1, OUTPUT);
     pinMode(_pin2, OUTPUT);
@@ -466,7 +459,7 @@ void AccelStepper::setMinPulseWidth(unsigned int minWidth)
 
 void AccelStepper::setEnablePin(uint8_t enablePin)
 {
-	_enablePin = enablePin;
+    _enablePin = enablePin;
 
     // This happens after construction, so init pin now.
     if (_enablePin != 0xff)
