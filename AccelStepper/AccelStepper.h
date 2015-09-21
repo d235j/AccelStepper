@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.38.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.39.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -155,6 +155,7 @@
 ///                Reported by Mark Tillotson.
 /// \version 1.38  run() function incorrectly always returned true. Updated function and doc so it returns true 
 ///                if the motor is still running to the target position.
+/// \version 1.39  Updated typos in keywords.txt, courtesey Jon Magill.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley

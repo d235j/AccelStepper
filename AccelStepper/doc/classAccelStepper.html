@@ -158,7 +158,7 @@ Protected Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Support for stepper motors with acceleration etc. </p>
 <p>This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional acceleration, deceleration, absolute positioning commands etc. Multiple simultaneous steppers are supported, all moving at different speeds and accelerations.</p>
-<dl class="section user"><dt>Operation</dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>
+<dl class="section user"><dt>Operation</dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor once if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>
 <dl class="section user"><dt>Positioning</dt><dd>Positions are specified by a signed long integer. At construction time, the current position of the motor is consider to be 0. Positive positions are clockwise from the initial position; negative positions are anticlockwise. The curent position can be altered for instance after initialization positioning.</dd></dl>
 <dl class="section user"><dt>Caveats</dt><dd>This is an open loop controller: If the motor stalls or is oversped, <a class="el" href="classAccelStepper.html" title="Support for stepper motors with acceleration etc.">AccelStepper</a> will not have a correct idea of where the motor really is (since there is no feedback of the motor's real position. We only know where we <em>think</em> it is, relative to the initial starting point).</dd></dl>
 <dl class="section user"><dt>Performance</dt><dd>The fastest motor speed that can be reliably supported is about 4000 steps per second at a clock frequency of 16 MHz on Arduino such as Uno etc. Faster processors can support faster stepping speeds. However, any speed less than that down to very slow speeds (much less than one per second) are also supported, provided the <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function is called frequently enough to step the motor whenever required for the speed set. Calling <a class="el" href="classAccelStepper.html#adfb19e3cd2a028a1fe78131787604fd1">setAcceleration()</a> is expensive, since it requires a square root to be calculated. </dd></dl>
@@ -431,7 +431,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>the distance from the current position to the target position in steps. Positive is clockwise from the current position. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a4">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a6">MultiStepper.pde</a>, and <a class="el" href="Random_8pde-example.html#a1">Random.pde</a>.</dd>
 </dl>
-<p>Referenced by <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, and <a class="el" href="classAccelStepper.html#a344f58fef8cc34ac5aa75ba4b665d21c">runToPosition()</a>.</p>
+<p>Referenced by <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, and <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>.</p>
 
 </div>
 </div>
@@ -503,7 +503,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Set the target position. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function will try to move the motor from the current position to the target position set by the most recent call to this function. Caution: <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a> also recalculates the speed for the next step. If you are trying to use constant speed movements, you should call <a class="el" href="classAccelStepper.html#ae79c49ad69d5ccc9da0ee691fa4ca235">setSpeed()</a> after calling <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a>. </p>
+<p>Set the target position. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function will try to move the motor (at most one step per call) from the current position to the target position set by the most recent call to this function. Caution: <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a> also recalculates the speed for the next step. If you are trying to use constant speed movements, you should call <a class="el" href="classAccelStepper.html#ae79c49ad69d5ccc9da0ee691fa4ca235">setSpeed()</a> after calling <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">absolute</td><td>The desired absolute position. Negative is anticlockwise from the 0 position. </td></tr>
@@ -530,11 +530,11 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Poll the motor and step it if a step is due, implementing accelerations and decelerations to acheive the target position. You must call this as frequently as possible, but at least once per minimum step interval, preferably in your main loop. </p>
-<dl class="section return"><dt>Returns</dt><dd>true if the motor is at the target position. </dd></dl>
+<p>Poll the motor and step it if a step is due, implementing accelerations and decelerations to acheive the target position. You must call this as frequently as possible, but at least once per minimum step time interval, preferably in your main loop. Note that each call to <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will make at most one step, and then only when a step is due, based on the current speed and the time since the last step. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the motor is still running to the target position. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a6">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a8">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a5">Overshoot.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a5">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a5">Random.pde</a>.</dd>
 </dl>
-<p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, and <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, <a class="el" href="classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1">distanceToGo()</a>, and <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a344f58fef8cc34ac5aa75ba4b665d21c">runToPosition()</a>.</p>
 
@@ -552,7 +552,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Poll the motor and step it if a step is due, implmenting a constant speed as set by the most recent call to <a class="el" href="classAccelStepper.html#ae79c49ad69d5ccc9da0ee691fa4ca235">setSpeed()</a>. You must call this as frequently as possible, but at least once per step interval, </p>
+<p>Poll the motor and step it if a step is due, implementing a constant speed as set by the most recent call to <a class="el" href="classAccelStepper.html#ae79c49ad69d5ccc9da0ee691fa4ca235">setSpeed()</a>. You must call this as frequently as possible, but at least once per step interval, </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the motor was stepped. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ConstantSpeed_8pde-example.html#a3">ConstantSpeed.pde</a>.</dd>
 </dl>
@@ -623,7 +623,7 @@ Protected Member Functions</h2></td></tr>
 <p>Moves the motor at the currently selected constant speed (forward or reverse) to the target position and blocks until it is at position. Dont use this in event loops, since it blocks. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Quickstop_8pde-example.html#a7">Quickstop.pde</a>.</dd>
 </dl>
-<p>References <a class="el" href="classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1">distanceToGo()</a>, and <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a176c5d2e4c2f21e9e92b12e39a6f0e67">runToNewPosition()</a>.</p>
 
@@ -642,7 +642,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the acceleration and deceleration parameter. </p>
+<p>Sets the acceleration/deceleration rate. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">acceleration</td><td>The desired acceleration in steps per second per second. Must be &gt; 0.0. This is an expensive call since it requires a square root to be calculated. Dont call more ofthen than needed </td></tr>
@@ -715,7 +715,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets the maximum permitted speed. the <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function will accelerate up to the speed set by this function. </p>
+<p>Sets the maximum permitted speed. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function will accelerate up to the speed set by this function. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">speed</td><td>The desired maximum speed in steps per second. Must be &gt; 0. Caution: Speeds that exceed the maximum speed supported by the processor may Result in non-linear accelerations and decelerations. </td></tr>
