@@ -24,8 +24,22 @@ boolean AccelStepper::runSpeed()
 {
     unsigned long time = micros();
 
-    if (    (time >= (_lastStepTime + _stepInterval))  // okay if both current time and next step time wrap
-         || ((time < _lastRunTime) && (time > (0xFFFFFFFF-(_lastStepTime+_stepInterval)))) )  // check if only current time has wrapped
+//    if (    (time >= (_lastStepTime + _stepInterval))  // okay if both current time and next step time wrap
+//         || ((time < _lastRunTime) && (time > (0xFFFFFFFF-(_lastStepTime+_stepInterval)))) )  // check if only current time has wrapped
+
+//    unsigned long nextStepTime = _lastStepTime + _stepInterval;
+//    if (   ((nextStepTime < _lastStepTime) && (time < _lastStepTime) && (time >= nextStepTime))
+//	|| ((nextStepTime >= _lastStepTime) && (time >= nextStepTime)))
+
+// TESTING:
+//time += (0xffffffff - 10000000);
+
+
+    // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
+    unsigned long nextStepTime = _lastStepTime + _stepInterval;
+    if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
+	|| ((nextStepTime < _lastStepTime) && ((time >= nextStepTime) && (time < _lastStepTime))))
+
     {
 	if (_speed > 0.0f)
 	{
@@ -39,13 +53,13 @@ boolean AccelStepper::runSpeed()
 	}
 	step(_currentPos & 0x3); // Bottom 2 bits (same as mod 4, but works with + and - numbers) 
 
-	_lastRunTime = time;
+//	_lastRunTime = time;
 	_lastStepTime = time;
 	return true;
     }
     else
     {
-	_lastRunTime = time;
+//	_lastRunTime = time;
 	return false;
     }
 }
@@ -167,13 +181,17 @@ AccelStepper::AccelStepper(uint8_t pins, uint8_t pin1, uint8_t pin2, uint8_t pin
     _maxSpeed = 1.0;
     _acceleration = 1.0;
     _stepInterval = 0;
-    _lastRunTime = 0;
+//    _lastRunTime = 0;
     _minPulseWidth = 1;
     _lastStepTime = 0;
     _pin1 = pin1;
     _pin2 = pin2;
     _pin3 = pin3;
     _pin4 = pin4;
+//_stepInterval = 20000;
+//_speed = 50.0;
+//_lastRunTime = 0xffffffff - 20000;
+//_lastStepTime = 0xffffffff - 20000 - 10000;
     enableOutputs();
 }
 
@@ -186,7 +204,7 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     _maxSpeed = 1.0;
     _acceleration = 1.0;
     _stepInterval = 0;
-    _lastRunTime = 0;
+//    _lastRunTime = 0;
     _minPulseWidth = 1;
     _lastStepTime = 0;
     _pin1 = 0;

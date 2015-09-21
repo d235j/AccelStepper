@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.5.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.6.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
@@ -63,6 +63,9 @@
 /// \version 1.5 Improvements contributed by Peter Mousley: Use of microsecond steps and other speed improvements
 ///              to increase max stepping speed to about 4kHz. New option for user to set the min allowed pulse width.
 ///              Added checks for already running at max speed and skip further calcs if so. 
+/// \version 1.6 Fixed a problem with wrapping of microsecond stepping that could cause stepping to hang. 
+///              Reported by Sandy Noble.
+///              Removed redundant _lastRunTime member.
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
@@ -332,7 +335,7 @@ private:
     unsigned long  _stepInterval;
 
     /// The last run time (when runSpeed() was last called) in microseconds
-    unsigned long  _lastRunTime;
+//    unsigned long  _lastRunTime;
 
     /// The last step time in microseconds
     unsigned long  _lastStepTime;
