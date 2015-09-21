@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.4 2011/01/05 01:51:01 mikem Exp $
+// $Id: AccelStepper.cpp,v 1.5 2012/01/28 22:45:25 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -101,57 +101,40 @@ void AccelStepper::computeNewSpeed()
 float AccelStepper::desiredSpeed()
 {
     float requiredSpeed;
-    long distanceTo = distanceToGo();
+    long distanceTo = distanceToGo(); // +ve is clockwise from curent location
 
-    // Max possible speed that can still decelerate in the available distance
-    // Use speed squared to avoid using sqrt
     if (distanceTo == 0)
 	return 0.0f; // We're there
-    else if (distanceTo > 0) // Clockwise
-	requiredSpeed = (2.0f * distanceTo * _acceleration);
-    else  // Anticlockwise
-	requiredSpeed = -(2.0f * -distanceTo * _acceleration);
 
-    float sqrSpeed = (_speed * _speed) * ((_speed > 0.0f) ? 1.0f : -1.0f);
-    if (requiredSpeed > sqrSpeed)
+    // sqrSpeed is the signed square of _speed.
+    float sqrSpeed = sq(_speed);
+    if (_speed < 0.0)
+      sqrSpeed = -sqrSpeed;
+    float twoa = 2.0f * _acceleration; // 2ag
+    // if v^^2/2as is the the left of target, we will arrive at 0 speed too far -ve, need to accelerate clockwise
+    if ((sqrSpeed / twoa) < distanceTo)
     {
-	if (_speed == _maxSpeed)  // Reduces processor load by avoiding extra calculations below
-	{
-	    // Maintain max speed
+	// Accelerate clockwise
+	// Need to accelerate in clockwise direction
+	if (_speed == 0.0f)
+	    requiredSpeed = sqrt(twoa);
+	else
+	    requiredSpeed = _speed + abs(_acceleration / _speed);
+	if (requiredSpeed > _maxSpeed)
 	    requiredSpeed = _maxSpeed;
-	}
-	else
-        {
-	    // Need to accelerate in clockwise direction
-	    if (_speed == 0.0f)
-	        requiredSpeed = sqrt(2.0f * _acceleration);
-	    else
-	        requiredSpeed = _speed + abs(_acceleration / _speed);
-	    if (requiredSpeed > _maxSpeed)
-	        requiredSpeed = _maxSpeed;
-	}
     }
-    else if (requiredSpeed < sqrSpeed)
+    else
     {
-	if (_speed == -_maxSpeed)  // Reduces processor load by avoiding extra calculations below
-	{
-	    // Maintain max speed
-	    requiredSpeed = -_maxSpeed;
-	}
+	// Decelerate clockwise, accelerate anticlockwise
+	// Need to accelerate in clockwise direction
+	if (_speed == 0.0f)
+	    requiredSpeed = -sqrt(twoa);
 	else
-        {
-	    // Need to accelerate in clockwise direction
-	    if (_speed == 0.0f)
-	        requiredSpeed = -sqrt(2.0f * _acceleration);
-	    else
-	        requiredSpeed = _speed - abs(_acceleration / _speed);
-	    if (requiredSpeed < -_maxSpeed)
-	        requiredSpeed = -_maxSpeed;
-	}
+	    requiredSpeed = _speed - abs(_acceleration / _speed);
+	if (requiredSpeed < -_maxSpeed)
+	    requiredSpeed = -_maxSpeed;
     }
-    else // if (requiredSpeed == sqrSpeed)
-        requiredSpeed = _speed;
-
+    
 //    Serial.println(requiredSpeed);
     return requiredSpeed;
 }

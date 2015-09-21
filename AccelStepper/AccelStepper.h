@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.12.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.13.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and disussion at http://groups.google.com/group/accelstepper
@@ -78,10 +78,14 @@
 ///   Added optional enable line support for stepper drivers
 ///   Added inversion for step/direction/enable lines for stepper drivers
 /// \version 1.12 Announce Google Group
+/// \version 1.13 Improvements to speed calculation. Cost of calculation is now less in the worst case, 
+///    and more or less constant in all cases. This should result in slightly beter high speed performance, and
+///    reduce anomalous speed glitches when other steppers are accelerating. 
+///    However, its hard to see how to replace the sqrt() required at the very first step from 0 speed.
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.h,v 1.5 2011/03/21 00:42:15 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.6 2012/01/28 22:45:28 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -389,13 +393,13 @@ private:
     /// Is the enable pin inverted?
     bool           _enableInverted;
 
-	/// Enable pin for stepper driver, or 0xFF if unused.
+    /// Enable pin for stepper driver, or 0xFF if unused.
     uint8_t        _enablePin;
 
-    // The pointer to a forward-step procedure
+    /// The pointer to a forward-step procedure
     void (*_forward)();
 
-    // The pointer to a backward-step procedure
+    /// The pointer to a backward-step procedure
     void (*_backward)();
 };
 
