@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.4 2011/01/05 01:51:01 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.4 2011/01/05 01:51:01 mikem Exp $
 
 #include "WProgram.h"
 #include "AccelStepper.h"
@@ -22,27 +22,32 @@ void AccelStepper::move(long relative)
 // returns true if a step occurred
 boolean AccelStepper::runSpeed()
 {
-    unsigned long time = millis();
-  
-    if (time > _lastStepTime + _stepInterval)
+    unsigned long time = micros();
+
+    if (    (time >= (_lastStepTime + _stepInterval))  // okay if both current time and next step time wrap
+         || ((time < _lastRunTime) && (time > (0xFFFFFFFF-(_lastStepTime+_stepInterval)))) )  // check if only current time has wrapped
     {
-	if (_speed > 0)
+	if (_speed > 0.0f)
 	{
 	    // Clockwise
 	    _currentPos += 1;
 	}
-	else if (_speed < 0)
+	else if (_speed < 0.0f)
 	{
 	    // Anticlockwise  
 	    _currentPos -= 1;
 	}
 	step(_currentPos & 0x3); // Bottom 2 bits (same as mod 4, but works with + and - numbers) 
 
+	_lastRunTime = time;
 	_lastStepTime = time;
 	return true;
     }
     else
+    {
+	_lastRunTime = time;
 	return false;
+    }
 }
 
 long AccelStepper::distanceToGo()
@@ -83,38 +88,59 @@ void AccelStepper::computeNewSpeed()
 //   target position (relative or absolute)
 float AccelStepper::desiredSpeed()
 {
+    float requiredSpeed;
     long distanceTo = distanceToGo();
 
     // Max possible speed that can still decelerate in the available distance
-    float requiredSpeed;
+    // Use speed squared to avoid using sqrt
     if (distanceTo == 0)
-	return 0.0; // Were there
+	return 0.0f; // We're there
     else if (distanceTo > 0) // Clockwise
-	requiredSpeed = sqrt(2.0 * distanceTo * _acceleration);
+	requiredSpeed = (2.0f * distanceTo * _acceleration);
     else  // Anticlockwise
-	requiredSpeed = -sqrt(2.0 * -distanceTo * _acceleration);
+	requiredSpeed = -(2.0f * -distanceTo * _acceleration);
 
-    if (requiredSpeed > _speed)
+    float sqrSpeed = (_speed * _speed) * ((_speed > 0.0f) ? 1.0f : -1.0f);
+    if (requiredSpeed > sqrSpeed)
     {
-	// Need to accelerate in clockwise direction
-	if (_speed == 0)
-	    requiredSpeed = sqrt(2.0 * _acceleration);
-	else
-	    requiredSpeed = _speed + abs(_acceleration / _speed);
-	if (requiredSpeed > _maxSpeed)
+	if (_speed == _maxSpeed)  // Reduces processor load by avoiding extra calculations below
+	{
+	    // Maintain max speed
 	    requiredSpeed = _maxSpeed;
-    }
-    else if (requiredSpeed < _speed)
-    {
-	// Need to accelerate in anticlockwise direction
-	if (_speed == 0)
-	    requiredSpeed = -sqrt(2.0 * _acceleration);
+	}
 	else
-	    requiredSpeed = _speed - abs(_acceleration / _speed);
-	if (requiredSpeed < -_maxSpeed)
-	    requiredSpeed = -_maxSpeed;
+        {
+	    // Need to accelerate in clockwise direction
+	    if (_speed == 0.0f)
+	        requiredSpeed = sqrt(2.0f * _acceleration);
+	    else
+	        requiredSpeed = _speed + abs(_acceleration / _speed);
+	    if (requiredSpeed > _maxSpeed)
+	        requiredSpeed = _maxSpeed;
+	}
     }
-//  Serial.println(requiredSpeed);
+    else if (requiredSpeed < sqrSpeed)
+    {
+	if (_speed == -_maxSpeed)  // Reduces processor load by avoiding extra calculations below
+	{
+	    // Maintain max speed
+	    requiredSpeed = -_maxSpeed;
+	}
+	else
+        {
+	    // Need to accelerate in clockwise direction
+	    if (_speed == 0.0f)
+	        requiredSpeed = -sqrt(2.0f * _acceleration);
+	    else
+	        requiredSpeed = _speed - abs(_acceleration / _speed);
+	    if (requiredSpeed < -_maxSpeed)
+	        requiredSpeed = -_maxSpeed;
+	}
+    }
+    else // if (requiredSpeed == sqrSpeed)
+        requiredSpeed = _speed;
+
+//    Serial.println(requiredSpeed);
     return requiredSpeed;
 }
 
@@ -141,6 +167,8 @@ AccelStepper::AccelStepper(uint8_t pins, uint8_t pin1, uint8_t pin2, uint8_t pin
     _maxSpeed = 1.0;
     _acceleration = 1.0;
     _stepInterval = 0;
+    _lastRunTime = 0;
+    _minPulseWidth = 1;
     _lastStepTime = 0;
     _pin1 = pin1;
     _pin2 = pin2;
@@ -158,6 +186,8 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     _maxSpeed = 1.0;
     _acceleration = 1.0;
     _stepInterval = 0;
+    _lastRunTime = 0;
+    _minPulseWidth = 1;
     _lastStepTime = 0;
     _pin1 = 0;
     _pin2 = 0;
@@ -181,8 +211,17 @@ void AccelStepper::setAcceleration(float acceleration)
 
 void AccelStepper::setSpeed(float speed)
 {
-    _speed = speed;
-    _stepInterval = abs(1000.0 / _speed);
+    if (speed == _speed)
+        return;
+
+    if ((speed > 0.0f) && (speed > _maxSpeed))
+        _speed = _maxSpeed;
+    else if ((speed < 0.0f) && (speed < -_maxSpeed))
+        _speed = -_maxSpeed;
+    else
+        _speed = speed;
+
+    _stepInterval = abs(1000000.0 / _speed);
 }
 
 float AccelStepper::speed()
@@ -230,9 +269,8 @@ void AccelStepper::step1(uint8_t step)
     digitalWrite(_pin2, _speed > 0); // Direction
     // Caution 200ns setup time 
     digitalWrite(_pin1, HIGH);
-    // Caution, min Step pulse width for 3967 is 1microsec
-    // Delay 1microsec
-    delayMicroseconds(1);
+    // Delay the minimum allowed pulse width
+    delayMicroseconds(_minPulseWidth);
     digitalWrite(_pin1, LOW);
 }
 
@@ -330,6 +368,11 @@ void    AccelStepper::enableOutputs()
     }
 }
 
+void AccelStepper::setMinPulseWidth(unsigned int minWidth)
+{
+  _minPulseWidth = minWidth;
+}
+
 // Blocks until the target position is reached
 void AccelStepper::runToPosition()
 {
@@ -339,7 +382,7 @@ void AccelStepper::runToPosition()
 
 boolean AccelStepper::runSpeedToPosition()
 {
-    return _targetPos!=_currentPos ? AccelStepper::runSpeed() : false;
+    return _targetPos!=_currentPos ? runSpeed() : false;
 }
 
 // Blocks until the new target position is reached
@@ -348,4 +391,3 @@ void AccelStepper::runToNewPosition(long position)
     moveTo(position);
     runToPosition();
 }
-

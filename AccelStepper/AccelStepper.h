@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.4.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.5.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
@@ -60,11 +60,14 @@
 /// \version 1.2 Added runSpeedToPosition() submitted by Gunnar Arndt.
 /// \version 1.3 Added support for stepper drivers (ie with Step and Direction inputs) with _pins == 1
 /// \version 1.4 Added functional contructor to support AFMotor, contributed by Limor, with example sketches.
+/// \version 1.5 Improvements contributed by Peter Mousley: Use of microsecond steps and other speed improvements
+///              to increase max stepping speed to about 4kHz. New option for user to set the min allowed pulse width.
+///              Added checks for already running at max speed and skip further calcs if so. 
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.h,v 1.4 2011/01/05 01:51:01 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.5 2011/03/21 00:42:15 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -85,10 +88,10 @@
 /// at different speeds and accelerations. 
 ///
 /// \par Operation
-/// This module operates by computing a step time in milliseconds. The step
+/// This module operates by computing a step time in microseconds. The step
 /// time is recomputed after each step and after speed and acceleration
 /// parameters are changed by the caller. The time of each step is recorded in
-/// milliseconds. The run() function steps the motor if a new step is due.
+/// microseconds. The run() function steps the motor if a new step is due.
 /// The run() function must be called frequently until the motor is in the
 /// desired position, after which time run() will do nothing.
 ///
@@ -106,11 +109,11 @@
 /// real position. We only know where we _think_ it is, relative to the
 /// initial starting point).
 ///
-/// The fastest motor speed that can be reliably supported is 1000 steps per
-/// second (1 step every millisecond). However any speed less than that down
-/// to very slow speeds (much less than one per second) are supported,
-/// provided the run() function is called frequently enough to step the
-/// motor whenever required.
+/// The fastest motor speed that can be reliably supported is 4000 steps per
+/// second (4 kHz) at a clock frequency of 16 MHz. However, any speed less than that
+/// down to very slow speeds (much less than one per second) are also supported,
+/// provided the run() function is called frequently enough to step the motor
+/// whenever required for the speed set.
 class AccelStepper
 {
 public:
@@ -240,6 +243,10 @@ public:
     /// mode. Called automatically by the constructor.
     void    enableOutputs();
 
+    /// Sets the minimum pulse width allowed by the stepper driver.
+    /// \param[in] minWidth The minimum pulse width in microseconds.
+    void    setMinPulseWidth(unsigned int minWidth);
+
 protected:
 
     /// Forces the library to compute a new instantaneous speed and set that as
@@ -321,11 +328,17 @@ private:
     /// per second per second. Must be > 0
     float          _acceleration;
 
-    /// The current interval between steps in milliseconds.
+    /// The current interval between steps in microseconds
     unsigned long  _stepInterval;
 
-    /// The last step time in milliseconds
+    /// The last run time (when runSpeed() was last called) in microseconds
+    unsigned long  _lastRunTime;
+
+    /// The last step time in microseconds
     unsigned long  _lastStepTime;
+
+    /// The minimum allowed pulse width in microseconds
+    unsigned int   _minPulseWidth;
 
     // The pointer to a forward-step procedure
     void (*_forward)();

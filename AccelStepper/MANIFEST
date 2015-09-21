@@ -4,6 +4,7 @@ AccelStepper/AccelStepper.cpp
 AccelStepper/MANIFEST
 AccelStepper/LICENSE
 AccelStepper/project.cfg
+AccelStepper/keywords.txt
 AccelStepper/doc
 AccelStepper/examples/Blocking/Blocking.pde
 AccelStepper/examples/MultiStepper/MultiStepper.pde
