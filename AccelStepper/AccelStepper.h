@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.34.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.35.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -144,6 +144,8 @@
 ///                a 3 phase motor such as a HDD spindle motor (and without using the AFMotor library.
 /// \version 1.34  Added setPinsInverted(bool pin1Invert, bool pin2Invert, bool pin3Invert, bool pin4Invert, bool enableInvert) 
 ///                to allow inversion of 2, 3 and 4 wire stepper pins. Requested by Oleg.
+/// \version 1.34  Removed default args from setPinsInverted(bool, bool, bool, bool, bool) to prevent ambiguity with 
+///                setPinsInverted(bool, bool, bool). Reported by Mac Mac.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
@@ -394,7 +396,7 @@ public:
     /// \param[in] pin3Invert True for inverted pin3, false for non-inverted
     /// \param[in] pin4Invert True for inverted pin4, false for non-inverted
     /// \param[in] enableInvert    True for inverted enable pin, false (default) for non-inverted
-    void    setPinsInverted(bool pin1Invert = false, bool pin2Invert = false, bool pin3Invert = false, bool pin4Invert = false, bool enableInvert = false);
+    void    setPinsInverted(bool pin1Invert, bool pin2Invert, bool pin3Invert, bool pin4Invert, bool enableInvert);
 
 protected:
 
