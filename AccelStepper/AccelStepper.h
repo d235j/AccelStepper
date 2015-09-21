@@ -14,6 +14,7 @@
 /// \li Supports multiple simultaneous steppers, with independent concurrent stepping on each stepper
 /// \li API functions never delay() or block
 /// \li Supports 2 and 4 wire steppers
+/// \li Supports stepper drivers such as the Sparkfun EasyDriver (based on 3967 driver chip)
 /// \li Very slow speeds are supported
 /// \li Extensive API
 /// \li Subclass support
@@ -24,7 +25,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.2.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.3.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
@@ -54,13 +55,13 @@
 /// \version 1.0 Initial release
 ///
 /// \version 1.1 Added speed() function to get the current speed.
-///
-/// \Version 1.2 Added runSpeedToPosition() submitted by Gunnar Arndt.
+/// \version 1.2 Added runSpeedToPosition() submitted by Gunnar Arndt.
+/// \version 1.3 Added support for stepper drivers (ie with Step and Direction inputs) with _pins == 1
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.h,v 1.1 2010/04/25 02:21:18 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.2 2010/10/24 07:46:18 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -75,7 +76,7 @@
 /// \class AccelStepper AccelStepper.h <AccelStepper.h>
 /// \brief Support for stepper motors with acceleration etc.
 ///
-/// This defines a single 2 or 4 pin stepper motor, with optional
+/// This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional
 /// acceleration, deceleration, absolute positioning commands etc. Multiple
 /// simultaneous steppers are supported, all moving 
 /// at different speeds and accelerations. 
@@ -85,12 +86,12 @@
 /// time is recomputed after each step and after speed and acceleration
 /// parameters are changed by the caller. The time of each step is recorded in
 /// milliseconds. The run() function steps the motor if a new step is due.
-/// The run() funciton must be called frequently until the motor is in the
+/// The run() function must be called frequently until the motor is in the
 /// desired position, after which time run() will do nothing.
 ///
 /// \par Positioning
 /// Positions are specified by a signed long integer. At
-/// construciton time, the current position of the motor is consider to be 0. Positive
+/// construction time, the current position of the motor is consider to be 0. Positive
 /// positions are clockwise from the initial position; negative positions are
 /// anticlockwise. The curent position can be altered for instance after
 /// initialization positioning.
@@ -116,12 +117,14 @@ public:
     /// position is set to 0. MaxSpeed and Acceleration default to 1.0.
     /// The motor pins will be initialised to OUTPUT mode during the
     /// constructor by a call to enableOutputs().
-    /// \param[in] pins Number of pins to interface to. 2 or 4 are
-    /// supported. Defaults to 4 pins.
+    /// \param[in] pins Number of pins to interface to. 1, 2 or 4 are
+    /// supported. 1 means a stepper driver (with Step and Direction pins)
+    /// 2 means a 2 wire stepper. 4 means a 4 wire stepper.
+    /// Defaults to 4 pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
-    /// to pin 2.
+    /// to pin 2. For a driver (pins==1), this is the Step input to the driver. Low to high transition means to step)
     /// \param[in] pin2 Arduino digital pin number for motor pin 2. Defaults
-    /// to pin 3.
+    /// to pin 3. For a driver (pins==1), this is the Direction input the driver. High means forward.
     /// \param[in] pin3 Arduino digital pin number for motor pin 3. Defaults
     /// to pin 4.
     /// \param[in] pin4 Arduino digital pin number for motor pin 4. Defaults
@@ -149,7 +152,7 @@ public:
 
     /// Poll the motor and step it if a step is due, implmenting a constant
     /// speed as set by the most recent call to setSpeed().
-    /// \return true if the motor is at the target positionwas stepped.
+    /// \return true if the motor was stepped.
     boolean runSpeed();
 
     /// Sets the maximum permitted speed. the run() function will accelerate
@@ -239,11 +242,19 @@ protected:
 
     /// Called to execute a step. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
-    /// interfaces. The default calls step2() or step4() depending on the
+    /// interfaces. The default calls step1(), step2() or step4() depending on the
     /// number of pins defined for the stepper.
     /// \param[in] step The current step phase number (0 to 3)
     virtual void   step(uint8_t step);
 
+
+    /// Called to execute a step on a stepper drover (ie where pins == 1). Only called when a new step is
+    /// required. Subclasses may override to implement new stepping
+    /// interfaces. The default sets or clears the outputs of Step pin1 to step, 
+    /// and sets the output of _pin2 to the desired direction. The Step pin (_pin1) is pulsed for 1 microsecond
+    /// which is the minimum STEP pulse width for the 3967 driver.
+    /// \param[in] step The current step phase number (0 to 3)
+    virtual void   step1(uint8_t step);
 
     /// Called to execute a step on a 2 pin motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping

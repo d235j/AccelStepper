@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.1 2010/04/25 02:21:18 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.2 2010/10/24 07:46:18 mikem Exp mikem $
 
 #include "WProgram.h"
 #include "AccelStepper.h"
@@ -177,6 +177,10 @@ void AccelStepper::step(uint8_t step)
 {
     switch (_pins)
     {
+	case 1:
+	    step1(step);
+	    break;
+    
 	case 2:
 	    step2(step);
 	    break;
@@ -185,6 +189,20 @@ void AccelStepper::step(uint8_t step)
 	    step4(step);
 	    break;  
     }
+}
+
+// 1 pin step function (ie for stepper drivers)
+// This is passed the current step number (0 to 3)
+// Subclasses can override
+void AccelStepper::step1(uint8_t step)
+{
+    digitalWrite(_pin2, _speed > 0); // Direction
+    // Caution 200ns setup time 
+    digitalWrite(_pin1, HIGH);
+    // Caution, min Step pulse width for 3967 is 1microsec
+    // Delay 1microsec
+    delayMicroseconds(1);
+    digitalWrite(_pin1, LOW);
 }
 
 // 2 pin step function
