@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.10.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.11.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
@@ -72,7 +72,9 @@
 /// \version 1.8 Added support for 4 pin half-steppers, requested by Harvey Moon
 /// \version 1.9 setCurrentPosition() now also sets motor speed to 0.
 /// \version 1.10 Builds on Arduino 1.0
-/// 
+/// \version 1.11 Improvments from Michael Ellison:
+///   Added optional enable line support for stepper drivers
+///   Added inversion for step/direction/enable lines for stepper drivers
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
@@ -137,7 +139,9 @@ public:
     /// The motor pins will be initialised to OUTPUT mode during the
     /// constructor by a call to enableOutputs().
     /// \param[in] pins Number of pins to interface to. 1, 2 or 4 are
-    /// supported. 1 means a stepper driver (with Step and Direction pins)
+    /// supported. 1 means a stepper driver (with Step and Direction pins).
+    /// If an enable line is also needed, call setEnablePin() after construction.
+    /// You may also invert the pins using setPinsInverted().
     /// 2 means a 2 wire stepper. 4 means a 4 wire stepper. 8 means a 4 wire half stepper
     /// Defaults to 4 pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
@@ -261,6 +265,21 @@ public:
     /// \param[in] minWidth The minimum pulse width in microseconds.
     void    setMinPulseWidth(unsigned int minWidth);
 
+    /// Sets the enable pin number for stepper drivers.
+	/// 0xFF indicates unused (default).
+    /// Otherwise, if a pin is set, the pin will be turned on when 
+    /// enableOutputs() is called and switched off when disableOutputs() 
+    /// is called.
+    /// \param[in] enablePin Arduino digital pin number for motor enable
+    /// \sa setPinsInverted
+    void    setEnablePin(uint8_t enablePin = 0xff);
+
+    /// Sets the inversion for stepper driver pins
+    /// \param[in] direction True for inverted direction pin, false for non-inverted
+    /// \param[in] step      True for inverted step pin, false for non-inverted
+    /// \param[in] enable    True for inverted enable pin, false (default) for non-inverted
+    void    setPinsInverted(bool direction, bool step, bool enable = false);
+
 protected:
 
     /// Forces the library to compute a new instantaneous speed and set that as
@@ -334,7 +353,7 @@ private:
     long           _currentPos;    // Steps
 
     /// The target position in steps. The AccelStepper library will move the
-    /// motor from teh _currentPos to the _targetPos, taking into account the
+    /// motor from the _currentPos to the _targetPos, taking into account the
     /// max speed, acceleration and deceleration
     long           _targetPos;     // Steps
 
@@ -352,14 +371,23 @@ private:
     /// The current interval between steps in microseconds
     unsigned long  _stepInterval;
 
-    /// The last run time (when runSpeed() was last called) in microseconds
-//    unsigned long  _lastRunTime;
-
     /// The last step time in microseconds
     unsigned long  _lastStepTime;
 
     /// The minimum allowed pulse width in microseconds
     unsigned int   _minPulseWidth;
+
+    /// Is the direction pin inverted?
+    bool           _dirInverted;
+
+    /// Is the step pin inverted?
+    bool           _stepInverted;
+
+    /// Is the enable pin inverted?
+    bool           _enableInverted;
+
+	/// Enable pin for stepper driver, or 0xFF if unused.
+    uint8_t        _enablePin;
 
     // The pointer to a forward-step procedure
     void (*_forward)();

@@ -71,6 +71,10 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#f4d3818e691dad5dc518308796ccf154">setMinPulseWidth</a> (unsigned int minWidth)</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#56a81c5f00d02ca19646718e88e974c0">setEnablePin</a> (uint8_t enablePin=0xff)</td></tr>
+
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted</a> (bool direction, bool step, bool enable=false)</td></tr>
+
 <tr><td colspan="2"><br><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#ffbee789b5c19165846cf0409860ae79">computeNewSpeed</a> ()</td></tr>
 
@@ -143,7 +147,7 @@ The fastest motor speed that can be reliably supported is 4000 steps per second 
 <p>
 Constructor. You can have multiple simultaneous steppers, all moving at different speeds and accelerations, provided you call their <a class="el" href="classAccelStepper.html#608b2395b64ac15451d16d0371fe13ce">run()</a> functions at frequent enough intervals. Current Position is set to 0, target position is set to 0. MaxSpeed and Acceleration default to 1.0. The motor pins will be initialised to OUTPUT mode during the constructor by a call to <a class="el" href="classAccelStepper.html#a279a50d30d0413f570c692cff071643">enableOutputs()</a>. <dl compact><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pins</em>&nbsp;</td><td>Number of pins to interface to. 1, 2 or 4 are supported. 1 means a stepper driver (with Step and Direction pins) 2 means a 2 wire stepper. 4 means a 4 wire stepper. 8 means a 4 wire half stepper Defaults to 4 pins. </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pins</em>&nbsp;</td><td>Number of pins to interface to. 1, 2 or 4 are supported. 1 means a stepper driver (with Step and Direction pins). If an enable line is also needed, call <a class="el" href="classAccelStepper.html#56a81c5f00d02ca19646718e88e974c0">setEnablePin()</a> after construction. You may also invert the pins using <a class="el" href="classAccelStepper.html#797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted()</a>. 2 means a 2 wire stepper. 4 means a 4 wire stepper. 8 means a 4 wire half stepper Defaults to 4 pins. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pin1</em>&nbsp;</td><td>Arduino digital pin number for motor pin 1. Defaults to pin 2. For a driver (pins==1), this is the Step input to the driver. Low to high transition means to step) </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pin2</em>&nbsp;</td><td>Arduino digital pin number for motor pin 2. Defaults to pin 3. For a driver (pins==1), this is the Direction input the driver. High means forward. </td></tr>
     <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>pin3</em>&nbsp;</td><td>Arduino digital pin number for motor pin 3. Defaults to pin 4. </td></tr>
@@ -151,7 +155,7 @@ Constructor. You can have multiple simultaneous steppers, all moving at differen
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00448">enableOutputs()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00461">enableOutputs()</a>.</p>
 
 </div>
 </div><p>
@@ -214,9 +218,9 @@ Set the target position. The <a class="el" href="classAccelStepper.html#608b2395
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00017">move()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00479">runToNewPosition()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00014">move()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00518">runToNewPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -243,7 +247,7 @@ Set the target position relative to the current position <dl compact><dt><b>Para
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00011">moveTo()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00008">moveTo()</a>.</p>
 
 </div>
 </div><p>
@@ -265,9 +269,9 @@ Set the target position relative to the current position <dl compact><dt><b>Para
 <p>
 Poll the motor and step it if a step is due, implementing accelerations and decelerations to achive the ratget position. You must call this as fequently as possible, but at least once per minimum step interval, preferably in your main loop. <dl class="return" compact><dt><b>Returns:</b></dt><dd>true if the motor is at the target position. </dd></dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00025">runSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00022">runSpeed()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00467">runToPosition()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00506">runToPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -289,9 +293,9 @@ Poll the motor and step it if a step is due, implementing accelerations and dece
 <p>
 Poll the motor and step it if a step is due, implmenting a constant speed as set by the most recent call to <a class="el" href="classAccelStepper.html#e79c49ad69d5ccc9da0ee691fa4ca235">setSpeed()</a>. <dl class="return" compact><dt><b>Returns:</b></dt><dd>true if the motor was stepped. </dd></dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00254">step()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00253">step()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00168">run()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00473">runSpeedToPosition()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00163">run()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00512">runSpeedToPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -318,7 +322,7 @@ Sets the maximum permitted speed. the <a class="el" href="classAccelStepper.html
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -345,7 +349,7 @@ Sets the acceleration and deceleration parameter. <dl compact><dt><b>Parameters:
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -372,7 +376,7 @@ Sets the desired constant speed for use with <a class="el" href="classAccelStepp
   </table>
 </dl>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -414,7 +418,7 @@ The most recently set speed <dl class="return" compact><dt><b>Returns:</b></dt><
 <p>
 The distance from the current position to the target position. <dl class="return" compact><dt><b>Returns:</b></dt><dd>the distance from the current position to the target position in steps. Positive is clockwise from the current position. </dd></dl>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00106">desiredSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00101">desiredSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -481,7 +485,7 @@ Resets the current position of the motor, so that wherever the motor happens to 
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -502,9 +506,9 @@ Resets the current position of the motor, so that wherever the motor happens to 
 
 <p>
 Moves the motor to the target position and blocks until it is at position. Dont use this in event loops, since it blocks. 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00168">run()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00163">run()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00479">runToNewPosition()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00518">runToNewPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -525,7 +529,7 @@ Moves the motor to the target position and blocks until it is at position. Dont 
 
 <p>
 Runs at the currently selected speed until the target position is reached Does not implement accelerations. 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00025">runSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00022">runSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -552,7 +556,7 @@ Moves the motor to the new target position and blocks until it is at position. D
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00011">moveTo()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00467">runToPosition()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00008">moveTo()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00506">runToPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -592,7 +596,7 @@ Disable motor pin outputs by setting them all LOW Depending on the design of you
 
 <p>
 Enable motor pin outputs by setting the motor pins to OUTPUT mode. Called automatically by the constructor. 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00178">AccelStepper()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00173">AccelStepper()</a>.</p>
 
 </div>
 </div><p>
@@ -621,6 +625,74 @@ Sets the minimum pulse width allowed by the stepper driver. <dl compact><dt><b>P
 
 </div>
 </div><p>
+<a class="anchor" name="56a81c5f00d02ca19646718e88e974c0"></a><!-- doxytag: member="AccelStepper::setEnablePin" ref="56a81c5f00d02ca19646718e88e974c0" args="(uint8_t enablePin=0xff)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AccelStepper::setEnablePin           </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&nbsp;</td>
+          <td class="paramname"> <em>enablePin</em> = <code>0xff</code>          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets the enable pin number for stepper drivers. 0xFF indicates unused (default). Otherwise, if a pin is set, the pin will be turned on when <a class="el" href="classAccelStepper.html#a279a50d30d0413f570c692cff071643">enableOutputs()</a> is called and switched off when <a class="el" href="classAccelStepper.html#3591e29a236e2935afd7f64ff6c22006">disableOutputs()</a> is called. <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>enablePin</em>&nbsp;</td><td>Arduino digital pin number for motor enable </td></tr>
+  </table>
+</dl>
+<dl class="see" compact><dt><b>See also:</b></dt><dd><a class="el" href="classAccelStepper.html#797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted</a> </dd></dl>
+
+</div>
+</div><p>
+<a class="anchor" name="797b4bdb580d4ca7a1cfeabe3df0de35"></a><!-- doxytag: member="AccelStepper::setPinsInverted" ref="797b4bdb580d4ca7a1cfeabe3df0de35" args="(bool direction, bool step, bool enable=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AccelStepper::setPinsInverted           </td>
+          <td>(</td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>direction</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>step</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&nbsp;</td>
+          <td class="paramname"> <em>enable</em> = <code>false</code></td><td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Sets the inversion for stepper driver pins <dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>direction</em>&nbsp;</td><td>True for inverted direction pin, false for non-inverted </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>step</em>&nbsp;</td><td>True for inverted step pin, false for non-inverted </td></tr>
+    <tr><td valign="top"><tt>[in]</tt>&nbsp;</td><td valign="top"><em>enable</em>&nbsp;</td><td>True for inverted enable pin, false (default) for non-inverted </td></tr>
+  </table>
+</dl>
+
+</div>
+</div><p>
 <a class="anchor" name="ffbee789b5c19165846cf0409860ae79"></a><!-- doxytag: member="AccelStepper::computeNewSpeed" ref="ffbee789b5c19165846cf0409860ae79" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -644,9 +716,9 @@ Forces the library to compute a new instantaneous speed and set that as the curr
 <li>after change to target position (relative or absolute) through <a class="el" href="classAccelStepper.html#68942c66e78fb7f7b5f0cdade6eb7f06">move()</a> or <a class="el" href="classAccelStepper.html#ce236ede35f87c63d18da25810ec9736">moveTo()</a> </li>
 </ul>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00106">desiredSpeed()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00233">setSpeed()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00101">desiredSpeed()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00232">setSpeed()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00011">moveTo()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00168">run()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00227">setAcceleration()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00085">setCurrentPosition()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00221">setMaxSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00008">moveTo()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00163">run()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00226">setAcceleration()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00080">setCurrentPosition()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00220">setMaxSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -673,9 +745,9 @@ Called to execute a step. Only called when a new step is required. Subclasses ma
   </table>
 </dl>
 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00280">step0()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00292">step1()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00305">step2()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00334">step4()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00372">step8()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00279">step0()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00290">step1()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00303">step2()</a>, <a class="el" href="AccelStepper_8cpp-source.html#l00332">step4()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00370">step8()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00025">runSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00022">runSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -697,7 +769,7 @@ Called to execute a step. Only called when a new step is required. Subclasses ma
 
 <p>
 Called to execute a step using stepper functions (pins = 0) Only called when a new step is required. Calls _forward() or _backward() to perform the step 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00254">step()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00253">step()</a>.</p>
 
 </div>
 </div><p>
@@ -724,7 +796,7 @@ Called to execute a step on a stepper drover (ie where pins == 1). Only called w
   </table>
 </dl>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00254">step()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00253">step()</a>.</p>
 
 </div>
 </div><p>
@@ -751,7 +823,7 @@ Called to execute a step on a 2 pin motor. Only called when a new step is requir
   </table>
 </dl>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00254">step()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00253">step()</a>.</p>
 
 </div>
 </div><p>
@@ -778,7 +850,7 @@ Called to execute a step on a 4 pin motor. Only called when a new step is requir
   </table>
 </dl>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00254">step()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00253">step()</a>.</p>
 
 </div>
 </div><p>
@@ -805,7 +877,7 @@ Called to execute a step on a 4 pin half-steper motor. Only called when a new st
   </table>
 </dl>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00254">step()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00253">step()</a>.</p>
 
 </div>
 </div><p>
@@ -826,16 +898,16 @@ Called to execute a step on a 4 pin half-steper motor. Only called when a new st
 
 <p>
 Compute and return the desired speed. The default algorithm uses maxSpeed, acceleration and the current speed to set a new speed to move the motor from teh current position to the target position. Subclasses may override this to provide an alternate algorithm (but do not block). Called by computeNewSpeed whenever a new speed neds to be computed. 
-<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00069">distanceToGo()</a>.</p>
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00064">distanceToGo()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00091">computeNewSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00086">computeNewSpeed()</a>.</p>
 
 </div>
 </div><p>
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="AccelStepper_8h-source.html">AccelStepper.h</a><li>AccelStepper.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Wed Jan 4 17:11:19 2012 for AccelStepper by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sun Jan 8 17:27:41 2012 for AccelStepper by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>
