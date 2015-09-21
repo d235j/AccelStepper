@@ -45,11 +45,13 @@ boolean AccelStepper::runSpeed()
 	return false;
 
     unsigned long time = micros();
-    // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
     unsigned long nextStepTime = _lastStepTime + _stepInterval;
-    if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
-	|| ((nextStepTime < _lastStepTime) && ((time >= nextStepTime) && (time < _lastStepTime))))
+    // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
+//    if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
+//	|| ((nextStepTime < _lastStepTime) && ((time >= nextStepTime) && (time < _lastStepTime))))
 
+    // If the current time is equal or larger to the next step time, a step should occur.
+    if ((long)(time - nextStepTime) >= 0)
     {
 	if (_direction == DIRECTION_CW)
 	{
@@ -280,9 +282,8 @@ void AccelStepper::setAcceleration(float acceleration)
     {
 	// Recompute _n per Equation 17
 	_n = _n * (_acceleration / acceleration);
-	// New c0 per Equation 7
-//	_c0 = sqrt(2.0 / acceleration) * 1000000.0; // Accelerates at half the expected rate. Why?
-	_c0 = sqrt(1.0/acceleration) * 1000000.0;
+	// New c0 per Equation 7, with correction per Equation 15
+	_c0 = 0.676 * sqrt(2.0 / acceleration) * 1000000.0; // Equation 15
 	_acceleration = acceleration;
 	computeNewSpeed();
     }

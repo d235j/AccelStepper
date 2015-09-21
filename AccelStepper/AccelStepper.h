@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.45.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.46.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -187,7 +187,9 @@
 /// \version 1.44  examples/DualMotorShield/DualMotorShield.ino examples/DualMotorShield/DualMotorShield.pde
 ///                was missing from the distribution.<br>
 /// \version 1.45  Fixed a problem where if setAcceleration was not called, there was no default
-///                acceleration. Reported by Michael Newman.
+///                acceleration. Reported by Michael Newman.<br>
+/// \version 1.45  Fixed inaccuracy in acceleration rate by using Equation 15, suggested by Sebastian Gracki.<br>
+///                Performance improvements in runSpeed suggested by Jaakko Fagerlund.<br>
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
