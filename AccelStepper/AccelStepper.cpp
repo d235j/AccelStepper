@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.18 2014/06/09 21:35:59 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.19 2014/10/31 06:05:27 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -196,7 +196,7 @@ AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_
     _targetPos = 0;
     _speed = 0.0;
     _maxSpeed = 1.0;
-    _acceleration = 1.0;
+    _acceleration = 0.0;
     _sqrt_twoa = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
@@ -219,6 +219,8 @@ AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_
 	_pinInverted[i] = 0;
     if (enable)
 	enableOutputs();
+    // Some reasonable default
+    setAcceleration(1);
 }
 
 AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
@@ -228,7 +230,7 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     _targetPos = 0;
     _speed = 0.0;
     _maxSpeed = 1.0;
-    _acceleration = 1.0;
+    _acceleration = 0.0;
     _sqrt_twoa = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
@@ -251,6 +253,8 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     int i;
     for (i = 0; i < 4; i++)
 	_pinInverted[i] = 0;
+    // Some reasonable default
+    setAcceleration(1);
 }
 
 void AccelStepper::setMaxSpeed(float speed)

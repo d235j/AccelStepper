@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.44.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.45.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -186,10 +186,12 @@
 ///                Itead Studio Arduino Dual Stepper Motor Driver Shield model IM120417015.<br>
 /// \version 1.44  examples/DualMotorShield/DualMotorShield.ino examples/DualMotorShield/DualMotorShield.pde
 ///                was missing from the distribution.<br>
+/// \version 1.45  Fixed a problem where if setAcceleration was not called, there was no default
+///                acceleration. Reported by Michael Newman.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.h,v 1.20 2014/06/09 21:35:59 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.21 2014/10/31 06:05:30 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
