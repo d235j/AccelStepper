@@ -54,6 +54,7 @@
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-types">Protected Types</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">AccelStepper Class Reference</div>  </div>
@@ -103,17 +104,22 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#af4d3818e691dad5dc518308796ccf154">setMinPulseWidth</a> (unsigned int minWidth)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a56a81c5f00d02ca19646718e88e974c0">setEnablePin</a> (uint8_t enablePin=0xff)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted</a> (bool direction, bool step, bool enable=false)</td></tr>
+<tr><td colspan="2"><h2><a name="pro-types"></a>
+Protected Types</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228">Direction</a> { <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a> =  0, 
+<a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a> =  1
+ }</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Direction indicator Symbolic names for the direction the motor is turning.  <a href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins</a> (uint8_t mask)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step</a> (uint8_t step)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a889f109756aa4c0a2feefebd8081a337">step0</a> (void)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a79ec4d850e3ce8c10cb422032ab72ddb">step0</a> (uint8_t step)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1</a> (uint8_t step)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a88f11bf6361fe002585f731d34fe2e8b">step2</a> (uint8_t step)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a49e448d179bbe4e0f8003a3f9993789d">step4</a> (uint8_t step)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a5b33d1088e2beaf2176c42b08fb675ea">step8</a> (uint8_t step)</td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">virtual float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a6e4bd79c395e69beee31d76d0d3287e4">desiredSpeed</a> ()</td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Support for stepper motors with acceleration etc. </p>
@@ -121,11 +127,36 @@ Protected Member Functions</h2></td></tr>
 <dl class="user"><dt><b>Operation</b></dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>
 <dl class="user"><dt><b>Positioning</b></dt><dd>Positions are specified by a signed long integer. At construction time, the current position of the motor is consider to be 0. Positive positions are clockwise from the initial position; negative positions are anticlockwise. The curent position can be altered for instance after initialization positioning.</dd></dl>
 <dl class="user"><dt><b>Caveats</b></dt><dd>This is an open loop controller: If the motor stalls or is oversped, <a class="el" href="classAccelStepper.html" title="Support for stepper motors with acceleration etc.">AccelStepper</a> will not have a correct idea of where the motor really is (since there is no feedback of the motor's real position. We only know where we _think_ it is, relative to the initial starting point).</dd></dl>
-<p>The fastest motor speed that can be reliably supported is 4000 steps per second (4 kHz) at a clock frequency of 16 MHz. However, any speed less than that down to very slow speeds (much less than one per second) are also supported, provided the <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function is called frequently enough to step the motor whenever required for the speed set. </p>
+<dl class="user"><dt><b>Performance</b></dt><dd>The fastest motor speed that can be reliably supported is about 4000 steps per second at a clock frequency of 16 MHz on Arduino such as Uno etc. Faster processors can support faster stepping speeds. However, any speed less than that down to very slow speeds (much less than one per second) are also supported, provided the <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function is called frequently enough to step the motor whenever required for the speed set. Calling <a class="el" href="classAccelStepper.html#adfb19e3cd2a028a1fe78131787604fd1">setAcceleration()</a> is expensive, since it requires a square root to be calculated. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd>
 <p><a class="el" href="AFMotor_ConstantSpeed_8pde-example.html#_a0">AFMotor_ConstantSpeed.pde</a>, <a class="el" href="AFMotor_MultiStepper_8pde-example.html#_a0">AFMotor_MultiStepper.pde</a>, <a class="el" href="Blocking_8pde-example.html#_a0">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#_a0">Bounce.pde</a>, <a class="el" href="ConstantSpeed_8pde-example.html#_a0">ConstantSpeed.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#_a0">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#_a0">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#_a0">ProportionalControl.pde</a>, and <a class="el" href="Random_8pde-example.html#_a0">Random.pde</a>.</p>
 </dd>
 </dl></div><hr/><h2>Member Enumeration Documentation</h2>
+<a class="anchor" id="a7468f91a925c689c3ba250f8d074d228"></a><!-- doxytag: member="AccelStepper::Direction" ref="a7468f91a925c689c3ba250f8d074d228" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228">AccelStepper::Direction</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Direction indicator Symbolic names for the direction the motor is turning. </p>
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4"></a><!-- doxytag: member="DIRECTION_CCW" ref="a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4" args="" -->DIRECTION_CCW</em>&nbsp;</td><td>
+<p>Clockwise. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c"></a><!-- doxytag: member="DIRECTION_CW" ref="a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c" args="" -->DIRECTION_CW</em>&nbsp;</td><td>
+<p>Counter-Clockwise. </p>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5"></a><!-- doxytag: member="AccelStepper::MotorInterfaceType" ref="a73bdecf1273d98d8c5fbcb764cabeea5" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -215,7 +246,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>References <a class="el" href="classAccelStepper.html#aa279a50d30d0413f570c692cff071643">enableOutputs()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a>, and <a class="el" href="classAccelStepper.html#aa279a50d30d0413f570c692cff071643">enableOutputs()</a>.</p>
 
 </div>
 </div>
@@ -252,6 +283,8 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a>.</p>
+
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
@@ -268,7 +301,7 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Forces the library to compute a new instantaneous speed and set that as the current speed. Calls <a class="el" href="classAccelStepper.html#a6e4bd79c395e69beee31d76d0d3287e4">desiredSpeed()</a>, which can be overridden by subclasses. It is called by the library: </p>
+<p>Forces the library to compute a new instantaneous speed and set that as the current speed. It is called by the library: </p>
 <ul>
 <li>after each step </li>
 <li>after change to maxSpeed through <a class="el" href="classAccelStepper.html#abee8d466229b87accba33d6ec929c18f">setMaxSpeed()</a> </li>
@@ -276,9 +309,9 @@ Protected Member Functions</h2></td></tr>
 <li>after change to target position (relative or absolute) through <a class="el" href="classAccelStepper.html#a68942c66e78fb7f7b5f0cdade6eb7f06">move()</a> or <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a> </li>
 </ul>
 
-<p>References <a class="el" href="classAccelStepper.html#a6e4bd79c395e69beee31d76d0d3287e4">desiredSpeed()</a>, and <a class="el" href="classAccelStepper.html#ae79c49ad69d5ccc9da0ee691fa4ca235">setSpeed()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a>, <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a>, and <a class="el" href="classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1">distanceToGo()</a>.</p>
 
-<p>Referenced by <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a>, <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>, <a class="el" href="classAccelStepper.html#adfb19e3cd2a028a1fe78131787604fd1">setAcceleration()</a>, <a class="el" href="classAccelStepper.html#a9d917f014317fb9d3b5dc14e66f6c689">setCurrentPosition()</a>, and <a class="el" href="classAccelStepper.html#abee8d466229b87accba33d6ec929c18f">setMaxSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo()</a>, <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>, <a class="el" href="classAccelStepper.html#adfb19e3cd2a028a1fe78131787604fd1">setAcceleration()</a>, and <a class="el" href="classAccelStepper.html#abee8d466229b87accba33d6ec929c18f">setMaxSpeed()</a>.</p>
 
 </div>
 </div>
@@ -299,27 +332,6 @@ Protected Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the current motor position in steps. Positive is clockwise from the 0 position. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a5">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a7">MultiStepper.pde</a>, and <a class="el" href="Overshoot_8pde-example.html#a5">Overshoot.pde</a>.</dd>
 </dl>
-</div>
-</div>
-<a class="anchor" id="a6e4bd79c395e69beee31d76d0d3287e4"></a><!-- doxytag: member="AccelStepper::desiredSpeed" ref="a6e4bd79c395e69beee31d76d0d3287e4" args="()" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">float AccelStepper::desiredSpeed </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td><code> [protected, virtual]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Compute and return the desired speed. The default algorithm uses maxSpeed, acceleration and the current speed to set a new speed to move the motor from teh current position to the target position. Subclasses may override this to provide an alternate algorithm (but do not block). Called by computeNewSpeed whenever a new speed neds to be computed. </p>
-
-<p>References <a class="el" href="classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1">distanceToGo()</a>.</p>
-
-<p>Referenced by <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a3591e29a236e2935afd7f64ff6c22006"></a><!-- doxytag: member="AccelStepper::disableOutputs" ref="a3591e29a236e2935afd7f64ff6c22006" args="()" -->
@@ -358,7 +370,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>the distance from the current position to the target position in steps. Positive is clockwise from the current position. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a4">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a6">MultiStepper.pde</a>, and <a class="el" href="Random_8pde-example.html#a1">Random.pde</a>.</dd>
 </dl>
-<p>Referenced by <a class="el" href="classAccelStepper.html#a6e4bd79c395e69beee31d76d0d3287e4">desiredSpeed()</a>.</p>
+<p>Referenced by <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>.</p>
 
 </div>
 </div>
@@ -478,7 +490,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true if the motor was stepped. </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ConstantSpeed_8pde-example.html#a3">ConstantSpeed.pde</a>.</dd>
 </dl>
-<p>References <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a>, and <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>, and <a class="el" href="classAccelStepper.html#a9270d20336e76ac1fd5bcd5b9c34f301">runSpeedToPosition()</a>.</p>
 
@@ -501,7 +513,7 @@ Protected Member Functions</h2></td></tr>
 <dl class="return"><dt><b>Returns:</b></dt><dd>true if it stepped </dd></dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ProportionalControl_8pde-example.html#a4">ProportionalControl.pde</a>.</dd>
 </dl>
-<p>References <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a>, <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a>, and <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>.</p>
 
 </div>
 </div>
@@ -570,7 +582,7 @@ Protected Member Functions</h2></td></tr>
 <p>Sets the acceleration and deceleration parameter. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">acceleration</td><td>The desired acceleration in steps per second per second. Must be &gt; 0. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">acceleration</td><td>The desired acceleration in steps per second per second. Must be &gt; 0. This is an expecnsive call since it requires a square root to be calculated. Dont call more ofthen than needed </td></tr>
   </table>
   </dd>
 </dl>
@@ -603,8 +615,6 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Overshoot_8pde-example.html#a7">Overshoot.pde</a>.</dd>
 </dl>
-<p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a56a81c5f00d02ca19646718e88e974c0"></a><!-- doxytag: member="AccelStepper::setEnablePin" ref="a56a81c5f00d02ca19646718e88e974c0" args="(uint8_t enablePin=0xff)" -->
@@ -649,7 +659,7 @@ Protected Member Functions</h2></td></tr>
 <p>Sets the maximum permitted speed. the <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function will accelerate up to the speed set by this function. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">speed</td><td>The desired maximum speed in steps per second. Must be &gt; 0. Speeds of more than 1000 steps per second are unreliable. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">speed</td><td>The desired maximum speed in steps per second. Must be &gt; 0. Caution: Speeds that exceed the maximum speed supported by the processor may Result in non-linear accelerations and decelerations. </td></tr>
   </table>
   </dd>
 </dl>
@@ -772,9 +782,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ConstantSpeed_8pde-example.html#a2">ConstantSpeed.pde</a>, and <a class="el" href="ProportionalControl_8pde-example.html#a3">ProportionalControl.pde</a>.</dd>
 </dl>
-<p>References <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed()</a>.</p>
-
-<p>Referenced by <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a>, <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a>, and <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed()</a>.</p>
 
 </div>
 </div>
@@ -820,27 +828,33 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>References <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5ac3523e4cf6763ba518d16fec3708ef23">DRIVER</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5a62a305b52f749ff8c89138273fbb012d">FULL2WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5af5bb99ad9d67ad2d85f840e3abcfe068">FUNCTION</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a>, <a class="el" href="classAccelStepper.html#a889f109756aa4c0a2feefebd8081a337">step0()</a>, <a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1()</a>, <a class="el" href="classAccelStepper.html#a88f11bf6361fe002585f731d34fe2e8b">step2()</a>, <a class="el" href="classAccelStepper.html#a49e448d179bbe4e0f8003a3f9993789d">step4()</a>, and <a class="el" href="classAccelStepper.html#a5b33d1088e2beaf2176c42b08fb675ea">step8()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5ac3523e4cf6763ba518d16fec3708ef23">DRIVER</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5a62a305b52f749ff8c89138273fbb012d">FULL2WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5af5bb99ad9d67ad2d85f840e3abcfe068">FUNCTION</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a>, <a class="el" href="classAccelStepper.html#a79ec4d850e3ce8c10cb422032ab72ddb">step0()</a>, <a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1()</a>, <a class="el" href="classAccelStepper.html#a88f11bf6361fe002585f731d34fe2e8b">step2()</a>, <a class="el" href="classAccelStepper.html#a49e448d179bbe4e0f8003a3f9993789d">step4()</a>, and <a class="el" href="classAccelStepper.html#a5b33d1088e2beaf2176c42b08fb675ea">step8()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>, and <a class="el" href="classAccelStepper.html#a797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a889f109756aa4c0a2feefebd8081a337"></a><!-- doxytag: member="AccelStepper::step0" ref="a889f109756aa4c0a2feefebd8081a337" args="(void)" -->
+<a class="anchor" id="a79ec4d850e3ce8c10cb422032ab72ddb"></a><!-- doxytag: member="AccelStepper::step0" ref="a79ec4d850e3ce8c10cb422032ab72ddb" args="(uint8_t step)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void AccelStepper::step0 </td>
           <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>step</em></td><td>)</td>
           <td><code> [protected, virtual]</code></td>
         </tr>
       </table>
 </div>
 <div class="memdoc">
 <p>Called to execute a step using stepper functions (pins = 0) Only called when a new step is required. Calls _forward() or _backward() to perform the step </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">step</td><td>The current step phase number (0 to 7) </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
 

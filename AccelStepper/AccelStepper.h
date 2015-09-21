@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.22.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.23.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -43,6 +43,14 @@
 ///
 /// This software is Copyright (C) 2010 Mike McCauley. Use is subject to license
 /// conditions. The main licensing options available are GPL V2 or Commercial:
+///
+/// \par Theory
+/// This code uses speed calculations as described in 
+/// "Generate stepper-motor speed profiles in real time" by David Austin 
+/// http://fab.cba.mit.edu/classes/MIT/961.09/projects/i0/Stepper_Motor_Speed_Profile.pdf
+/// An initial step interval is calcualated for the first step, based on the desired acceleration
+/// Subsequent shorter step intervals are calculated based 
+/// on the previous step until max speed is acheived.
 /// 
 /// \par Open Source Licensing GPL V2
 /// This is the appropriate option if you want to share the source code of your
@@ -105,13 +113,17 @@
 ///               Precompute sqrt_twoa to improve performance and max possible stepping speed
 /// \version 1.22 Added Bounce.pde example
 ///               Fixed a problem where calling moveTo(), setMaxSpeed(), setAcceleration() more 
-///               frequesntly than the step time, even
+///               frequently than the step time, even
 ///               with the same values, would interfere with speed calcs. Now a new speed is computed 
 ///               only if there was a change in the set value. Reported by Brian Schmalz.
+/// \version 1.23 Rewrite of the speed algorithms in line with 
+///               http://fab.cba.mit.edu/classes/MIT/961.09/projects/i0/Stepper_Motor_Speed_Profile.pdf
+///               Now expect smoother and more linear accelerations and decelerations. The desiredSpeed()
+///               function was removed.
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.11 2012/10/06 05:51:07 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.12 2012/10/08 09:41:58 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -158,11 +170,16 @@
 /// real position. We only know where we _think_ it is, relative to the
 /// initial starting point).
 ///
-/// The fastest motor speed that can be reliably supported is 4000 steps per
-/// second (4 kHz) at a clock frequency of 16 MHz. However, any speed less than that
+/// \par Performance
+/// The fastest motor speed that can be reliably supported is about 4000 steps per
+/// second at a clock frequency of 16 MHz on Arduino such as Uno etc. 
+/// Faster processors can support faster stepping speeds. 
+/// However, any speed less than that
 /// down to very slow speeds (much less than one per second) are also supported,
 /// provided the run() function is called frequently enough to step the motor
 /// whenever required for the speed set.
+/// Calling setAcceleration() is expensive,
+/// since it requires a square root to be calculated.
 class AccelStepper
 {
 public:
@@ -245,12 +262,14 @@ public:
     /// Sets the maximum permitted speed. the run() function will accelerate
     /// up to the speed set by this function.
     /// \param[in] speed The desired maximum speed in steps per second. Must
-    /// be > 0. Speeds of more than 1000 steps per second are unreliable. 
+    /// be > 0. Caution: Speeds that exceed the maximum speed supported by the processor may
+    /// Result in non-linear accelerations and decelerations.
     void    setMaxSpeed(float speed);
 
     /// Sets the acceleration and deceleration parameter.
     /// \param[in] acceleration The desired acceleration in steps per second
-    /// per second. Must be > 0.
+    /// per second. Must be > 0. This is an expecnsive call since it requires a square 
+    /// root to be calculated. Dont call more ofthen than needed
     void    setAcceleration(float acceleration);
 
     /// Sets the desired constant speed for use with runSpeed().
@@ -274,7 +293,6 @@ public:
     /// \return the target position
     /// in steps. Positive is clockwise from the 0 position.
     long    targetPosition();
-
 
     /// The currently motor position.
     /// \return the current motor position
@@ -338,9 +356,16 @@ public:
 
 protected:
 
+    /// \brief Direction indicator
+    /// Symbolic names for the direction the motor is turning
+    typedef enum
+    {
+	DIRECTION_CCW = 0,  ///< Clockwise
+        DIRECTION_CW  = 1   ///< Counter-Clockwise
+    } Direction;
+
     /// Forces the library to compute a new instantaneous speed and set that as
-    /// the current speed. Calls
-    /// desiredSpeed(), which can be overridden by subclasses. It is called by
+    /// the current speed. It is called by
     /// the library:
     /// \li  after each step
     /// \li  after change to maxSpeed through setMaxSpeed()
@@ -365,7 +390,8 @@ protected:
 
     /// Called to execute a step using stepper functions (pins = 0) Only called when a new step is
     /// required. Calls _forward() or _backward() to perform the step
-    virtual void   step0(void);
+    /// \param[in] step The current step phase number (0 to 7)
+    virtual void   step0(uint8_t step);
 
     /// Called to execute a step on a stepper driver (ie where pins == 1). Only called when a new step is
     /// required. Subclasses may override to implement new stepping
@@ -395,14 +421,6 @@ protected:
     /// \param[in] step The current step phase number (0 to 7)
     virtual void   step8(uint8_t step);
 
-    /// Compute and return the desired speed. The default algorithm uses
-    /// maxSpeed, acceleration and the current speed to set a new speed to
-    /// move the motor from teh current position to the target
-    /// position. Subclasses may override this to provide an alternate
-    /// algorithm (but do not block). Called by computeNewSpeed whenever a new speed neds to be
-    /// computed. 
-    virtual float  desiredSpeed();
-    
 private:
     /// Number of pins on the stepper motor. Permits 2 or 4. 2 pins is a
     /// bipolar, and 4 pins is a unipolar.
@@ -435,7 +453,8 @@ private:
     float          _acceleration;
     float          _sqrt_twoa; // Precomputed sqrt(2*_acceleration)
 
-    /// The current interval between steps in microseconds
+    /// The current interval between steps in microseconds.
+    /// 0 means the motor is currently stopped with _speed == 0
     unsigned long  _stepInterval;
 
     /// The last step time in microseconds
@@ -461,6 +480,22 @@ private:
 
     /// The pointer to a backward-step procedure
     void (*_backward)();
+
+    /// The step counter for speed calculations
+    long _n;
+
+    /// Initial step size in microseconds
+    float _c0;
+
+    /// Last step size in microseconds
+    float _cn;
+
+    /// Min step size in microseconds based on maxSpeed
+    float _cmin; // at max speed
+
+    /// Current direction motor is spinning in
+    boolean _direction; // 1 == CW
+
 };
 
 /// @example Random.pde
