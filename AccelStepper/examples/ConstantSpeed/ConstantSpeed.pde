@@ -5,7 +5,7 @@
 // fixed speed mode with no accelerations
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
-// $Id: HRFMessage.h,v 1.1 2009/08/15 05:32:58 mikem Exp mikem $
+// $Id: ConstantSpeed.pde,v 1.1 2011/01/05 01:51:01 mikem Exp mikem $
 
 #include <AccelStepper.h>
 

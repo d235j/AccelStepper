@@ -2,7 +2,7 @@
 //
 /// \mainpage AccelStepper library for Arduino
 ///
-/// This is the Arduino AccelStepper 1.2 library.
+/// This is the Arduino AccelStepper library.
 /// It provides an object-oriented interface for 2 or 4 pin stepper motors.
 ///
 /// The standard Arduino IDE includes the Stepper library
@@ -14,21 +14,23 @@
 /// \li Supports multiple simultaneous steppers, with independent concurrent stepping on each stepper
 /// \li API functions never delay() or block
 /// \li Supports 2 and 4 wire steppers
+/// \li Supports alternate stepping functions to enable support of AFMotor (https://github.com/adafruit/Adafruit-Motor-Shield-library)
 /// \li Supports stepper drivers such as the Sparkfun EasyDriver (based on 3967 driver chip)
 /// \li Very slow speeds are supported
 /// \li Extensive API
 /// \li Subclass support
 ///
-/// The latest version of this documentation  can be downloaded from 
+/// The latest version of this documentation can be downloaded from 
 /// http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.3.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.4.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
-/// Tested on Arduino Diecimila and Mega with arduino-0018 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
+/// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
+/// on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
 /// cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.
 ///
 /// \par Installation
@@ -57,11 +59,12 @@
 /// \version 1.1 Added speed() function to get the current speed.
 /// \version 1.2 Added runSpeedToPosition() submitted by Gunnar Arndt.
 /// \version 1.3 Added support for stepper drivers (ie with Step and Direction inputs) with _pins == 1
+/// \version 1.4 Added functional contructor to support AFMotor, contributed by Limor, with example sketches.
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.h,v 1.2 2010/10/24 07:46:18 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.4 2011/01/05 01:51:01 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -131,6 +134,16 @@ public:
     /// to pin 5.
     AccelStepper(uint8_t pins = 4, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5);
 
+    /// Alternate Constructor which will call your own functions for forward and backward steps. 
+    /// You can have multiple simultaneous steppers, all moving
+    /// at different speeds and accelerations, provided you call their run()
+    /// functions at frequent enough intervals. Current Position is set to 0, target
+    /// position is set to 0. MaxSpeed and Acceleration default to 1.0.
+    /// Any motor initialization should happen before hand, no pins are used or initialized.
+    /// \param[in] forward void-returning procedure that will make a forward step
+    /// \param[in] backward void-returning procedure that will make a backward step
+    AccelStepper(void (*forward)(), void (*backward)());
+    
     /// Set the target position. The run() function will try to move the motor
     /// from the current position to the target position set by the most
     /// recent call to this function.
@@ -247,6 +260,9 @@ protected:
     /// \param[in] step The current step phase number (0 to 3)
     virtual void   step(uint8_t step);
 
+    /// Called to execute a step using stepper functions (pins = 0) Only called when a new step is
+    /// required. Calls _forward() or _backward() to perform the step
+    virtual void   step0(void);
 
     /// Called to execute a step on a stepper drover (ie where pins == 1). Only called when a new step is
     /// required. Subclasses may override to implement new stepping
@@ -310,6 +326,12 @@ private:
 
     /// The last step time in milliseconds
     unsigned long  _lastStepTime;
+
+    // The pointer to a forward-step procedure
+    void (*_forward)();
+
+    // The pointer to a backward-step procedure
+    void (*_backward)();
 };
 
 #endif 

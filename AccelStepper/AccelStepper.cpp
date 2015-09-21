@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.2 2010/10/24 07:46:18 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.4 2011/01/05 01:51:01 mikem Exp mikem $
 
 #include "WProgram.h"
 #include "AccelStepper.h"
@@ -149,6 +149,24 @@ AccelStepper::AccelStepper(uint8_t pins, uint8_t pin1, uint8_t pin2, uint8_t pin
     enableOutputs();
 }
 
+AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
+{
+    _pins = 0;
+    _currentPos = 0;
+    _targetPos = 0;
+    _speed = 0.0;
+    _maxSpeed = 1.0;
+    _acceleration = 1.0;
+    _stepInterval = 0;
+    _lastStepTime = 0;
+    _pin1 = 0;
+    _pin2 = 0;
+    _pin3 = 0;
+    _pin4 = 0;
+    _forward = forward;
+    _backward = backward;
+}
+
 void AccelStepper::setMaxSpeed(float speed)
 {
     _maxSpeed = speed;
@@ -177,6 +195,9 @@ void AccelStepper::step(uint8_t step)
 {
     switch (_pins)
     {
+        case 0:
+            step0();
+            break;
 	case 1:
 	    step1(step);
 	    break;
@@ -189,6 +210,16 @@ void AccelStepper::step(uint8_t step)
 	    step4(step);
 	    break;  
     }
+}
+
+// 0 pin step function (ie for functional usage)
+void AccelStepper::step0()
+{
+  if (_speed > 0) {
+    _forward();
+  } else {
+    _backward();
+  }
 }
 
 // 1 pin step function (ie for stepper drivers)
@@ -274,7 +305,9 @@ void AccelStepper::step4(uint8_t step)
 
 // Prevents power consumption on the outputs
 void    AccelStepper::disableOutputs()
-{  
+{   
+  if (! _pins) return;
+
     digitalWrite(_pin1, LOW);
     digitalWrite(_pin2, LOW);
     if (_pins == 4)
@@ -286,6 +319,8 @@ void    AccelStepper::disableOutputs()
 
 void    AccelStepper::enableOutputs()
 {
+    if (! _pins) return;
+
     pinMode(_pin1, OUTPUT);
     pinMode(_pin2, OUTPUT);
     if (_pins == 4)

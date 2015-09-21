@@ -10,6 +10,8 @@ AccelStepper/examples/MultiStepper/MultiStepper.pde
 AccelStepper/examples/Overshoot/Overshoot.pde
 AccelStepper/examples/ConstantSpeed/ConstantSpeed.pde
 AccelStepper/examples/Random/Random.pde
+AccelStepper/examples/AFMotor_ConstantSpeed/AFMotor_ConstantSpeed.pde
+AccelStepper/examples/AFMotor_MultiStepper/AFMotor_MultiStepper.pde
 AccelStepper/doc
 AccelStepper/doc/index.html
 AccelStepper/doc/functions.html
