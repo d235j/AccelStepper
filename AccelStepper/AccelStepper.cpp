@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.5 2012/01/28 22:45:25 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.8 2012/08/24 01:48:07 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -145,9 +145,9 @@ boolean AccelStepper::run()
     return true;
 }
 
-AccelStepper::AccelStepper(uint8_t pins, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4)
+AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4)
 {
-    _pins = pins;
+    _interface = interface;
     _currentPos = 0;
     _targetPos = 0;
     _speed = 0.0;
@@ -155,24 +155,21 @@ AccelStepper::AccelStepper(uint8_t pins, uint8_t pin1, uint8_t pin2, uint8_t pin
     _acceleration = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
-    _dirInverted = false;
-    _stepInverted = false;
     _enablePin = 0xff;
     _lastStepTime = 0;
-    _pin1 = pin1;
-    _pin2 = pin2;
-    _pin3 = pin3;
-    _pin4 = pin4;
-//_stepInterval = 20000;
-//_speed = 50.0;
-//_lastRunTime = 0xffffffff - 20000;
-//_lastStepTime = 0xffffffff - 20000 - 10000;
+    _pin[0] = pin1;
+    _pin[1] = pin2;
+    _pin[2] = pin3;
+    _pin[3] = pin4;
+    int i;
+    for (i = 0; i < 4; i++)
+	_pinInverted[i] = 0;
     enableOutputs();
 }
 
 AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
 {
-    _pins = 0;
+    _interface = 0;
     _currentPos = 0;
     _targetPos = 0;
     _speed = 0.0;
@@ -180,16 +177,17 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     _acceleration = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
-    _dirInverted = false;
-    _stepInverted = false;
     _enablePin = 0xff;
     _lastStepTime = 0;
-    _pin1 = 0;
-    _pin2 = 0;
-    _pin3 = 0;
-    _pin4 = 0;
+    _pin[0] = 0;
+    _pin[1] = 0;
+    _pin[2] = 0;
+    _pin[3] = 0;
     _forward = forward;
     _backward = backward;
+    int i;
+    for (i = 0; i < 4; i++)
+	_pinInverted[i] = 0;
 }
 
 void AccelStepper::setMaxSpeed(float speed)
@@ -226,27 +224,42 @@ float AccelStepper::speed()
 // Subclasses can override
 void AccelStepper::step(uint8_t step)
 {
-    switch (_pins)
+    switch (_interface)
     {
-        case 0:
+        case FUNCTION:
             step0();
             break;
-	case 1:
+
+	case DRIVER:
 	    step1(step);
 	    break;
     
-	case 2:
+	case FULL2WIRE:
 	    step2(step);
 	    break;
     
-	case 4:
+	case FULL4WIRE:
 	    step4(step);
 	    break;  
 
-	case 8:
+	case HALF4WIRE:
 	    step8(step);
 	    break;  
     }
+}
+
+// You might want to override this to implement eg serial output
+// bit 0 of the mask corresponds to _pin[0]
+// bit 1 of the mask corresponds to _pin[1]
+// ....
+void AccelStepper::setOutputPins(uint8_t mask)
+{
+    uint8_t numpins = 2;
+    if (_interface == FULL4WIRE || _interface == HALF4WIRE)
+	numpins = 4;
+    uint8_t i;
+    for (i = 0; i < numpins; i++)
+	digitalWrite(_pin[i], (mask & (1 << i)) ? (HIGH ^ _pinInverted[i]) : (LOW ^ _pinInverted[i]));
 }
 
 // 0 pin step function (ie for functional usage)
@@ -263,12 +276,13 @@ void AccelStepper::step0()
 // Subclasses can override
 void AccelStepper::step1(uint8_t step)
 {
-    digitalWrite(_pin2, (_speed > 0) ^ _dirInverted); // Direction
+    // _pin[0] is step, _pin[1] is direction
+    setOutputPins((_speed > 0) ? 0b11 : 0b01); // step HIGH
     // Caution 200ns setup time 
-    digitalWrite(_pin1, HIGH ^ _stepInverted);
     // Delay the minimum allowed pulse width
     delayMicroseconds(_minPulseWidth);
-    digitalWrite(_pin1, LOW ^ _stepInverted);
+    setOutputPins((_speed > 0) ? 0b10 : 0b00); // step LOW
+
 }
 
 // 2 pin step function
@@ -279,23 +293,27 @@ void AccelStepper::step2(uint8_t step)
     switch (step & 0x3)
     {
 	case 0: /* 01 */
-	    digitalWrite(_pin1, LOW);
-	    digitalWrite(_pin2, HIGH);
+	    setOutputPins(0b10);
+//	    digitalWrite(_pin[0], LOW);
+//	    digitalWrite(_pin[1], HIGH);
 	    break;
 
 	case 1: /* 11 */
-	    digitalWrite(_pin1, HIGH);
-	    digitalWrite(_pin2, HIGH);
+	    setOutputPins(0b11);
+//	    digitalWrite(_pin[0], HIGH);
+//	    digitalWrite(_pin[1], HIGH);
 	    break;
 
 	case 2: /* 10 */
-	    digitalWrite(_pin1, HIGH);
-	    digitalWrite(_pin2, LOW);
+	    setOutputPins(0b01);
+//	    digitalWrite(_pin[0], HIGH);
+//	    digitalWrite(_pin[1], LOW);
 	    break;
 
 	case 3: /* 00 */
-	    digitalWrite(_pin1, LOW);
-	    digitalWrite(_pin2, LOW);
+	    setOutputPins(0b00);
+//	    digitalWrite(_pin[0], LOW);
+//	    digitalWrite(_pin[1], LOW);
 	    break;
     }
 }
@@ -308,31 +326,35 @@ void AccelStepper::step4(uint8_t step)
     switch (step & 0x3)
     {
 	case 0:    // 1010
-	    digitalWrite(_pin1, HIGH);
-	    digitalWrite(_pin2, LOW);
-	    digitalWrite(_pin3, HIGH);
-	    digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0101);
+//	    digitalWrite(_pin[0], HIGH);
+//	    digitalWrite(_pin[1], LOW);
+//	    digitalWrite(_pin[2], HIGH);
+//	    digitalWrite(_pin[3], LOW);
 	    break;
 
 	case 1:    // 0110
-	    digitalWrite(_pin1, LOW);
-	    digitalWrite(_pin2, HIGH);
-	    digitalWrite(_pin3, HIGH);
-	    digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0110);
+//	    digitalWrite(_pin[0], LOW);
+//	    digitalWrite(_pin[1], HIGH);
+//	    digitalWrite(_pin[2], HIGH);
+//	    digitalWrite(_pin[3], LOW);
 	    break;
 
 	case 2:    //0101
-	    digitalWrite(_pin1, LOW);
-	    digitalWrite(_pin2, HIGH);
-	    digitalWrite(_pin3, LOW);
-	    digitalWrite(_pin4, HIGH);
+	    setOutputPins(0b1010);
+//	    digitalWrite(_pin[0], LOW);
+//	    digitalWrite(_pin[1], HIGH);
+//	    digitalWrite(_pin[2], LOW);
+//	    digitalWrite(_pin[3], HIGH);
 	    break;
 
 	case 3:    //1001
-	    digitalWrite(_pin1, HIGH);
-	    digitalWrite(_pin2, LOW);
-	    digitalWrite(_pin3, LOW);
-	    digitalWrite(_pin4, HIGH);
+	    setOutputPins(0b1001);
+//	    digitalWrite(_pin[0], HIGH);
+//	    digitalWrite(_pin[1], LOW);
+//	    digitalWrite(_pin[2], LOW);
+//	    digitalWrite(_pin[3], HIGH);
 	    break;
     }
 }
@@ -346,59 +368,67 @@ void AccelStepper::step8(uint8_t step)
     switch (step & 0x7)
     {
 	case 0:    // 1000
-            digitalWrite(_pin1, HIGH);
-            digitalWrite(_pin2, LOW);
-            digitalWrite(_pin3, LOW);
-            digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0001);
+//            digitalWrite(_pin[0], HIGH);
+//            digitalWrite(_pin[1], LOW);
+//            digitalWrite(_pin[2], LOW);
+//            digitalWrite(_pin[3], LOW);
             break;
 	    
         case 1:    // 1010
-            digitalWrite(_pin1, HIGH);
-            digitalWrite(_pin2, LOW);
-            digitalWrite(_pin3, HIGH);
-            digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0101);
+//            digitalWrite(_pin[0], HIGH);
+//            digitalWrite(_pin[1], LOW);
+//            digitalWrite(_pin[2], HIGH);
+//            digitalWrite(_pin[3], LOW);
             break;
 	    
 	case 2:    // 0010
-            digitalWrite(_pin1, LOW);
-            digitalWrite(_pin2, LOW);
-            digitalWrite(_pin3, HIGH);
-            digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0100);
+//            digitalWrite(_pin[0], LOW);
+//            digitalWrite(_pin[1], LOW);
+//            digitalWrite(_pin[2], HIGH);
+//            digitalWrite(_pin[3], LOW);
             break;
 	    
         case 3:    // 0110
-            digitalWrite(_pin1, LOW);
-            digitalWrite(_pin2, HIGH);
-            digitalWrite(_pin3, HIGH);
-            digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0110);
+//            digitalWrite(_pin[0], LOW);
+//            digitalWrite(_pin[1], HIGH);
+//            digitalWrite(_pin[2], HIGH);
+//            digitalWrite(_pin[3], LOW);
             break;
 	    
 	case 4:    // 0100
-            digitalWrite(_pin1, LOW);
-            digitalWrite(_pin2, HIGH);
-            digitalWrite(_pin3, LOW);
-            digitalWrite(_pin4, LOW);
+	    setOutputPins(0b0010);
+//            digitalWrite(_pin[0], LOW);
+//            digitalWrite(_pin[1], HIGH);
+//            digitalWrite(_pin[2], LOW);
+//            digitalWrite(_pin[3], LOW);
             break;
 	    
         case 5:    //0101
-            digitalWrite(_pin1, LOW);
-            digitalWrite(_pin2, HIGH);
-            digitalWrite(_pin3, LOW);
-            digitalWrite(_pin4, HIGH);
+	    setOutputPins(0b1010);
+//            digitalWrite(_pin[0], LOW);
+//            digitalWrite(_pin[1], HIGH);
+//            digitalWrite(_pin[2], LOW);
+//            digitalWrite(_pin[3], HIGH);
             break;
 	    
 	case 6:    // 0001
-            digitalWrite(_pin1, LOW);
-            digitalWrite(_pin2, LOW);
-            digitalWrite(_pin3, LOW);
-            digitalWrite(_pin4, HIGH);
+	    setOutputPins(0b1000);
+//            digitalWrite(_pin[0], LOW);
+//            digitalWrite(_pin[1], LOW);
+//            digitalWrite(_pin[2], LOW);
+//            digitalWrite(_pin[3], HIGH);
             break;
 	    
         case 7:    //1001
-            digitalWrite(_pin1, HIGH);
-            digitalWrite(_pin2, LOW);
-            digitalWrite(_pin3, LOW);
-            digitalWrite(_pin4, HIGH);
+	    setOutputPins(0b1001);
+//            digitalWrite(_pin[0], HIGH);
+//            digitalWrite(_pin[1], LOW);
+//            digitalWrite(_pin[2], LOW);
+//            digitalWrite(_pin[3], HIGH);
             break;
     }
 }
@@ -406,49 +436,30 @@ void AccelStepper::step8(uint8_t step)
 // Prevents power consumption on the outputs
 void    AccelStepper::disableOutputs()
 {   
-    if (! _pins) return;
+    if (! _interface) return;
 
-    if (_pins == 1)
-    {
-        // Invert only applies for stepper drivers.
-        digitalWrite(_pin1, LOW ^ _stepInverted);
-        digitalWrite(_pin2, LOW ^ _dirInverted);
-    }
-    else
-    {
-        digitalWrite(_pin1, LOW);
-        digitalWrite(_pin2, LOW);
-    }
-    
-	if (_pins == 4 || _pins == 8)
-    {
-        digitalWrite(_pin3, LOW);
-        digitalWrite(_pin4, LOW);
-    }
-
+    setOutputPins(0); // Handles inversion automatically
     if (_enablePin != 0xff)
-    {
         digitalWrite(_enablePin, LOW ^ _enableInverted);
-    }
 }
 
 void    AccelStepper::enableOutputs()
 {
-    if (! _pins) 
+    if (! _interface) 
 	return;
 
-    pinMode(_pin1, OUTPUT);
-    pinMode(_pin2, OUTPUT);
-    if (_pins == 4 || _pins == 8)
+    pinMode(_pin[0], OUTPUT);
+    pinMode(_pin[1], OUTPUT);
+    if (_interface == FULL4WIRE || _interface == HALF4WIRE)
     {
-        pinMode(_pin3, OUTPUT);
-        pinMode(_pin4, OUTPUT);
+        pinMode(_pin[2], OUTPUT);
+        pinMode(_pin[3], OUTPUT);
     }
 
-	if (_enablePin != 0xff)
+    if (_enablePin != 0xff)
     {
-        pinMode(_enablePin, OUTPUT);
         digitalWrite(_enablePin, HIGH ^ _enableInverted);
+        pinMode(_enablePin, OUTPUT);
     }
 }
 
@@ -464,15 +475,15 @@ void AccelStepper::setEnablePin(uint8_t enablePin)
     // This happens after construction, so init pin now.
     if (_enablePin != 0xff)
     {
-        pinMode(_enablePin, OUTPUT);
         digitalWrite(_enablePin, HIGH ^ _enableInverted);
+        pinMode(_enablePin, OUTPUT);
     }
 }
 
 void AccelStepper::setPinsInverted(bool direction, bool step, bool enable)
 {
-    _dirInverted    = direction;
-    _stepInverted   = step;
+    _pinInverted[0] = step;
+    _pinInverted[1] = direction;
     _enableInverted = enable;
 }
 

@@ -52,6 +52,7 @@
 </div>
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
@@ -66,9 +67,21 @@
 
 <p><a href="classAccelStepper-members.html">List of all members.</a></p>
 <table class="memberdecls">
+<tr><td colspan="2"><h2><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5">MotorInterfaceType</a> { <br/>
+&#160;&#160;<a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5af5bb99ad9d67ad2d85f840e3abcfe068">FUNCTION</a> =  0, 
+<a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5ac3523e4cf6763ba518d16fec3708ef23">DRIVER</a> =  1, 
+<a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5a62a305b52f749ff8c89138273fbb012d">FULL2WIRE</a> =  2, 
+<a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a> =  4, 
+<br/>
+&#160;&#160;<a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a> =  8
+<br/>
+ }</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Symbolic names for number of pins. Use this in the pins argument the <a class="el" href="classAccelStepper.html" title="Support for stepper motors with acceleration etc.">AccelStepper</a> constructor to provide a symbolic name for the number of pins to use.  <a href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#aa1290897df35915069e5eca9d034038c">AccelStepper</a> (uint8_t pins=4, uint8_t pin1=2, uint8_t pin2=3, uint8_t pin3=4, uint8_t pin4=5)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a5a3bf1da77cdd3d5b2bee56bf54703f9">AccelStepper</a> (uint8_t interface=FULL4WIRE, uint8_t pin1=2, uint8_t pin2=3, uint8_t pin3=4, uint8_t pin4=5)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#afa3061ce813303a8f2fa206ee8d012bd">AccelStepper</a> (void(*forward)(), void(*backward)())</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#ace236ede35f87c63d18da25810ec9736">moveTo</a> (long absolute)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a68942c66e78fb7f7b5f0cdade6eb7f06">move</a> (long relative)</td></tr>
@@ -93,6 +106,7 @@ Public Member Functions</h2></td></tr>
 <tr><td colspan="2"><h2><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed</a> ()</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins</a> (uint8_t mask)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step</a> (uint8_t step)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a889f109756aa4c0a2feefebd8081a337">step0</a> (void)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1</a> (uint8_t step)</td></tr>
@@ -103,50 +117,6 @@ Protected Member Functions</h2></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Support for stepper motors with acceleration etc. </p>
-<p>Tested on Arduino Diecimila and Mega with arduino-0018 &amp; arduino-0021 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15, cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.</p>
-<dl class="user"><dt><b>Installation</b></dt><dd>Install in the usual way: unzip the distribution zip file to the libraries sub-folder of your sketchbook.</dd></dl>
-<p>This software is Copyright (C) 2010 Mike McCauley. Use is subject to license conditions. The main licensing options available are GPL V2 or Commercial:</p>
-<dl class="user"><dt><b>Open Source Licensing GPL V2</b></dt><dd>This is the appropriate option if you want to share the source code of your application with everyone you distribute it to, and you also want to give them the right to share who uses it. If you wish to use this software under Open Source Licensing, you must contribute all your source code to the open source community in accordance with the GPL Version 2 when your application is distributed. See <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a></dd></dl>
-<dl class="user"><dt><b>Commercial Licensing</b></dt><dd>This is the appropriate option if you are creating proprietary applications and you are not prepared to distribute and share the source code of your application. Contact <a href="mailto:info@open.com.au">info@open.com.au</a> for details.</dd></dl>
-<dl class="user"><dt><b>Revision History</b></dt><dd></dd></dl>
-<dl class="version"><dt><b>Version:</b></dt><dd>1.0 Initial release</dd>
-<dd>
-1.1 Added <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed()</a> function to get the current speed. </dd>
-<dd>
-1.2 Added <a class="el" href="classAccelStepper.html#a9270d20336e76ac1fd5bcd5b9c34f301">runSpeedToPosition()</a> submitted by Gunnar Arndt. </dd>
-<dd>
-1.3 Added support for stepper drivers (ie with Step and Direction inputs) with _pins == 1 </dd>
-<dd>
-1.4 Added functional contructor to support AFMotor, contributed by Limor, with example sketches. </dd>
-<dd>
-1.5 Improvements contributed by Peter Mousley: Use of microsecond steps and other speed improvements to increase max stepping speed to about 4kHz. New option for user to set the min allowed pulse width. Added checks for already running at max speed and skip further calcs if so. </dd>
-<dd>
-1.6 Fixed a problem with wrapping of microsecond stepping that could cause stepping to hang. Reported by Sandy Noble. Removed redundant _lastRunTime member. </dd>
-<dd>
-1.7 Fixed a bug where <a class="el" href="classAccelStepper.html#a9d917f014317fb9d3b5dc14e66f6c689">setCurrentPosition()</a> did always work as expected. Reported by Peter Linhart. Reported by Sandy Noble. Removed redundant _lastRunTime member. </dd>
-<dd>
-1.8 Added support for 4 pin half-steppers, requested by Harvey Moon </dd>
-<dd>
-1.9 <a class="el" href="classAccelStepper.html#a9d917f014317fb9d3b5dc14e66f6c689">setCurrentPosition()</a> now also sets motor speed to 0. </dd>
-<dd>
-1.10 Builds on Arduino 1.0 </dd>
-<dd>
-1.11 Improvments from Michael Ellison: Added optional enable line support for stepper drivers Added inversion for step/direction/enable lines for stepper drivers </dd>
-<dd>
-1.12 Announce Google Group </dd>
-<dd>
-1.13 Improvements to speed calculation. Cost of calculation is now less in the worst case, and more or less constant in all cases. This should result in slightly beter high speed performance, and reduce anomalous speed glitches when other steppers are accelerating. However, its hard to see how to replace the sqrt() required at the very first step from 0 speed. </dd>
-<dd>
-1.14 Fixed a problem with compiling under arduino 0021 reported by EmbeddedMan </dd>
-<dd>
-1.15 Fixed a problem with runSpeedToPosition which did not correctly handle running backwards to a smaller target position. Added examples </dd>
-<dd>
-1.16 Fixed some cases in the code where abs() was used instead of fabs(). </dd>
-<dd>
-1.17 Added example ProportionalControl </dd>
-<dd>
-1.18 Fixed a problem: If one calls the funcion <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a> when Speed is zero, it makes steps without counting. reported by Friedrich, Klappenbach.</dd></dl>
-<dl class="author"><dt><b>Author:</b></dt><dd>Mike McCauley (<a href="mailto:mikem@open.com.au">mikem@open.com.au</a>)</dd></dl>
 <p>This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional acceleration, deceleration, absolute positioning commands etc. Multiple simultaneous steppers are supported, all moving at different speeds and accelerations.</p>
 <dl class="user"><dt><b>Operation</b></dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>
 <dl class="user"><dt><b>Positioning</b></dt><dd>Positions are specified by a signed long integer. At construction time, the current position of the motor is consider to be 0. Positive positions are clockwise from the initial position; negative positions are anticlockwise. The curent position can be altered for instance after initialization positioning.</dd></dl>
@@ -155,8 +125,43 @@ Protected Member Functions</h2></td></tr>
 <dl><dt><b>Examples: </b></dt><dd>
 <p><a class="el" href="AFMotor_ConstantSpeed_8pde-example.html#_a0">AFMotor_ConstantSpeed.pde</a>, <a class="el" href="AFMotor_MultiStepper_8pde-example.html#_a0">AFMotor_MultiStepper.pde</a>, <a class="el" href="Blocking_8pde-example.html#_a0">Blocking.pde</a>, <a class="el" href="ConstantSpeed_8pde-example.html#_a0">ConstantSpeed.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#_a0">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#_a0">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#_a0">ProportionalControl.pde</a>, and <a class="el" href="Random_8pde-example.html#_a0">Random.pde</a>.</p>
 </dd>
-</dl></div><hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa1290897df35915069e5eca9d034038c"></a><!-- doxytag: member="AccelStepper::AccelStepper" ref="aa1290897df35915069e5eca9d034038c" args="(uint8_t pins=4, uint8_t pin1=2, uint8_t pin2=3, uint8_t pin3=4, uint8_t pin4=5)" -->
+</dl></div><hr/><h2>Member Enumeration Documentation</h2>
+<a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5"></a><!-- doxytag: member="AccelStepper::MotorInterfaceType" ref="a73bdecf1273d98d8c5fbcb764cabeea5" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5">AccelStepper::MotorInterfaceType</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Symbolic names for number of pins. Use this in the pins argument the <a class="el" href="classAccelStepper.html" title="Support for stepper motors with acceleration etc.">AccelStepper</a> constructor to provide a symbolic name for the number of pins to use. </p>
+<dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em><a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5af5bb99ad9d67ad2d85f840e3abcfe068"></a><!-- doxytag: member="FUNCTION" ref="a73bdecf1273d98d8c5fbcb764cabeea5af5bb99ad9d67ad2d85f840e3abcfe068" args="" -->FUNCTION</em>&nbsp;</td><td>
+<p>Use the functional interface, implementing your own driver functions (internal use only) </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5ac3523e4cf6763ba518d16fec3708ef23"></a><!-- doxytag: member="DRIVER" ref="a73bdecf1273d98d8c5fbcb764cabeea5ac3523e4cf6763ba518d16fec3708ef23" args="" -->DRIVER</em>&nbsp;</td><td>
+<p>Stepper Driver, 2 driver pins required. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5a62a305b52f749ff8c89138273fbb012d"></a><!-- doxytag: member="FULL2WIRE" ref="a73bdecf1273d98d8c5fbcb764cabeea5a62a305b52f749ff8c89138273fbb012d" args="" -->FULL2WIRE</em>&nbsp;</td><td>
+<p>2 wire stepper, 2 motor pins required </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f"></a><!-- doxytag: member="FULL4WIRE" ref="a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f" args="" -->FULL4WIRE</em>&nbsp;</td><td>
+<p>4 wire full stepper, 4 motor pins required </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07"></a><!-- doxytag: member="HALF4WIRE" ref="a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07" args="" -->HALF4WIRE</em>&nbsp;</td><td>
+<p>4 wire half stepper, 4 motor pins required </p>
+</td></tr>
+</table>
+</dd>
+</dl>
+
+</div>
+</div>
+<hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a5a3bf1da77cdd3d5b2bee56bf54703f9"></a><!-- doxytag: member="AccelStepper::AccelStepper" ref="a5a3bf1da77cdd3d5b2bee56bf54703f9" args="(uint8_t interface=FULL4WIRE, uint8_t pin1=2, uint8_t pin2=3, uint8_t pin3=4, uint8_t pin4=5)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -164,7 +169,7 @@ Protected Member Functions</h2></td></tr>
           <td class="memname">AccelStepper::AccelStepper </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>pins</em> = <code>4</code>, </td>
+          <td class="paramname"><em>interface</em> = <code>FULL4WIRE</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -201,9 +206,9 @@ Protected Member Functions</h2></td></tr>
 <p>Constructor. You can have multiple simultaneous steppers, all moving at different speeds and accelerations, provided you call their <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> functions at frequent enough intervals. Current Position is set to 0, target position is set to 0. MaxSpeed and Acceleration default to 1.0. The motor pins will be initialised to OUTPUT mode during the constructor by a call to <a class="el" href="classAccelStepper.html#aa279a50d30d0413f570c692cff071643">enableOutputs()</a>. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">pins</td><td>Number of pins to interface to. 1, 2 or 4 are supported. 1 means a stepper driver (with Step and Direction pins). If an enable line is also needed, call <a class="el" href="classAccelStepper.html#a56a81c5f00d02ca19646718e88e974c0">setEnablePin()</a> after construction. You may also invert the pins using <a class="el" href="classAccelStepper.html#a797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted()</a>. 2 means a 2 wire stepper. 4 means a 4 wire stepper. 8 means a 4 wire half stepper Defaults to 4 pins. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pin1</td><td>Arduino digital pin number for motor pin 1. Defaults to pin 2. For a driver (pins==1), this is the Step input to the driver. Low to high transition means to step) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">pin2</td><td>Arduino digital pin number for motor pin 2. Defaults to pin 3. For a driver (pins==1), this is the Direction input the driver. High means forward. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">interface</td><td>Number of pins to interface to. 1, 2, 4 or 8 are supported, but it is preferred to use the <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5">MotorInterfaceType</a> symbolic names. DRIVER (1) means a stepper driver (with Step and Direction pins). If an enable line is also needed, call <a class="el" href="classAccelStepper.html#a56a81c5f00d02ca19646718e88e974c0">setEnablePin()</a> after construction. You may also invert the pins using <a class="el" href="classAccelStepper.html#a797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted()</a>. FULL2WIRE (2) means a 2 wire stepper (2 pins required). FULL4WIRE (4) means a 4 wire stepper (4 pins required). HALF4WIRE (8) means a 4 wire half stepper (4 pins required) Defaults to FULL4WIRE (4) pins. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin1</td><td>Arduino digital pin number for motor pin 1. Defaults to pin 2. For a DRIVER (pins==1), this is the Step input to the driver. Low to high transition means to step) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pin2</td><td>Arduino digital pin number for motor pin 2. Defaults to pin 3. For a DRIVER (pins==1), this is the Direction input the driver. High means forward. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pin3</td><td>Arduino digital pin number for motor pin 3. Defaults to pin 4. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">pin4</td><td>Arduino digital pin number for motor pin 4. Defaults to pin 5. </td></tr>
   </table>
@@ -332,6 +337,8 @@ Protected Member Functions</h2></td></tr>
 <div class="memdoc">
 <p>Disable motor pin outputs by setting them all LOW Depending on the design of your electronics this may turn off the power to the motor coils, saving power. This is useful to support Arduino low power modes: disable the outputs during sleep and then reenable with <a class="el" href="classAccelStepper.html#aa279a50d30d0413f570c692cff071643">enableOutputs()</a> before stepping again. </p>
 
+<p>References <a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins()</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a748665c3962e66fbc0e9373eb14c69c1"></a><!-- doxytag: member="AccelStepper::distanceToGo" ref="a748665c3962e66fbc0e9373eb14c69c1" args="()" -->
@@ -370,7 +377,9 @@ Protected Member Functions</h2></td></tr>
 <div class="memdoc">
 <p>Enable motor pin outputs by setting the motor pins to OUTPUT mode. Called automatically by the constructor. </p>
 
-<p>Referenced by <a class="el" href="classAccelStepper.html#aa1290897df35915069e5eca9d034038c">AccelStepper()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a>, and <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a>.</p>
+
+<p>Referenced by <a class="el" href="classAccelStepper.html#a5a3bf1da77cdd3d5b2bee56bf54703f9">AccelStepper()</a>.</p>
 
 </div>
 </div>
@@ -674,6 +683,28 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af3c2516b6ce7c1ecbc2004107bb2a9ce"></a><!-- doxytag: member="AccelStepper::setOutputPins" ref="af3c2516b6ce7c1ecbc2004107bb2a9ce" args="(uint8_t mask)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void AccelStepper::setOutputPins </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mask</em></td><td>)</td>
+          <td><code> [protected, virtual]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>Low level function to set the motor output pins bit 0 of the mask corresponds to _pin[0] bit 1 of the mask corresponds to _pin[1] You can override this to impment, for example serial chip output insted of using the output pins directly </p>
+
+<p>References <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a>, and <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a>.</p>
+
+<p>Referenced by <a class="el" href="classAccelStepper.html#a3591e29a236e2935afd7f64ff6c22006">disableOutputs()</a>, <a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1()</a>, <a class="el" href="classAccelStepper.html#a88f11bf6361fe002585f731d34fe2e8b">step2()</a>, <a class="el" href="classAccelStepper.html#a49e448d179bbe4e0f8003a3f9993789d">step4()</a>, and <a class="el" href="classAccelStepper.html#a5b33d1088e2beaf2176c42b08fb675ea">step8()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a797b4bdb580d4ca7a1cfeabe3df0de35"></a><!-- doxytag: member="AccelStepper::setPinsInverted" ref="a797b4bdb580d4ca7a1cfeabe3df0de35" args="(bool direction, bool step, bool enable=false)" -->
 <div class="memitem">
 <div class="memproto">
@@ -789,7 +820,7 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>References <a class="el" href="classAccelStepper.html#a889f109756aa4c0a2feefebd8081a337">step0()</a>, <a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1()</a>, <a class="el" href="classAccelStepper.html#a88f11bf6361fe002585f731d34fe2e8b">step2()</a>, <a class="el" href="classAccelStepper.html#a49e448d179bbe4e0f8003a3f9993789d">step4()</a>, and <a class="el" href="classAccelStepper.html#a5b33d1088e2beaf2176c42b08fb675ea">step8()</a>.</p>
+<p>References <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5ac3523e4cf6763ba518d16fec3708ef23">DRIVER</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5a62a305b52f749ff8c89138273fbb012d">FULL2WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5af5bb99ad9d67ad2d85f840e3abcfe068">FUNCTION</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a>, <a class="el" href="classAccelStepper.html#a889f109756aa4c0a2feefebd8081a337">step0()</a>, <a class="el" href="classAccelStepper.html#acc64254ea242b53588e948335fd9305f">step1()</a>, <a class="el" href="classAccelStepper.html#a88f11bf6361fe002585f731d34fe2e8b">step2()</a>, <a class="el" href="classAccelStepper.html#a49e448d179bbe4e0f8003a3f9993789d">step4()</a>, and <a class="el" href="classAccelStepper.html#a5b33d1088e2beaf2176c42b08fb675ea">step8()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>, and <a class="el" href="classAccelStepper.html#a797b4bdb580d4ca7a1cfeabe3df0de35">setPinsInverted()</a>.</p>
 
@@ -829,13 +860,15 @@ Protected Member Functions</h2></td></tr>
       </table>
 </div>
 <div class="memdoc">
-<p>Called to execute a step on a stepper drover (ie where pins == 1). Only called when a new step is required. Subclasses may override to implement new stepping interfaces. The default sets or clears the outputs of Step pin1 to step, and sets the output of _pin2 to the desired direction. The Step pin (_pin1) is pulsed for 1 microsecond which is the minimum STEP pulse width for the 3967 driver. </p>
+<p>Called to execute a step on a stepper driver (ie where pins == 1). Only called when a new step is required. Subclasses may override to implement new stepping interfaces. The default sets or clears the outputs of Step pin1 to step, and sets the output of _pin2 to the desired direction. The Step pin (_pin1) is pulsed for 1 microsecond which is the minimum STEP pulse width for the 3967 driver. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">step</td><td>The current step phase number (0 to 7) </td></tr>
   </table>
   </dd>
 </dl>
+
+<p>References <a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
 
@@ -863,6 +896,8 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>References <a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins()</a>.</p>
+
 <p>Referenced by <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
 
 </div>
@@ -889,6 +924,8 @@ Protected Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>References <a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins()</a>.</p>
+
 <p>Referenced by <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
 
 </div>
@@ -914,6 +951,8 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>References <a class="el" href="classAccelStepper.html#af3c2516b6ce7c1ecbc2004107bb2a9ce">setOutputPins()</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a3c9a220819d2451f79ff8a0c0a395b9f">step()</a>.</p>
 

@@ -26,13 +26,13 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.18.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.19.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
-/// You can also find online help and disussion at http://groups.google.com/group/accelstepper
+/// You can also find online help and discussion at http://groups.google.com/group/accelstepper
 /// Please use that group for all questions and discussions on this topic. 
 /// Do not contact the author directly, unless it is to discuss commercial licensing.
-//
+///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
 /// on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
 /// cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.
@@ -70,9 +70,8 @@
 /// \version 1.6 Fixed a problem with wrapping of microsecond stepping that could cause stepping to hang. 
 ///              Reported by Sandy Noble.
 ///              Removed redundant _lastRunTime member.
-/// \version 1.7 Fixed a bug where setCurrentPosition() did always work as expected. Reported by Peter Linhart.
-///              Reported by Sandy Noble.
-///              Removed redundant _lastRunTime member.
+/// \version 1.7 Fixed a bug where setCurrentPosition() did not always work as expected. 
+///              Reported by Peter Linhart.
 /// \version 1.8 Added support for 4 pin half-steppers, requested by Harvey Moon
 /// \version 1.9 setCurrentPosition() now also sets motor speed to 0.
 /// \version 1.10 Builds on Arduino 1.0
@@ -91,10 +90,18 @@
 /// \version 1.17 Added example ProportionalControl
 /// \version 1.18 Fixed a problem: If one calls the funcion runSpeed() when Speed is zero, it makes steps 
 ///    without counting. reported by  Friedrich, Klappenbach.
+/// \version 1.19 Added MotorInterfaceType and symbolic names for the number of pins to use
+///               for the motor interface. Updated examples to suit.
+///               Replaced individual pin assignment variables _pin1, _pin2 etc with array _pin[4].
+///               _pins member changed to _interface.
+///               Added _pinInverted array to simplify pin inversion operations.
+///               Added new function setOutputPins() which sets the motor output pins.
+///               It can be overridden in order to provide, say, serial output instead of parallel output
+///               Some refactoring and code size reduction.
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
-// Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.h,v 1.6 2012/01/28 22:45:28 mikem Exp mikem $
+// Copyright (C) 2009-2012 Mike McCauley
+// $Id: AccelStepper.h,v 1.9 2012/08/24 01:48:07 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -149,27 +156,43 @@
 class AccelStepper
 {
 public:
+    /// \brief Symbolic names for number of pins.
+    /// Use this in the pins argument the AccelStepper constructor to 
+    /// provide a symbolic name for the number of pins
+    /// to use.
+    typedef enum
+    {
+	FUNCTION  = 0, ///< Use the functional interface, implementing your own driver functions (internal use only)
+	DRIVER    = 1, ///< Stepper Driver, 2 driver pins required
+	FULL2WIRE = 2, ///< 2 wire stepper, 2 motor pins required
+        FULL4WIRE = 4, ///< 4 wire full stepper, 4 motor pins required
+	HALF4WIRE = 8  ///< 4 wire half stepper, 4 motor pins required
+    } MotorInterfaceType;
+
     /// Constructor. You can have multiple simultaneous steppers, all moving
     /// at different speeds and accelerations, provided you call their run()
     /// functions at frequent enough intervals. Current Position is set to 0, target
     /// position is set to 0. MaxSpeed and Acceleration default to 1.0.
     /// The motor pins will be initialised to OUTPUT mode during the
     /// constructor by a call to enableOutputs().
-    /// \param[in] pins Number of pins to interface to. 1, 2 or 4 are
-    /// supported. 1 means a stepper driver (with Step and Direction pins).
+    /// \param[in] interface Number of pins to interface to. 1, 2, 4 or 8 are
+    /// supported, but it is preferred to use the \ref MotorInterfaceType symbolic names. 
+    /// DRIVER (1) means a stepper driver (with Step and Direction pins).
     /// If an enable line is also needed, call setEnablePin() after construction.
     /// You may also invert the pins using setPinsInverted().
-    /// 2 means a 2 wire stepper. 4 means a 4 wire stepper. 8 means a 4 wire half stepper
-    /// Defaults to 4 pins.
+    /// FULL2WIRE (2) means a 2 wire stepper (2 pins required). 
+    /// FULL4WIRE (4) means a 4 wire stepper (4 pins required). 
+    /// HALF4WIRE (8) means a 4 wire half stepper (4 pins required)
+    /// Defaults to FULL4WIRE (4) pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
-    /// to pin 2. For a driver (pins==1), this is the Step input to the driver. Low to high transition means to step)
+    /// to pin 2. For a DRIVER (pins==1), this is the Step input to the driver. Low to high transition means to step)
     /// \param[in] pin2 Arduino digital pin number for motor pin 2. Defaults
-    /// to pin 3. For a driver (pins==1), this is the Direction input the driver. High means forward.
+    /// to pin 3. For a DRIVER (pins==1), this is the Direction input the driver. High means forward.
     /// \param[in] pin3 Arduino digital pin number for motor pin 3. Defaults
     /// to pin 4.
     /// \param[in] pin4 Arduino digital pin number for motor pin 4. Defaults
     /// to pin 5.
-    AccelStepper(uint8_t pins = 4, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5);
+    AccelStepper(uint8_t interface = FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5);
 
     /// Alternate Constructor which will call your own functions for forward and backward steps. 
     /// You can have multiple simultaneous steppers, all moving
@@ -314,6 +337,13 @@ protected:
     /// move() or moveTo()
     void           computeNewSpeed();
 
+    /// Low level function to set the motor output pins
+    /// bit 0 of the mask corresponds to _pin[0]
+    /// bit 1 of the mask corresponds to _pin[1]
+    /// You can override this to impment, for example serial chip output insted of using the
+    /// output pins directly
+    virtual void   setOutputPins(uint8_t mask);
+
     /// Called to execute a step. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default calls step1(), step2(), step4() or step8() depending on the
@@ -325,7 +355,7 @@ protected:
     /// required. Calls _forward() or _backward() to perform the step
     virtual void   step0(void);
 
-    /// Called to execute a step on a stepper drover (ie where pins == 1). Only called when a new step is
+    /// Called to execute a step on a stepper driver (ie where pins == 1). Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of Step pin1 to step, 
     /// and sets the output of _pin2 to the desired direction. The Step pin (_pin1) is pulsed for 1 microsecond
@@ -364,11 +394,14 @@ protected:
 private:
     /// Number of pins on the stepper motor. Permits 2 or 4. 2 pins is a
     /// bipolar, and 4 pins is a unipolar.
-    uint8_t        _pins;          // 2 or 4
+    uint8_t        _interface;          // 0, 1, 2, 4, 8, See MotorInterfaceType
 
-    /// Arduino pin number for the 2 or 4 pins required to interface to the
-    /// stepper motor.
-    uint8_t        _pin1, _pin2, _pin3, _pin4;
+    /// Arduino pin number assignments for the 2 or 4 pins required to interface to the
+    /// stepper motor or driver
+    uint8_t        _pin[4];
+
+    /// Whether the _pins is inverted or not
+    uint8_t        _pinInverted[4];
 
     /// The current absolution position in steps.
     long           _currentPos;    // Steps
@@ -399,10 +432,10 @@ private:
     unsigned int   _minPulseWidth;
 
     /// Is the direction pin inverted?
-    bool           _dirInverted;
+    ///bool           _dirInverted; /// Moved to _pinInverted[1]
 
     /// Is the step pin inverted?
-    bool           _stepInverted;
+    ///bool           _stepInverted; /// Moved to _pinInverted[0]
 
     /// Is the enable pin inverted?
     bool           _enableInverted;

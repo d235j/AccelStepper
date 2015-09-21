@@ -9,7 +9,7 @@
 
 #include <AccelStepper.h>
 
-AccelStepper stepper; // Defaults to 4 pins on 2, 3, 4, 5
+AccelStepper stepper; // Defaults to FULL4WIRE (4 pins) on 2, 3, 4, 5
 
 void setup()
 {  

@@ -11,9 +11,9 @@
 #include <AccelStepper.h>
 
 // Define some steppers and the pins the will use
-AccelStepper stepper1; // Defaults to 4 pins on 2, 3, 4, 5
-AccelStepper stepper2(4, 6, 7, 8, 9);
-AccelStepper stepper3(2, 10, 11);
+AccelStepper stepper1; // Defaults to FULL4WIRE (4 pins) on 2, 3, 4, 5
+AccelStepper stepper2(FULL4WIRE, 6, 7, 8, 9);
+AccelStepper stepper3(FULL2WIRE, 10, 11);
 
 void setup()
 {  
