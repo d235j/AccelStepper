@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.41.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.42.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -180,6 +180,8 @@
 /// \version 1.39  Updated typos in keywords.txt, courtesey Jon Magill.
 /// \version 1.40  Updated documentation, including testing on Teensy 3.1
 /// \version 1.41  Fixed an error in the acceleration calculations, resulting in acceleration of haldf the intended value
+/// \version 1.41  Improved support for FULL3WIRE and HALF3WIRE ouput pins. These changes were in Yuri's original
+///                contribution but did not make it into production.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
@@ -391,7 +393,7 @@ public:
     void    runToNewPosition(long position);
 
     /// Sets a new target position that causes the stepper
-    /// to stop as quickly as possible, using to the current speed and acceleration parameters.
+    /// to stop as quickly as possible, using the current speed and acceleration parameters.
     void stop();
 
     /// Disable motor pin outputs by setting them all LOW

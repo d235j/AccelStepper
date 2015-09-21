@@ -277,7 +277,7 @@ void AccelStepper::setAcceleration(float acceleration)
 	// Recompute _n per Equation 17
 	_n = _n * (_acceleration / acceleration);
 	// New c0 per Equation 7
-//	_c0 = sqrt(2.0 / acceleration) * 1000000.0; // Accelerates too sloly. Why?
+//	_c0 = sqrt(2.0 / acceleration) * 1000000.0; // Accelerates at half the expected rate. Why?
 	_c0 = sqrt(1.0/acceleration) * 1000000.0;
 	_acceleration = acceleration;
 	computeNewSpeed();
@@ -348,6 +348,8 @@ void AccelStepper::setOutputPins(uint8_t mask)
     uint8_t numpins = 2;
     if (_interface == FULL4WIRE || _interface == HALF4WIRE)
 	numpins = 4;
+    else if (_interface == FULL3WIRE || _interface == HALF3WIRE)
+	numpins = 3;
     uint8_t i;
     for (i = 0; i < numpins; i++)
 	digitalWrite(_pin[i], (mask & (1 << i)) ? (HIGH ^ _pinInverted[i]) : (LOW ^ _pinInverted[i]));
@@ -545,6 +547,10 @@ void    AccelStepper::enableOutputs()
     {
         pinMode(_pin[2], OUTPUT);
         pinMode(_pin[3], OUTPUT);
+    }
+    else if (_interface == FULL3WIRE || _interface == HALF3WIRE)
+    {
+        pinMode(_pin[2], OUTPUT);
     }
 
     if (_enablePin != 0xff)
