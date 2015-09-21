@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.12 2012/10/27 21:27:03 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.13 2012/11/28 09:28:24 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -100,6 +100,8 @@ void AccelStepper::computeNewSpeed()
 {
     long distanceTo = distanceToGo(); // +ve is clockwise from curent location
 
+    long stepsToStop = (long)((_speed * _speed) / (2.0 * _acceleration)) + 1; // Equation 16 (+integer rounding)
+
     if (distanceTo == 0 && _n == 0)
     {
 	// We are at the target and not moving. Stop here
@@ -108,7 +110,6 @@ void AccelStepper::computeNewSpeed()
 	return;
     }
 
-    long stepsToStop = (long)((_speed * _speed) / (2.0 * _acceleration)); // Equation 16
 
     if (distanceTo > 0)
     {
@@ -117,13 +118,13 @@ void AccelStepper::computeNewSpeed()
 	if (_n > 0)
 	{
 	    // Currently accelerating, need to decel now? Or maybe going the wrong way?
-	    if (stepsToStop >= distanceTo || _direction == DIRECTION_CCW)
+	    if ((stepsToStop >= distanceTo) || _direction == DIRECTION_CCW)
 		_n = -stepsToStop; // Start deceleration
 	}
 	else if (_n < 0)
 	{
 	    // Currently decelerating, need to accel again?
-	    if (stepsToStop < distanceTo && _direction == DIRECTION_CW)
+	    if ((stepsToStop < distanceTo) && _direction == DIRECTION_CW)
 		_n = -_n; // Start accceleration
 	}
     }
@@ -134,13 +135,13 @@ void AccelStepper::computeNewSpeed()
 	if (_n > 0)
 	{
 	    // Currently accelerating, need to decel now? Or maybe going the wrong way?
-	    if (stepsToStop >= -distanceTo || _direction == DIRECTION_CW)
+	    if ((stepsToStop >= -distanceTo) || _direction == DIRECTION_CW)
 		_n = -stepsToStop; // Start deceleration
 	}
 	else if (_n < 0)
 	{
 	    // Currently decelerating, need to accel again?
-	    if (stepsToStop < -distanceTo && _direction == DIRECTION_CCW)
+	    if ((stepsToStop < -distanceTo) && _direction == DIRECTION_CCW)
 		_n = -_n; // Start accceleration
 	}
     }

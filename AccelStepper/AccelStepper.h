@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.25.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.26.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -124,10 +124,12 @@
 ///               function was removed.
 /// \version 1.24  Fixed a problem introduced in 1.23: with runToPosition, which did never returned
 /// \version 1.25  Now ignore attempts to set acceleration to 0.0
+/// \version 1.26  Fixed a problem where certina combinations of speed and accelration could cause
+///                oscillation about the target position.
 ///
 /// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.13 2012/10/27 21:27:03 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.14 2012/11/28 09:28:24 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h

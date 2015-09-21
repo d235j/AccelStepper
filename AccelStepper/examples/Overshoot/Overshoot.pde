@@ -15,17 +15,14 @@ AccelStepper stepper; // Defaults to AccelStepper::FULL4WIRE (4 pins) on 2, 3, 4
 
 void setup()
 {  
+  stepper.setMaxSpeed(150);
+  stepper.setAcceleration(100);
 }
 
 void loop()
 {    
-    stepper.setMaxSpeed(200);
-    stepper.setAcceleration(50);
-    stepper.runToNewPosition(0);
-
-    stepper.moveTo(500);
-    while (stepper.currentPosition() != 300)
-	stepper.run();
-    // cause an overshoot as we whiz past 300
-    stepper.setCurrentPosition(600);
+  stepper.moveTo(500);
+  while (stepper.currentPosition() != 300) // Full speed up to 300
+    stepper.run();
+  stepper.runToNewPosition(0); // Cause an overshoot then back to 0
 }
