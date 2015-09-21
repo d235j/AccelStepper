@@ -90,6 +90,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa4a6bdf99f698284faaeb5542b0b7514"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abee8d466229b87accba33d6ec929c18f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#abee8d466229b87accba33d6ec929c18f">setMaxSpeed</a> (float <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed</a>)</td></tr>
 <tr class="separator:abee8d466229b87accba33d6ec929c18f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6123a1dfb4495d8bd2646288eae60d7f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#a6123a1dfb4495d8bd2646288eae60d7f">maxSpeed</a> ()</td></tr>
+<tr class="separator:a6123a1dfb4495d8bd2646288eae60d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfb19e3cd2a028a1fe78131787604fd1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#adfb19e3cd2a028a1fe78131787604fd1">setAcceleration</a> (float acceleration)</td></tr>
 <tr class="separator:adfb19e3cd2a028a1fe78131787604fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae79c49ad69d5ccc9da0ee691fa4ca235"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#ae79c49ad69d5ccc9da0ee691fa4ca235">setSpeed</a> (float <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed</a>)</td></tr>
@@ -158,13 +160,12 @@ Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Support for stepper motors with acceleration etc. </p>
-<dl class="section author"><dt>Author</dt><dd>Mike McCauley (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'em'+'@ai'+'rs'+'pay'+'ce'+'.co'+'m'; return false;">mikem<span style="display: none;">.nosp@m.</span>@air<span style="display: none;">.nosp@m.</span>spayc<span style="display: none;">.nosp@m.</span>e.co<span style="display: none;">.nosp@m.</span>m</a>) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS</dd></dl>
 <p>This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional acceleration, deceleration, absolute positioning commands etc. Multiple simultaneous steppers are supported, all moving at different speeds and accelerations.</p>
 <dl class="section user"><dt>Operation</dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor once if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>
 <dl class="section user"><dt>Positioning</dt><dd>Positions are specified by a signed long integer. At construction time, the current position of the motor is consider to be 0. Positive positions are clockwise from the initial position; negative positions are anticlockwise. The current position can be altered for instance after initialization positioning.</dd></dl>
 <dl class="section user"><dt>Caveats</dt><dd>This is an open loop controller: If the motor stalls or is oversped, <a class="el" href="classAccelStepper.html" title="Support for stepper motors with acceleration etc. ">AccelStepper</a> will not have a correct idea of where the motor really is (since there is no feedback of the motor's real position. We only know where we <em>think</em> it is, relative to the initial starting point).</dd></dl>
 <dl class="section user"><dt>Performance</dt><dd>The fastest motor speed that can be reliably supported is about 4000 steps per second at a clock frequency of 16 MHz on Arduino such as Uno etc. Faster processors can support faster stepping speeds. However, any speed less than that down to very slow speeds (much less than one per second) are also supported, provided the <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function is called frequently enough to step the motor whenever required for the speed set. Calling <a class="el" href="classAccelStepper.html#adfb19e3cd2a028a1fe78131787604fd1">setAcceleration()</a> is expensive, since it requires a square root to be calculated. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="AFMotor_ConstantSpeed_8pde-example.html#_a0">AFMotor_ConstantSpeed.pde</a>, <a class="el" href="AFMotor_MultiStepper_8pde-example.html#_a0">AFMotor_MultiStepper.pde</a>, <a class="el" href="Blocking_8pde-example.html#_a0">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#_a0">Bounce.pde</a>, <a class="el" href="ConstantSpeed_8pde-example.html#_a0">ConstantSpeed.pde</a>, <a class="el" href="DualMotorShield_8pde-example.html#_a0">DualMotorShield.pde</a>, <a class="el" href="MotorShield_8pde-example.html#_a0">MotorShield.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#_a0">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#_a0">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#_a0">ProportionalControl.pde</a>, <a class="el" href="Quickstop_8pde-example.html#_a0">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#_a0">Random.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="AFMotor_ConstantSpeed_8pde-example.html#_a0">AFMotor_ConstantSpeed.pde</a>, <a class="el" href="AFMotor_MultiStepper_8pde-example.html#_a0">AFMotor_MultiStepper.pde</a>, <a class="el" href="Blocking_8pde-example.html#_a0">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#_a0">Bounce.pde</a>, <a class="el" href="ConstantSpeed_8pde-example.html#_a0">ConstantSpeed.pde</a>, <a class="el" href="DualMotorShield_8pde-example.html#_a0">DualMotorShield.pde</a>, <a class="el" href="MotorShield_8pde-example.html#_a0">MotorShield.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#_a0">MultipleSteppers.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#_a0">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#_a0">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#_a0">ProportionalControl.pde</a>, <a class="el" href="Quickstop_8pde-example.html#_a0">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#_a0">Random.pde</a>.</dd>
 </dl></div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a7468f91a925c689c3ba250f8d074d228"></a>
 <div class="memitem">
@@ -383,8 +384,10 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The currently motor position. </p>
 <dl class="section return"><dt>Returns</dt><dd>the current motor position in steps. Positive is clockwise from the 0 position. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a5">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a7">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a4">Overshoot.pde</a>, and <a class="el" href="Quickstop_8pde-example.html#a4">Quickstop.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a5">Bounce.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#a7">MultipleSteppers.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a4">Overshoot.pde</a>, and <a class="el" href="Quickstop_8pde-example.html#a4">Quickstop.pde</a>.</dd>
 </dl>
+<p>Referenced by <a class="el" href="classMultiStepper.html#a291fec32a79390b6eb00296cffac49ee">MultiStepper::moveTo()</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a3591e29a236e2935afd7f64ff6c22006"></a>
@@ -427,7 +430,7 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>The distance from the current position to the target position. </p>
 <dl class="section return"><dt>Returns</dt><dd>the distance from the current position to the target position in steps. Positive is clockwise from the current position. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a4">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a6">MultiStepper.pde</a>, and <a class="el" href="Random_8pde-example.html#a1">Random.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a4">Bounce.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#a6">MultipleSteppers.pde</a>, and <a class="el" href="Random_8pde-example.html#a1">Random.pde</a>.</dd>
 </dl>
 <p>Referenced by <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, and <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>.</p>
 
@@ -458,6 +461,25 @@ Protected Member Functions</h2></td></tr>
 <p>References <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5a0b8eea5cf0f8ce70b1959d2977ccc996">FULL3WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5adedd394a375190a3df8d4519c0d4dc2f">FULL4WIRE</a>, <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5a00c2387a5af43d8e97639699ab7a5c7f">HALF3WIRE</a>, and <a class="el" href="classAccelStepper.html#a73bdecf1273d98d8c5fbcb764cabeea5aecc0900c55b777d2e885581b8c434b07">HALF4WIRE</a>.</p>
 
 <p>Referenced by <a class="el" href="classAccelStepper.html#a3bc75bd6571b98a6177838ca81ac39ab">AccelStepper()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6123a1dfb4495d8bd2646288eae60d7f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float AccelStepper::maxSpeed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>returns the maximum speed configured for this stepper that was previously set by <a class="el" href="classAccelStepper.html#abee8d466229b87accba33d6ec929c18f">setMaxSpeed()</a>; </p>
+<dl class="section return"><dt>Returns</dt><dd>The currently configured maximum speed </dd></dl>
+
+<p>Referenced by <a class="el" href="classMultiStepper.html#a291fec32a79390b6eb00296cffac49ee">MultiStepper::moveTo()</a>.</p>
 
 </div>
 </div>
@@ -508,11 +530,11 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a3">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a5">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a3">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#a2">ProportionalControl.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a3">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a2">Random.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a3">Bounce.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#a5">MultipleSteppers.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a3">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#a2">ProportionalControl.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a3">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a2">Random.pde</a>.</dd>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>.</p>
 
-<p>Referenced by <a class="el" href="classAccelStepper.html#a68942c66e78fb7f7b5f0cdade6eb7f06">move()</a>, and <a class="el" href="classAccelStepper.html#a176c5d2e4c2f21e9e92b12e39a6f0e67">runToNewPosition()</a>.</p>
+<p>Referenced by <a class="el" href="classAccelStepper.html#a68942c66e78fb7f7b5f0cdade6eb7f06">move()</a>, <a class="el" href="classMultiStepper.html#a291fec32a79390b6eb00296cffac49ee">MultiStepper::moveTo()</a>, and <a class="el" href="classAccelStepper.html#a176c5d2e4c2f21e9e92b12e39a6f0e67">runToNewPosition()</a>.</p>
 
 </div>
 </div>
@@ -530,7 +552,7 @@ Protected Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Poll the motor and step it if a step is due, implementing accelerations and decelerations to acheive the target position. You must call this as frequently as possible, but at least once per minimum step time interval, preferably in your main loop. Note that each call to <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will make at most one step, and then only when a step is due, based on the current speed and the time since the last step. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the motor is still running to the target position. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a6">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a8">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a5">Overshoot.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a5">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a5">Random.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Bounce_8pde-example.html#a6">Bounce.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#a8">MultipleSteppers.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a5">Overshoot.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a5">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a5">Random.pde</a>.</dd>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, <a class="el" href="classAccelStepper.html#a748665c3962e66fbc0e9373eb14c69c1">distanceToGo()</a>, and <a class="el" href="classAccelStepper.html#aa4a6bdf99f698284faaeb5542b0b7514">runSpeed()</a>.</p>
 
@@ -556,7 +578,7 @@ Protected Member Functions</h2></td></tr>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a>, and <a class="el" href="classAccelStepper.html#a8a419121702399d8ac66df4cc47481f4">step()</a>.</p>
 
-<p>Referenced by <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>, and <a class="el" href="classAccelStepper.html#a9270d20336e76ac1fd5bcd5b9c34f301">runSpeedToPosition()</a>.</p>
+<p>Referenced by <a class="el" href="classMultiStepper.html#a26c2f53b1e7ddf5d5dfb333f6fb7fb92">MultiStepper::run()</a>, <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>, and <a class="el" href="classAccelStepper.html#a9270d20336e76ac1fd5bcd5b9c34f301">runSpeedToPosition()</a>.</p>
 
 </div>
 </div>
@@ -647,7 +669,7 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Blocking_8pde-example.html#a2">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#a2">Bounce.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a4">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a2">Overshoot.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a2">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a4">Random.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Blocking_8pde-example.html#a2">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#a2">Bounce.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#a4">MultipleSteppers.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a2">Overshoot.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a2">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a4">Random.pde</a>.</dd>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>.</p>
 
@@ -722,7 +744,7 @@ Protected Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Blocking_8pde-example.html#a1">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#a1">Bounce.pde</a>, <a class="el" href="ConstantSpeed_8pde-example.html#a1">ConstantSpeed.pde</a>, <a class="el" href="MultiStepper_8pde-example.html#a3">MultiStepper.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a1">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#a1">ProportionalControl.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a1">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a3">Random.pde</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="Blocking_8pde-example.html#a1">Blocking.pde</a>, <a class="el" href="Bounce_8pde-example.html#a1">Bounce.pde</a>, <a class="el" href="ConstantSpeed_8pde-example.html#a1">ConstantSpeed.pde</a>, <a class="el" href="MultipleSteppers_8pde-example.html#a3">MultipleSteppers.pde</a>, <a class="el" href="Overshoot_8pde-example.html#a1">Overshoot.pde</a>, <a class="el" href="ProportionalControl_8pde-example.html#a1">ProportionalControl.pde</a>, <a class="el" href="Quickstop_8pde-example.html#a1">Quickstop.pde</a>, and <a class="el" href="Random_8pde-example.html#a3">Random.pde</a>.</dd>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#affbee789b5c19165846cf0409860ae79">computeNewSpeed()</a>, and <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed()</a>.</p>
 
@@ -900,6 +922,8 @@ Protected Member Functions</h2></td></tr>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="ConstantSpeed_8pde-example.html#a2">ConstantSpeed.pde</a>, and <a class="el" href="ProportionalControl_8pde-example.html#a3">ProportionalControl.pde</a>.</dd>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228a6959a4549f734bd771d418f995ba4fb4">DIRECTION_CCW</a>, <a class="el" href="classAccelStepper.html#a7468f91a925c689c3ba250f8d074d228ad604e0047f7cb47662c5a1cf6999337c">DIRECTION_CW</a>, and <a class="el" href="classAccelStepper.html#a4f0989d0ae264e7eadfe1fa720769fb6">speed()</a>.</p>
+
+<p>Referenced by <a class="el" href="classMultiStepper.html#a291fec32a79390b6eb00296cffac49ee">MultiStepper::moveTo()</a>.</p>
 
 </div>
 </div>

@@ -1,13 +1,15 @@
 AccelStepper/Makefile
 AccelStepper/AccelStepper.h
 AccelStepper/AccelStepper.cpp
+AccelStepper/MultiStepper.h
+AccelStepper/MultiStepper.cpp
 AccelStepper/MANIFEST
 AccelStepper/LICENSE
 AccelStepper/project.cfg
 AccelStepper/keywords.txt
 AccelStepper/doc
 AccelStepper/examples/Blocking/Blocking.pde
-AccelStepper/examples/MultiStepper/MultiStepper.pde
+AccelStepper/examples/MultipleSteppers/MultipleSteppers.pde
 AccelStepper/examples/Overshoot/Overshoot.pde
 AccelStepper/examples/ConstantSpeed/ConstantSpeed.pde
 AccelStepper/examples/Random/Random.pde
@@ -18,6 +20,7 @@ AccelStepper/examples/Bounce/Bounce.pde
 AccelStepper/examples/Quickstop/Quickstop.pde
 AccelStepper/examples/MotorShield/MotorShield.pde
 AccelStepper/examples/DualMotorShield/DualMotorShield.pde
+AccelStepper/examples/MultiStepper/MultiStepper.pde
 AccelStepper/doc
 AccelStepper/doc/index.html
 AccelStepper/doc/functions.html

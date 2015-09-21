@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.19 2014/10/31 06:05:27 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.20 2015/08/25 02:22:45 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -269,6 +269,11 @@ void AccelStepper::setMaxSpeed(float speed)
 	    computeNewSpeed();
 	}
     }
+}
+
+float   AccelStepper::maxSpeed()
+{
+    return _maxSpeed;
 }
 
 void AccelStepper::setAcceleration(float acceleration)

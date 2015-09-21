@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.47.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.48.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -193,11 +193,16 @@
 /// \version 1.46  Fixed error in documentation for runToPosition().
 ///                Reinstated time calculations in runSpeed() since new version is reported 
 ///                not to work correctly under some circumstances. Reported by Oleg V Gavva.<br>
-
+/// \version 1.48  2015-08-25
+///                Added new class MultiStepper that can manage multiple AccelSteppers, 
+///                and cause them all to move
+///                to selected positions at such a (constant) speed that they all arrive at their
+///                target position at the same time. Suitable for X-Y flatbeds etc.<br>
+///                Added new method maxSpeed() to AccelStepper to return the currently configured maxSpeed.<br>
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.h,v 1.21 2014/10/31 06:05:30 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.22 2015/08/25 02:22:45 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -347,6 +352,11 @@ public:
     /// be > 0. Caution: Speeds that exceed the maximum speed supported by the processor may
     /// Result in non-linear accelerations and decelerations.
     void    setMaxSpeed(float speed);
+
+    /// returns the maximum speed configured for this stepper
+    /// that was previously set by setMaxSpeed();
+    /// \return The currently configured maximum speed
+    float   maxSpeed();
 
     /// Sets the acceleration/deceleration rate.
     /// \param[in] acceleration The desired acceleration in steps per second
@@ -617,7 +627,7 @@ private:
 /// which sets a new target position and then waits until the stepper has 
 /// achieved it. This is used for testing the handling of overshoots
 
-/// @example MultiStepper.pde
+/// @example MultipleSteppers.pde
 /// Shows how to multiple simultaneous steppers
 /// Runs one stepper forwards and backwards, accelerating and decelerating
 /// at the limits. Runs other steppers at the same time
