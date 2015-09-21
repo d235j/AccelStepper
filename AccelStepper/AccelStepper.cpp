@@ -545,8 +545,8 @@ void    AccelStepper::enableOutputs()
 
     if (_enablePin != 0xff)
     {
-        digitalWrite(_enablePin, HIGH ^ _enableInverted);
         pinMode(_enablePin, OUTPUT);
+        digitalWrite(_enablePin, HIGH ^ _enableInverted);
     }
 }
 
@@ -562,8 +562,8 @@ void AccelStepper::setEnablePin(uint8_t enablePin)
     // This happens after construction, so init pin now.
     if (_enablePin != 0xff)
     {
-        digitalWrite(_enablePin, HIGH ^ _enableInverted);
         pinMode(_enablePin, OUTPUT);
+        digitalWrite(_enablePin, HIGH ^ _enableInverted);
     }
 }
 

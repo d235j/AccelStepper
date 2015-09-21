@@ -8,7 +8,7 @@
 
 PROJNAME = AccelStepper
 # Dont forget to also change the version at the top of AccelStepper.h:
-DISTFILE = $(PROJNAME)-1.31.zip
+DISTFILE = $(PROJNAME)-1.32.zip
 
 all:	doxygen dist upload
 
@@ -23,6 +23,3 @@ dist:
 
 upload:
 	rsync -avz $(DISTFILE) doc/ www.airspayce.com:public_html/mikem/arduino/$(PROJNAME)
-
-#	rsync -avz $(DISTFILE) doc/ server2:/var/www/html/mikem/arduino/$(PROJNAME)
-#	scp $(DISTFILE) doc/*.html doc/*.gif doc/*.png doc/*.css doc/*.pdf server2:/var/www/html/mikem/arduino/$(PROJNAME)

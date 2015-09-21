@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.31.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.32.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -135,6 +135,8 @@
 /// \version 1.30  Fixed a problem that could cause stepper to back up a few steps at the end of
 ///                accelerated travel with certain speeds. Reported and patched by jolo.
 /// \version 1.31  Updated author and distribution location details to airspayce.com
+/// \version 1.32  Fixed a problem with enableOutputs() and setEnablePin on Arduino Due that
+///                prevented the enable pin changing stae correctly. Reported by Duane Bishop.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
