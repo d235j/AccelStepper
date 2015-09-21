@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.15.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.16.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and disussion at http://groups.google.com/group/accelstepper
@@ -87,6 +87,7 @@
 /// \version 1.14 Fixed a problem with compiling under arduino 0021 reported by EmbeddedMan
 /// \version 1.15 Fixed a problem with runSpeedToPosition which did not correctly handle
 ///    running backwards to a smaller target position. Added examples
+/// \version 1.16 Fixed some cases in the code where abs() was used instead of fabs().
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
@@ -179,7 +180,8 @@ public:
     
     /// Set the target position. The run() function will try to move the motor
     /// from the current position to the target position set by the most
-    /// recent call to this function.
+    /// recent call to this function. Caution: moveTo() also recalculates the speed for the next step. 
+    /// If you are trying to use constant speed movements, you should call setSpeed() after calling moveTo().
     /// \param[in] absolute The desired absolute position. Negative is
     /// anticlockwise from the 0 position.
     void    moveTo(long absolute); 
@@ -190,14 +192,15 @@ public:
     void    move(long relative);
 
     /// Poll the motor and step it if a step is due, implementing
-    /// accelerations and decelerations to achive the ratget position. You must call this as
-    /// fequently as possible, but at least once per minimum step interval,
+    /// accelerations and decelerations to acheive the target position. You must call this as
+    /// frequently as possible, but at least once per minimum step interval,
     /// preferably in your main loop.
     /// \return true if the motor is at the target position.
     boolean run();
 
     /// Poll the motor and step it if a step is due, implmenting a constant
-    /// speed as set by the most recent call to setSpeed().
+    /// speed as set by the most recent call to setSpeed(). You must call this as
+    /// frequently as possible, but at least once per step interval,
     /// \return true if the motor was stepped.
     boolean runSpeed();
 

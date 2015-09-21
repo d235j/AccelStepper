@@ -119,7 +119,7 @@ float AccelStepper::desiredSpeed()
 	if (_speed == 0.0f)
 	    requiredSpeed = sqrt(twoa);
 	else
-	    requiredSpeed = _speed + abs(_acceleration / _speed);
+	    requiredSpeed = _speed + fabs(_acceleration / _speed);
 	if (requiredSpeed > _maxSpeed)
 	    requiredSpeed = _maxSpeed;
     }
@@ -130,7 +130,7 @@ float AccelStepper::desiredSpeed()
 	if (_speed == 0.0f)
 	    requiredSpeed = -sqrt(twoa);
 	else
-	    requiredSpeed = _speed - abs(_acceleration / _speed);
+	    requiredSpeed = _speed - fabs(_acceleration / _speed);
 	if (requiredSpeed < -_maxSpeed)
 	    requiredSpeed = -_maxSpeed;
     }
@@ -223,8 +223,7 @@ void AccelStepper::setSpeed(float speed)
         _speed = -_maxSpeed;
     else
         _speed = speed;
-
-    _stepInterval = abs(1000000.0 / _speed);
+    _stepInterval = fabs(1000000.0 / _speed);
 }
 
 float AccelStepper::speed()
@@ -495,9 +494,9 @@ void AccelStepper::runToPosition()
 boolean AccelStepper::runSpeedToPosition()
 {
     if (_targetPos >_currentPos)
-	_speed = abs(_speed);
+	_speed = fabs(_speed);
     else
-	_speed = -abs(_speed);
+	_speed = -fabs(_speed);
     return _targetPos!=_currentPos ? runSpeed() : false;
 }
 
