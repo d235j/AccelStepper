@@ -268,6 +268,8 @@ void AccelStepper::setMaxSpeed(float speed)
 
 void AccelStepper::setAcceleration(float acceleration)
 {
+    if (acceleration == 0.0)
+	return;
     if (_acceleration != acceleration)
     {
 	// Recompute _n per Equation 17

@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.24.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.25.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -122,7 +122,8 @@
 ///               http://fab.cba.mit.edu/classes/MIT/961.09/projects/i0/Stepper_Motor_Speed_Profile.pdf
 ///               Now expect smoother and more linear accelerations and decelerations. The desiredSpeed()
 ///               function was removed.
-///\version 1.24  Fixed a problem introduced in 1.23: with runToPosition, which did never returned
+/// \version 1.24  Fixed a problem introduced in 1.23: with runToPosition, which did never returned
+/// \version 1.25  Now ignore attempts to set acceleration to 0.0
 ///
 /// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2012 Mike McCauley
@@ -271,7 +272,7 @@ public:
 
     /// Sets the acceleration and deceleration parameter.
     /// \param[in] acceleration The desired acceleration in steps per second
-    /// per second. Must be > 0. This is an expecnsive call since it requires a square 
+    /// per second. Must be > 0.0. This is an expensive call since it requires a square 
     /// root to be calculated. Dont call more ofthen than needed
     void    setAcceleration(float acceleration);
 
