@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.43.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.44.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -184,6 +184,8 @@
 ///                contribution but did not make it into production.<br>
 /// \version 1.43  Added DualMotorShield example. Shows how to use AccelStepper to control 2 x 2 phase steppers using the 
 ///                Itead Studio Arduino Dual Stepper Motor Driver Shield model IM120417015.<br>
+/// \version 1.44  examples/DualMotorShield/DualMotorShield.ino examples/DualMotorShield/DualMotorShield.pde
+///                was missing from the distribution.<br>
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
@@ -332,6 +334,7 @@ public:
 
     /// Sets the maximum permitted speed. The run() function will accelerate
     /// up to the speed set by this function.
+    /// Caution: the maximum speed achievable depends on your processor and clock speed.
     /// \param[in] speed The desired maximum speed in steps per second. Must
     /// be > 0. Caution: Speeds that exceed the maximum speed supported by the processor may
     /// Result in non-linear accelerations and decelerations.
