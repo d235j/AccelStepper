@@ -26,10 +26,12 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.14.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.15.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and disussion at http://groups.google.com/group/accelstepper
+/// Please use that group for all questions and discussions on this topic. 
+/// Do not contact the author directly, unless it is to discuss commercial licensing.
 //
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
 /// on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
@@ -83,6 +85,8 @@
 ///    reduce anomalous speed glitches when other steppers are accelerating. 
 ///    However, its hard to see how to replace the sqrt() required at the very first step from 0 speed.
 /// \version 1.14 Fixed a problem with compiling under arduino 0021 reported by EmbeddedMan
+/// \version 1.15 Fixed a problem with runSpeedToPosition which did not correctly handle
+///    running backwards to a smaller target position. Added examples
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
@@ -245,12 +249,14 @@ public:
     /// happens to be right now.
     void    setCurrentPosition(long position);  
     
-    /// Moves the motor to the target position and blocks until it is at
+    /// Moves the motor at the currently selected constant speed (forward or reverse) 
+    /// to the target position and blocks until it is at
     /// position. Dont use this in event loops, since it blocks.
     void    runToPosition();
 
     /// Runs at the currently selected speed until the target position is reached
     /// Does not implement accelerations.
+    /// \return true if it stepped
     boolean runSpeedToPosition();
 
     /// Moves the motor to the new target position and blocks until it is at
@@ -404,5 +410,35 @@ private:
     /// The pointer to a backward-step procedure
     void (*_backward)();
 };
+
+/// @example Random.pde
+/// Make a single stepper perform random changes in speed, position and acceleration
+
+/// @example Overshoot.pde
+///  Check overshoot handling
+/// which sets a new target position and then waits until the stepper has 
+/// achieved it. This is used for testing the handling of overshoots
+
+/// @example MultiStepper.pde
+/// Shows how to multiple simultaneous steppers
+/// Runs one stepper forwards and backwards, accelerating and decelerating
+/// at the limits. Runs other steppers at the same time
+
+/// @example ConstantSpeed.pde
+/// Shows how to run AccelStepper in the simplest,
+/// fixed speed mode with no accelerations
+
+/// @example Blocking.pde 
+/// Shows how to use the blocking call runToNewPosition
+/// Which sets a new target position and then waits until the stepper has 
+/// achieved it.
+
+/// @example AFMotor_MultiStepper.pde
+/// Control both Stepper motors at the same time with different speeds
+/// and accelerations. 
+
+/// @example AFMotor_ConstantSpeed.pde
+/// Shows how to run AccelStepper in the simplest,
+/// fixed speed mode with no accelerations
 
 #endif 

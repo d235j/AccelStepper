@@ -1,4 +1,4 @@
-// ConstantSpeed.pde
+// AFMotor_ConstantSpeed.pde
 // -*- mode: C++ -*-
 //
 // Shows how to run AccelStepper in the simplest,

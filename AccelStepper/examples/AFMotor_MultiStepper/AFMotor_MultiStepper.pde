@@ -1,4 +1,4 @@
-// MultiStepper
+// AFMotor_MultiStepper.pde
 // -*- mode: C++ -*-
 //
 // Control both Stepper motors at the same time with different speeds
