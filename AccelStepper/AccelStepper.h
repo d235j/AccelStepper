@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.8.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.9.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
@@ -70,6 +70,7 @@
 ///              Reported by Sandy Noble.
 ///              Removed redundant _lastRunTime member.
 /// \version 1.8 Added support for 4 pin half-steppers, requested by Harvey Moon
+/// \version 1.9 setCurrentPosition() now also sets motor speed to 0.
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
@@ -218,9 +219,10 @@ public:
     long    currentPosition();  
 
     /// Resets the current position of the motor, so that wherever the motor
-    /// happens to be right now is considered to be the new position. Useful
+    /// happens to be right now is considered to be the new 0 position. Useful
     /// for setting a zero position on a stepper after an initial hardware
     /// positioning move.
+    /// Has the side effect of setting the current motor speed to 0.
     /// \param[in] position The position in steps of wherever the motor
     /// happens to be right now.
     void    setCurrentPosition(long position);  

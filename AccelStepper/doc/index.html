@@ -32,7 +32,7 @@ The standard Arduino IDE includes the Stepper library (<a href="http://arduino.c
 </ul>
 The latest version of this documentation can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a><p>
 Example Arduino programs are included to show the main modes of use.<p>
-The version of the package that this documentation refers to can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.8.zip">http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.8.zip</a> You can find the latest version at <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a><p>
+The version of the package that this documentation refers to can be downloaded from <a href="http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.9.zip">http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.9.zip</a> You can find the latest version at <a href="http://www.open.com.au/mikem/arduino/AccelStepper">http://www.open.com.au/mikem/arduino/AccelStepper</a><p>
 Tested on Arduino Diecimila and Mega with arduino-0018 &amp; arduino-0021 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15, cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.<p>
 <dl class="user" compact><dt><b>Installation</b></dt><dd>Install in the usual way: unzip the distribution zip file to the libraries sub-folder of your sketchbook.</dd></dl>
 This software is Copyright (C) 2010 Mike McCauley. Use is subject to license conditions. The main licensing options available are GPL V2 or Commercial:<p>
@@ -47,10 +47,11 @@ This software is Copyright (C) 2010 Mike McCauley. Use is subject to license con
 1.5 Improvements contributed by Peter Mousley: Use of microsecond steps and other speed improvements to increase max stepping speed to about 4kHz. New option for user to set the min allowed pulse width. Added checks for already running at max speed and skip further calcs if so. <p>
 1.6 Fixed a problem with wrapping of microsecond stepping that could cause stepping to hang. Reported by Sandy Noble. Removed redundant _lastRunTime member. <p>
 1.7 Fixed a bug where setCurrentPosition() did always work as expected. Reported by Peter Linhart. Reported by Sandy Noble. Removed redundant _lastRunTime member. <p>
-1.8 Added support for 4 pin half-steppers, requested by Harvey Moon</dd></dl>
+1.8 Added support for 4 pin half-steppers, requested by Harvey Moon <p>
+1.9 setCurrentPosition() now also sets motor speed to 0.</dd></dl>
 <dl class="author" compact><dt><b>Author:</b></dt><dd>Mike McCauley (<a href="mailto:mikem@open.com.au">mikem@open.com.au</a>) </dd></dl>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Jul 25 13:21:55 2011 for AccelStepper by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Oct 29 07:06:12 2011 for AccelStepper by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

@@ -83,6 +83,7 @@ long AccelStepper::currentPosition()
 void AccelStepper::setCurrentPosition(long position)
 {
     _targetPos = _currentPos = position;
+    computeNewSpeed(); // Expect speed of 0
 }
 
 void AccelStepper::computeNewSpeed()
