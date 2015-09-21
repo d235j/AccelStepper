@@ -284,6 +284,11 @@ void AccelStepper::runToPosition()
 	;
 }
 
+boolean AccelStepper::runSpeedToPosition()
+{
+    return _targetPos!=_currentPos ? AccelStepper::runSpeed() : false;
+}
+
 // Blocks until the new target position is reached
 void AccelStepper::runToNewPosition(long position)
 {

@@ -59,6 +59,8 @@
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#344f58fef8cc34ac5aa75ba4b665d21c">runToPosition</a> ()</td></tr>
 
+<tr><td class="memItemLeft" nowrap align="right" valign="top">boolean&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#9270d20336e76ac1fd5bcd5b9c34f301">runSpeedToPosition</a> ()</td></tr>
+
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#176c5d2e4c2f21e9e92b12e39a6f0e67">runToNewPosition</a> (long position)</td></tr>
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAccelStepper.html#3591e29a236e2935afd7f64ff6c22006">disableOutputs</a> ()</td></tr>
@@ -169,7 +171,7 @@ Set the target position. The <a class="el" href="classAccelStepper.html#608b2395
 
 <p>References <a class="el" href="AccelStepper_8cpp-source.html#l00069">computeNewSpeed()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00015">move()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00288">runToNewPosition()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00015">move()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00293">runToNewPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -244,7 +246,7 @@ Poll the motor and step it if a step is due, implmenting a constant speed as set
 
 <p>References <a class="el" href="AccelStepper_8cpp-source.html#l00176">step()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00125">run()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00125">run()</a>, and <a class="el" href="AccelStepper_8cpp-source.html#l00287">runSpeedToPosition()</a>.</p>
 
 </div>
 </div><p>
@@ -455,7 +457,28 @@ Resets the current position of the motor, so that wherever the mottor happens to
 Moves the motor to the target position and blocks until it is at position. Dont use this in event loops, since it blocks. 
 <p>References <a class="el" href="AccelStepper_8cpp-source.html#l00125">run()</a>.</p>
 
-<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00288">runToNewPosition()</a>.</p>
+<p>Referenced by <a class="el" href="AccelStepper_8cpp-source.html#l00293">runToNewPosition()</a>.</p>
+
+</div>
+</div><p>
+<a class="anchor" name="9270d20336e76ac1fd5bcd5b9c34f301"></a><!-- doxytag: member="AccelStepper::runSpeedToPosition" ref="9270d20336e76ac1fd5bcd5b9c34f301" args="()" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boolean AccelStepper::runSpeedToPosition           </td>
+          <td>(</td>
+          <td class="paramname">          </td>
+          <td>&nbsp;)&nbsp;</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+Runs at the currently selected speed until the target position is reached Does not implement accelerations. 
+<p>References <a class="el" href="AccelStepper_8cpp-source.html#l00023">runSpeed()</a>.</p>
 
 </div>
 </div><p>
@@ -664,7 +687,7 @@ Compute and return the desired speed. The default algorithm uses maxSpeed, accel
 <hr>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="AccelStepper_8h-source.html">AccelStepper.h</a><li>AccelStepper.cpp</ul>
 </div>
-<hr size="1"><address style="text-align: right;"><small>Generated on Mon Jul 19 12:01:13 2010 for AccelStepper by&nbsp;
+<hr size="1"><address style="text-align: right;"><small>Generated on Sat Aug 21 08:39:01 2010 for AccelStepper by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.6 </small></address>
 </body>

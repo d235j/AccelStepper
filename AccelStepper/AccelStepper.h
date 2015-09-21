@@ -2,7 +2,7 @@
 //
 /// \mainpage AccelStepper library for Arduino
 ///
-/// This is the Arduino AccelStepper 1.1 library.
+/// This is the Arduino AccelStepper 1.2 library.
 /// It provides an object-oriented interface for 2 or 4 pin stepper motors.
 ///
 /// The standard Arduino IDE includes the Stepper library
@@ -24,7 +24,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.1.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.2.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// Tested on Arduino Diecimila and Mega with arduino-0018 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
@@ -54,6 +54,8 @@
 /// \version 1.0 Initial release
 ///
 /// \version 1.1 Added speed() function to get the current speed.
+///
+/// \Version 1.2 Added runSpeedToPosition() submitted by Gunnar Arndt.
 /// 
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
@@ -200,6 +202,10 @@ public:
     /// Moves the motor to the target position and blocks until it is at
     /// position. Dont use this in event loops, since it blocks.
     void    runToPosition();
+
+    /// Runs at the currently selected speed until the target position is reached
+    /// Does not implement accelerations.
+    boolean runSpeedToPosition();
 
     /// Moves the motor to the new target position and blocks until it is at
     /// position. Dont use this in event loops, since it blocks.
