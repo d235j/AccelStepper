@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.23.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.24.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -48,7 +48,9 @@
 /// This code uses speed calculations as described in 
 /// "Generate stepper-motor speed profiles in real time" by David Austin 
 /// http://fab.cba.mit.edu/classes/MIT/961.09/projects/i0/Stepper_Motor_Speed_Profile.pdf
-/// An initial step interval is calcualated for the first step, based on the desired acceleration
+/// with the exception that AccelStepper uses steps per second rather than radians per second
+/// (because we dont know the step angle of the motor)
+/// An initial step interval is calculated for the first step, based on the desired acceleration
 /// Subsequent shorter step intervals are calculated based 
 /// on the previous step until max speed is acheived.
 /// 
@@ -120,10 +122,11 @@
 ///               http://fab.cba.mit.edu/classes/MIT/961.09/projects/i0/Stepper_Motor_Speed_Profile.pdf
 ///               Now expect smoother and more linear accelerations and decelerations. The desiredSpeed()
 ///               function was removed.
+///\version 1.24  Fixed a problem introduced in 1.23: with runToPosition, which did never returned
 ///
-/// \author  Mike McCauley (mikem@open.com.au)
+/// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.12 2012/10/08 09:41:58 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.13 2012/10/27 21:27:03 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h

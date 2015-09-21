@@ -1,9 +1,24 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.11 2012/10/08 09:41:58 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.12 2012/10/27 21:27:03 mikem Exp mikem $
 
 #include "AccelStepper.h"
+
+#if 0
+// Some debugging assistance
+void dump(uint8_t* p, int l)
+{
+    int i;
+
+    for (i = 0; i < l; i++)
+    {
+	Serial.print(p[i], HEX);
+	Serial.print(" ");
+    }
+    Serial.println("");
+}
+#endif
 
 void AccelStepper::moveTo(long absolute)
 {
@@ -148,6 +163,18 @@ void AccelStepper::computeNewSpeed()
     _speed = 1000000.0 / _cn;
     if (_direction == DIRECTION_CCW)
 	_speed = -_speed;
+
+#if 0
+    Serial.println(_speed);
+    Serial.println(_acceleration);
+    Serial.println(_cn);
+    Serial.println(_c0);
+    Serial.println(_n);
+    Serial.println(_stepInterval);
+    Serial.println(distanceTo);
+    Serial.println(stepsToStop);
+    Serial.println("-----");
+#endif
 }
 
 // Run the motor to implement speed and acceleration in order to proceed to the target position
@@ -483,11 +510,11 @@ void AccelStepper::setPinsInverted(bool direction, bool step, bool enable)
 }
 
 
-// Blocks until the target position is reached
+// Blocks until the target position is reached and stopped
 void AccelStepper::runToPosition()
 {
-    while (run())
-	;
+    while (_speed != 0 || distanceToGo() != 0)
+	run();
 }
 
 boolean AccelStepper::runSpeedToPosition()
