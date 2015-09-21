@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.14 2012/12/22 21:41:22 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.15 2013/05/30 22:41:25 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -61,7 +61,7 @@ boolean AccelStepper::runSpeed()
 	    // Anticlockwise  
 	    _currentPos -= 1;
 	}
-	step(_currentPos & 0x7); // Bottom 3 bits (same as mod 8, but works with + and - numbers) 
+	step(_currentPos);
 
 	_lastStepTime = time;
 	return true;
@@ -303,7 +303,7 @@ float AccelStepper::speed()
 }
 
 // Subclasses can override
-void AccelStepper::step(uint8_t step)
+void AccelStepper::step(long step)
 {
     switch (_interface)
     {
@@ -352,7 +352,7 @@ void AccelStepper::setOutputPins(uint8_t mask)
 }
 
 // 0 pin step function (ie for functional usage)
-void AccelStepper::step0(uint8_t step)
+void AccelStepper::step0(long step)
 {
   if (_speed > 0)
     _forward();
@@ -363,7 +363,7 @@ void AccelStepper::step0(uint8_t step)
 // 1 pin step function (ie for stepper drivers)
 // This is passed the current step number (0 to 7)
 // Subclasses can override
-void AccelStepper::step1(uint8_t step)
+void AccelStepper::step1(long step)
 {
     // _pin[0] is step, _pin[1] is direction
     setOutputPins(_direction ? 0b11 : 0b01); // step HIGH
@@ -374,10 +374,11 @@ void AccelStepper::step1(uint8_t step)
 
 }
 
+
 // 2 pin step function
 // This is passed the current step number (0 to 7)
 // Subclasses can override
-void AccelStepper::step2(uint8_t step)
+void AccelStepper::step2(long step)
 {
     switch (step & 0x3)
     {
@@ -401,7 +402,7 @@ void AccelStepper::step2(uint8_t step)
 // 3 pin step function
 // This is passed the current step number (0 to 7)
 // Subclasses can override
-void AccelStepper::step3(uint8_t step)
+void AccelStepper::step3(long step)
 {
     switch (step % 3)
     {
@@ -423,7 +424,7 @@ void AccelStepper::step3(uint8_t step)
 // 4 pin step function for half stepper
 // This is passed the current step number (0 to 7)
 // Subclasses can override
-void AccelStepper::step4(uint8_t step)
+void AccelStepper::step4(long step)
 {
     switch (step & 0x3)
     {
@@ -445,10 +446,10 @@ void AccelStepper::step4(uint8_t step)
     }
 }
 
-// 3 pin step function
+// 3 pin half step function
 // This is passed the current step number (0 to 7)
 // Subclasses can override
-void AccelStepper::step6(uint8_t step)
+void AccelStepper::step6(long step)
 {
     switch (step % 6)
     {
@@ -472,17 +473,17 @@ void AccelStepper::step6(uint8_t step)
 	    setOutputPins(0b010);
             break;
 	    
-    case 5:    //011
+	case 5:    // 011
 	    setOutputPins(0b110);
             break;
 	    
     }
 }
 
-// 4 pin step function
+// 4 pin half step function
 // This is passed the current step number (0 to 7)
 // Subclasses can override
-void AccelStepper::step8(uint8_t step)
+void AccelStepper::step8(long step)
 {
     switch (step & 0x7)
     {

@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.32.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.33.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -137,10 +137,15 @@
 /// \version 1.31  Updated author and distribution location details to airspayce.com
 /// \version 1.32  Fixed a problem with enableOutputs() and setEnablePin on Arduino Due that
 ///                prevented the enable pin changing stae correctly. Reported by Duane Bishop.
+/// \version 1.33  Fixed an error in example AFMotor_ConstantSpeed.pde did not setMaxSpeed();
+///                Fixed a problem that caused incorrect pin sequencing of FULL3WIRE and HALF3WIRE.
+///                Unfortunately this meant changing the signature for all step*() functions.
+///                Added example MotorShield, showing how to use AdaFruit Motor Shield to control
+///                a 3 phase motor such as a HDD spindle motor (and without using the AFMotor library.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.h,v 1.16 2013/03/21 21:48:27 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.17 2013/05/30 22:41:21 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -413,12 +418,12 @@ protected:
     /// interfaces. The default calls step1(), step2(), step4() or step8() depending on the
     /// number of pins defined for the stepper.
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step(uint8_t step);
+    virtual void   step(long step);
 
     /// Called to execute a step using stepper functions (pins = 0) Only called when a new step is
     /// required. Calls _forward() or _backward() to perform the step
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step0(uint8_t step);
+    virtual void   step0(long step);
 
     /// Called to execute a step on a stepper driver (ie where pins == 1). Only called when a new step is
     /// required. Subclasses may override to implement new stepping
@@ -426,41 +431,41 @@ protected:
     /// and sets the output of _pin2 to the desired direction. The Step pin (_pin1) is pulsed for 1 microsecond
     /// which is the minimum STEP pulse width for the 3967 driver.
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step1(uint8_t step);
+    virtual void   step1(long step);
 
     /// Called to execute a step on a 2 pin motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1 and pin2
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step2(uint8_t step);
+    virtual void   step2(long step);
 
     /// Called to execute a step on a 3 pin motor, such as HDD spindle. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1, pin2,
     /// pin3
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step3(uint8_t step);
+    virtual void   step3(long step);
 
     /// Called to execute a step on a 4 pin motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1, pin2,
     /// pin3, pin4.
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step4(uint8_t step);
+    virtual void   step4(long step);
 
     /// Called to execute a step on a 3 pin motor, such as HDD spindle. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1, pin2,
     /// pin3
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step6(uint8_t step);
+    virtual void   step6(long step);
 
     /// Called to execute a step on a 4 pin half-steper motor. Only called when a new step is
     /// required. Subclasses may override to implement new stepping
     /// interfaces. The default sets or clears the outputs of pin1, pin2,
     /// pin3, pin4.
     /// \param[in] step The current step phase number (0 to 7)
-    virtual void   step8(uint8_t step);
+    virtual void   step8(long step);
 
 private:
     /// Number of pins on the stepper motor. Permits 2 or 4. 2 pins is a
@@ -583,5 +588,9 @@ private:
 /// Calls stop() while the stepper is travelling at full speed, causing
 /// the stepper to stop as quickly as possible, within the constraints of the
 /// current acceleration.
+
+/// @example MotorShield.pde
+/// Shows how to use AccelStepper to control a 3-phase motor, such as a HDD spindle motor
+/// using the Adafruit Motor Shield http://www.ladyada.net/make/mshield/index.html.
 
 #endif 
