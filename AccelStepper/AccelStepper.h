@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.36.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.37.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -149,10 +149,14 @@
 /// \version 1.36  Changed enableOutputs() and disableOutputs() to be virtual so can be overridden.
 ///                Added new optional argument 'enable' to constructor, which allows you toi disable the 
 ///                automatic enabling of outputs at construction time. Suggested by Guido.
+/// \version 1.37  Fixed a problem with step1 that could cause a rogue step in the 
+///                wrong direction (or not,
+///                depending on the setup-time requirements of the connected hardware). 
+///                Reported by Mark Tillotson.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.h,v 1.18 2013/08/01 21:47:22 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.19 2013/08/02 01:53:21 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h

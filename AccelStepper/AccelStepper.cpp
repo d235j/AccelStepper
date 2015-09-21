@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.16 2013/08/01 21:47:22 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.17 2013/08/02 01:53:21 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -367,6 +367,7 @@ void AccelStepper::step0(long step)
 void AccelStepper::step1(long step)
 {
     // _pin[0] is step, _pin[1] is direction
+    setOutputPins(_direction ? 0b10 : 0b00); // Set direction first else get rogue pulses
     setOutputPins(_direction ? 0b11 : 0b01); // step HIGH
     // Caution 200ns setup time 
     // Delay the minimum allowed pulse width
