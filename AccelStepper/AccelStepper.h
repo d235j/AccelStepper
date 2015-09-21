@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.29.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.30.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -134,6 +134,8 @@
 ///                Contributed by Yuri Ivatchkovitch.
 /// \version 1.29  Fixed a problem that could cause a DRIVER stepper to continually step
 ///                with some sketches. Reported by Vadim.
+/// \version 1.30  Fixed a problem that could cause stepper to back up a few steps at the end of
+///                accelerated travel with certain speeds. Reported and patched by jolo.
 ///
 /// \author  Mike McCauley (mikem@open.com.au) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2012 Mike McCauley

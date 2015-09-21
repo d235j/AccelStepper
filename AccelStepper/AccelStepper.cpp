@@ -107,6 +107,7 @@ void AccelStepper::computeNewSpeed()
 	// We are at the target and its time to stop
 	_stepInterval = 0;
 	_speed = 0.0;
+	_n = 0;
 	return;
     }
 
