@@ -26,9 +26,11 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.11.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.12.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
+/// You can also find online help and disussion at http://groups.google.com/group/accelstepper
+//
 /// Tested on Arduino Diecimila and Mega with arduino-0018 & arduino-0021 
 /// on OpenSuSE 11.1 and avr-libc-1.6.1-1.15,
 /// cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5.
@@ -75,6 +77,7 @@
 /// \version 1.11 Improvments from Michael Ellison:
 ///   Added optional enable line support for stepper drivers
 ///   Added inversion for step/direction/enable lines for stepper drivers
+/// \version 1.12 Announce Google Group
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
