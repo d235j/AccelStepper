@@ -47,11 +47,8 @@ boolean AccelStepper::runSpeed()
     unsigned long time = micros();
     unsigned long nextStepTime = _lastStepTime + _stepInterval;
     // Gymnastics to detect wrapping of either the nextStepTime and/or the current time
-//    if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
-//	|| ((nextStepTime < _lastStepTime) && ((time >= nextStepTime) && (time < _lastStepTime))))
-
-    // If the current time is equal or larger to the next step time, a step should occur.
-    if ((long)(time - nextStepTime) >= 0)
+    if (   ((nextStepTime >= _lastStepTime) && ((time >= nextStepTime) || (time < _lastStepTime)))
+	|| ((nextStepTime < _lastStepTime) && ((time >= nextStepTime) && (time < _lastStepTime))))
     {
 	if (_direction == DIRECTION_CW)
 	{

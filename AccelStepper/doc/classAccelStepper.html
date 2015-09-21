@@ -158,6 +158,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Support for stepper motors with acceleration etc. </p>
+<dl class="section author"><dt>Author</dt><dd>Mike McCauley (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'em'+'@ai'+'rs'+'pay'+'ce'+'.co'+'m'; return false;">mikem<span style="display: none;">.nosp@m.</span>@air<span style="display: none;">.nosp@m.</span>spayc<span style="display: none;">.nosp@m.</span>e.co<span style="display: none;">.nosp@m.</span>m</a>) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS</dd></dl>
 <p>This defines a single 2 or 4 pin stepper motor, or stepper moter with fdriver chip, with optional acceleration, deceleration, absolute positioning commands etc. Multiple simultaneous steppers are supported, all moving at different speeds and accelerations.</p>
 <dl class="section user"><dt>Operation</dt><dd>This module operates by computing a step time in microseconds. The step time is recomputed after each step and after speed and acceleration parameters are changed by the caller. The time of each step is recorded in microseconds. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function steps the motor once if a new step is due. The <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> function must be called frequently until the motor is in the desired position, after which time <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a> will do nothing.</dd></dl>
 <dl class="section user"><dt>Positioning</dt><dd>Positions are specified by a signed long integer. At construction time, the current position of the motor is consider to be 0. Positive positions are clockwise from the initial position; negative positions are anticlockwise. The current position can be altered for instance after initialization positioning.</dd></dl>
@@ -592,7 +593,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Moves the motor to the new target position and blocks until it is at position. Dont use this in event loops, since it blocks. </p>
+<p>Moves the motor (with acceleration/deceleration) to the new target position and blocks until it is at position. Dont use this in event loops, since it blocks. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">position</td><td>The new target position. </td></tr>
@@ -617,7 +618,7 @@ Protected Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Moves the motor at the currently selected constant speed (forward or reverse) to the target position and blocks until it is at position. Dont use this in event loops, since it blocks. </p>
+<p>Moves the motor (with acceleration/deceleration) to the target position and blocks until it is at position. Dont use this in event loops, since it blocks. </p>
 <dl><dt><b>Examples: </b></dt><dd><a class="el" href="Quickstop_8pde-example.html#a7">Quickstop.pde</a>.</dd>
 </dl>
 <p>References <a class="el" href="classAccelStepper.html#a608b2395b64ac15451d16d0371fe13ce">run()</a>.</p>

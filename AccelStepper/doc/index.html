@@ -54,7 +54,7 @@
 <li>Extensive API </li>
 <li>Subclass support</li>
 </ul>
-<p>The latest version of this documentation can be downloaded from <a href="http://www.airspayce.com/mikem/arduino/AccelStepper">http://www.airspayce.com/mikem/arduino/AccelStepper</a> The version of the package that this documentation refers to can be downloaded from <a href="http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.46.zip">http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.46.zip</a></p>
+<p>The latest version of this documentation can be downloaded from <a href="http://www.airspayce.com/mikem/arduino/AccelStepper">http://www.airspayce.com/mikem/arduino/AccelStepper</a> The version of the package that this documentation refers to can be downloaded from <a href="http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.47.zip">http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.47.zip</a></p>
 <p>Example Arduino programs are included to show the main modes of use.</p>
 <p>You can also find online help and discussion at <a href="http://groups.google.com/group/accelstepper">http://groups.google.com/group/accelstepper</a> Please use that group for all questions and discussions on this topic. Do not contact the author directly, unless it is to discuss commercial licensing. Before asking a question or reporting a bug, please read <a href="http://www.catb.org/esr/faqs/smart-questions.html">http://www.catb.org/esr/faqs/smart-questions.html</a></p>
 <p>Tested on Arduino Diecimila and Mega with arduino-0018 &amp; arduino-0021 on OpenSuSE 11.1 and avr-libc-1.6.1-1.15, cross-avr-binutils-2.19-9.1, cross-avr-gcc-4.1.3_20080612-26.5. Tested on Teensy <a href="http://www.pjrc.com/teensy">http://www.pjrc.com/teensy</a> including Teensy 3.1 built using Arduino IDE 1.0.5 with teensyduino addon 1.18 and later.</p>
@@ -169,8 +169,10 @@
 <dd>
 1.45 Fixed inaccuracy in acceleration rate by using Equation 15, suggested by Sebastian Gracki.<br/>
  Performance improvements in runSpeed suggested by Jaakko Fagerlund.<br/>
-</dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Mike McCauley (<a href="#" onclick="location.href='mai'+'lto:'+'mik'+'em'+'@ai'+'rs'+'pay'+'ce'+'.co'+'m'; return false;">mikem<span style="display: none;">.nosp@m.</span>@air<span style="display: none;">.nosp@m.</span>spayc<span style="display: none;">.nosp@m.</span>e.co<span style="display: none;">.nosp@m.</span>m</a>) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS </dd></dl>
+ </dd>
+<dd>
+1.46 Fixed error in documentation for runToPosition(). Reinstated time calculations in runSpeed() since new version is reported not to work correctly under some circumstances. Reported by Oleg V Gavva.<br/>
+ </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.46.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.47.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -190,6 +190,10 @@
 ///                acceleration. Reported by Michael Newman.<br>
 /// \version 1.45  Fixed inaccuracy in acceleration rate by using Equation 15, suggested by Sebastian Gracki.<br>
 ///                Performance improvements in runSpeed suggested by Jaakko Fagerlund.<br>
+/// \version 1.46  Fixed error in documentation for runToPosition().
+///                Reinstated time calculations in runSpeed() since new version is reported 
+///                not to work correctly under some circumstances. Reported by Oleg V Gavva.<br>
+
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
@@ -386,7 +390,7 @@ public:
     /// happens to be right now.
     void    setCurrentPosition(long position);  
     
-    /// Moves the motor at the currently selected constant speed (forward or reverse) 
+    /// Moves the motor (with acceleration/deceleration) 
     /// to the target position and blocks until it is at
     /// position. Dont use this in event loops, since it blocks.
     void    runToPosition();
@@ -396,7 +400,8 @@ public:
     /// \return true if it stepped
     boolean runSpeedToPosition();
 
-    /// Moves the motor to the new target position and blocks until it is at
+    /// Moves the motor (with acceleration/deceleration)
+    /// to the new target position and blocks until it is at
     /// position. Dont use this in event loops, since it blocks.
     /// \param[in] position The new target position.
     void    runToNewPosition(long position);
