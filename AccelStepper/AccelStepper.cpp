@@ -181,12 +181,12 @@ void AccelStepper::computeNewSpeed()
 // Run the motor to implement speed and acceleration in order to proceed to the target position
 // You must call this at least once per step, preferably in your main loop
 // If the motor is in the desired position, the cost is very small
-// returns true if we are still running to position
+// returns true if the motor is still running to the target position.
 boolean AccelStepper::run()
 {
     if (runSpeed())
 	computeNewSpeed();
-    return true;
+    return _speed != 0.0 || distanceToGo() != 0;
 }
 
 AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_t pin3, uint8_t pin4, bool enable)
@@ -589,8 +589,8 @@ void AccelStepper::setPinsInverted(bool pin1Invert, bool pin2Invert, bool pin3In
 // Blocks until the target position is reached and stopped
 void AccelStepper::runToPosition()
 {
-    while (_speed != 0 || distanceToGo() != 0)
-	run();
+    while (run())
+	;
 }
 
 boolean AccelStepper::runSpeedToPosition()

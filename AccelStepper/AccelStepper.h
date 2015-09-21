@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.37.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.38.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -39,9 +39,6 @@
 /// Install in the usual way: unzip the distribution zip file to the libraries
 /// sub-folder of your sketchbook. 
 ///
-/// This software is Copyright (C) 2010 Mike McCauley. Use is subject to license
-/// conditions. The main licensing options available are GPL V2 or Commercial:
-///
 /// \par Theory
 /// This code uses speed calculations as described in 
 /// "Generate stepper-motor speed profiles in real time" by David Austin 
@@ -49,9 +46,12 @@
 /// with the exception that AccelStepper uses steps per second rather than radians per second
 /// (because we dont know the step angle of the motor)
 /// An initial step interval is calculated for the first step, based on the desired acceleration
-/// Subsequent shorter step intervals are calculated based 
-/// on the previous step until max speed is acheived.
+/// On subsequent steps, shorter step intervals are calculated based 
+/// on the previous step until max speed is achieved.
 /// 
+/// This software is Copyright (C) 2010 Mike McCauley. Use is subject to license
+/// conditions. The main licensing options available are GPL V2 or Commercial:
+///
 /// \par Open Source Licensing GPL V2
 /// This is the appropriate option if you want to share the source code of your
 /// application with everyone you distribute it to, and you also want to give them
@@ -153,6 +153,8 @@
 ///                wrong direction (or not,
 ///                depending on the setup-time requirements of the connected hardware). 
 ///                Reported by Mark Tillotson.
+/// \version 1.38  run() function incorrectly always returned true. Updated function and doc so it returns true 
+///                if the motor is still running to the target position.
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
@@ -185,7 +187,7 @@
 /// This module operates by computing a step time in microseconds. The step
 /// time is recomputed after each step and after speed and acceleration
 /// parameters are changed by the caller. The time of each step is recorded in
-/// microseconds. The run() function steps the motor if a new step is due.
+/// microseconds. The run() function steps the motor once if a new step is due.
 /// The run() function must be called frequently until the motor is in the
 /// desired position, after which time run() will do nothing.
 ///
@@ -272,7 +274,7 @@ public:
     /// \param[in] backward void-returning procedure that will make a backward step
     AccelStepper(void (*forward)(), void (*backward)());
     
-    /// Set the target position. The run() function will try to move the motor
+    /// Set the target position. The run() function will try to move the motor (at most one step per call)
     /// from the current position to the target position set by the most
     /// recent call to this function. Caution: moveTo() also recalculates the speed for the next step. 
     /// If you are trying to use constant speed movements, you should call setSpeed() after calling moveTo().
@@ -287,25 +289,26 @@ public:
 
     /// Poll the motor and step it if a step is due, implementing
     /// accelerations and decelerations to acheive the target position. You must call this as
-    /// frequently as possible, but at least once per minimum step interval,
-    /// preferably in your main loop.
-    /// \return true if the motor is at the target position.
+    /// frequently as possible, but at least once per minimum step time interval,
+    /// preferably in your main loop. Note that each call to run() will make at most one step, and then only when a step is due,
+    /// based on the current speed and the time since the last step.
+    /// \return true if the motor is still running to the target position.
     boolean run();
 
-    /// Poll the motor and step it if a step is due, implmenting a constant
+    /// Poll the motor and step it if a step is due, implementing a constant
     /// speed as set by the most recent call to setSpeed(). You must call this as
     /// frequently as possible, but at least once per step interval,
     /// \return true if the motor was stepped.
     boolean runSpeed();
 
-    /// Sets the maximum permitted speed. the run() function will accelerate
+    /// Sets the maximum permitted speed. The run() function will accelerate
     /// up to the speed set by this function.
     /// \param[in] speed The desired maximum speed in steps per second. Must
     /// be > 0. Caution: Speeds that exceed the maximum speed supported by the processor may
     /// Result in non-linear accelerations and decelerations.
     void    setMaxSpeed(float speed);
 
-    /// Sets the acceleration and deceleration parameter.
+    /// Sets the acceleration/deceleration rate.
     /// \param[in] acceleration The desired acceleration in steps per second
     /// per second. Must be > 0.0. This is an expensive call since it requires a square 
     /// root to be calculated. Dont call more ofthen than needed
