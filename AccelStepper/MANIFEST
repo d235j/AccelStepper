@@ -17,6 +17,7 @@ AccelStepper/examples/ProportionalControl/ProportionalControl.pde
 AccelStepper/examples/Bounce/Bounce.pde
 AccelStepper/examples/Quickstop/Quickstop.pde
 AccelStepper/examples/MotorShield/MotorShield.pde
+AccelStepper/examples/DualMotorShield/DualMotorShield.pde
 AccelStepper/doc
 AccelStepper/doc/index.html
 AccelStepper/doc/functions.html

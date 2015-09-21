@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.42.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.43.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -180,8 +180,10 @@
 /// \version 1.39  Updated typos in keywords.txt, courtesey Jon Magill.
 /// \version 1.40  Updated documentation, including testing on Teensy 3.1
 /// \version 1.41  Fixed an error in the acceleration calculations, resulting in acceleration of haldf the intended value
-/// \version 1.41  Improved support for FULL3WIRE and HALF3WIRE ouput pins. These changes were in Yuri's original
-///                contribution but did not make it into production.
+/// \version 1.42  Improved support for FULL3WIRE and HALF3WIRE output pins. These changes were in Yuri's original
+///                contribution but did not make it into production.<br>
+/// \version 1.43  Added DualMotorShield example. Shows how to use AccelStepper to control 2 x 2 phase steppers using the 
+///                Itead Studio Arduino Dual Stepper Motor Driver Shield model IM120417015.<br>
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
@@ -222,7 +224,7 @@
 /// Positions are specified by a signed long integer. At
 /// construction time, the current position of the motor is consider to be 0. Positive
 /// positions are clockwise from the initial position; negative positions are
-/// anticlockwise. The curent position can be altered for instance after
+/// anticlockwise. The current position can be altered for instance after
 /// initialization positioning.
 ///
 /// \par Caveats
@@ -278,10 +280,10 @@ public:
     /// AccelStepper::HALF4WIRE (8) means a 4 wire half stepper (4 pins required)
     /// Defaults to AccelStepper::FULL4WIRE (4) pins.
     /// \param[in] pin1 Arduino digital pin number for motor pin 1. Defaults
-    /// to pin 2. For a AccelStepper::DRIVER (pins==1), 
+    /// to pin 2. For a AccelStepper::DRIVER (interface==1), 
     /// this is the Step input to the driver. Low to high transition means to step)
     /// \param[in] pin2 Arduino digital pin number for motor pin 2. Defaults
-    /// to pin 3. For a AccelStepper::DRIVER (pins==1), 
+    /// to pin 3. For a AccelStepper::DRIVER (interface==1), 
     /// this is the Direction input the driver. High means forward.
     /// \param[in] pin3 Arduino digital pin number for motor pin 3. Defaults
     /// to pin 4.
@@ -643,5 +645,10 @@ private:
 /// @example MotorShield.pde
 /// Shows how to use AccelStepper to control a 3-phase motor, such as a HDD spindle motor
 /// using the Adafruit Motor Shield http://www.ladyada.net/make/mshield/index.html.
+
+/// @example DualMotorShield.pde
+/// Shows how to use AccelStepper to control 2 x 2 phase steppers using the 
+/// Itead Studio Arduino Dual Stepper Motor Driver Shield
+/// model IM120417015
 
 #endif 
