@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.17 2013/08/02 01:53:21 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.18 2014/06/09 21:35:59 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -277,7 +277,8 @@ void AccelStepper::setAcceleration(float acceleration)
 	// Recompute _n per Equation 17
 	_n = _n * (_acceleration / acceleration);
 	// New c0 per Equation 7
-	_c0 = sqrt(2.0 / acceleration) * 1000000.0;
+//	_c0 = sqrt(2.0 / acceleration) * 1000000.0; // Accelerates too sloly. Why?
+	_c0 = sqrt(1.0/acceleration) * 1000000.0;
 	_acceleration = acceleration;
 	computeNewSpeed();
     }

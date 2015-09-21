@@ -7,10 +7,15 @@
 # $Id: Makefile,v 1.4 2013/03/21 21:48:27 mikem Exp mikem $
 
 PROJNAME = AccelStepper
-# Dont forget to also change the version at the top of AccelStepper.h:
-DISTFILE = $(PROJNAME)-1.40.zip
+VERSION_MAJOR = 1
+VERSION_MINOR = 41
 
-all:	doxygen dist upload
+DISTFILE = $(PROJNAME)-$(VERSION_MAJOR).$(VERSION_MINOR).zip
+
+all:	versioning doxygen dist upload
+
+versioning:
+	sed -i.bak -e 's/AccelStepper-.*\.zip/$(DISTFILE)/' AccelStepper.h
 
 doxygen: 
 	doxygen project.cfg

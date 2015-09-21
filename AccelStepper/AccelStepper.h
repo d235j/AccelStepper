@@ -23,7 +23,7 @@
 /// The latest version of this documentation can be downloaded from 
 /// http://www.airspayce.com/mikem/arduino/AccelStepper
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.40.zip
+/// from http://www.airspayce.com/mikem/arduino/AccelStepper/AccelStepper-1.41.zip
 ///
 /// Example Arduino programs are included to show the main modes of use.
 ///
@@ -179,10 +179,11 @@
 ///                if the motor is still running to the target position.
 /// \version 1.39  Updated typos in keywords.txt, courtesey Jon Magill.
 /// \version 1.40  Updated documentation, including testing on Teensy 3.1
+/// \version 1.41  Fixed an error in the acceleration calculations, resulting in acceleration of haldf the intended value
 ///
 /// \author  Mike McCauley (mikem@airspayce.com) DO NOT CONTACT THE AUTHOR DIRECTLY: USE THE LISTS
 // Copyright (C) 2009-2013 Mike McCauley
-// $Id: AccelStepper.h,v 1.19 2013/08/02 01:53:21 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.20 2014/06/09 21:35:59 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -284,7 +285,7 @@ public:
     /// to pin 4.
     /// \param[in] pin4 Arduino digital pin number for motor pin 4. Defaults
     /// to pin 5.
-    /// \param[in] enable If this is true (the default), enableOutpuys() will be called to enable
+    /// \param[in] enable If this is true (the default), enableOutputs() will be called to enable
     /// the output pins at construction time.
     AccelStepper(uint8_t interface = AccelStepper::FULL4WIRE, uint8_t pin1 = 2, uint8_t pin2 = 3, uint8_t pin3 = 4, uint8_t pin4 = 5, bool enable = true);
 
