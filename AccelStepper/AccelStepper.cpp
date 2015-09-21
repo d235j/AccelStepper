@@ -1,7 +1,7 @@
 // AccelStepper.cpp
 //
 // Copyright (C) 2009 Mike McCauley
-// $Id: AccelStepper.cpp,v 1.8 2012/08/24 01:48:07 mikem Exp mikem $
+// $Id: AccelStepper.cpp,v 1.9 2012/09/28 22:41:19 mikem Exp mikem $
 
 #include "AccelStepper.h"
 
@@ -102,16 +102,20 @@ float AccelStepper::desiredSpeed()
     float sqrSpeed = sq(_speed);
     if (_speed < 0.0)
       sqrSpeed = -sqrSpeed;
-    float twoa = 2.0f * _acceleration; // 2ag
+    float twoa = 2.0 * _acceleration;
+
+    // Ensure we dont get massive acceleration when _speed is very small
+    // _sqrt_twoa is precomputed when _acceleration is set
+    float delta_speed = fabs(_acceleration / _speed);
+    if (delta_speed > _sqrt_twoa)
+	delta_speed = _sqrt_twoa;
+    
     // if v^^2/2as is the the left of target, we will arrive at 0 speed too far -ve, need to accelerate clockwise
     if ((sqrSpeed / twoa) < distanceTo)
     {
 	// Accelerate clockwise
 	// Need to accelerate in clockwise direction
-	if (_speed == 0.0f)
-	    requiredSpeed = sqrt(twoa);
-	else
-	    requiredSpeed = _speed + fabs(_acceleration / _speed);
+	requiredSpeed = _speed + delta_speed;
 	if (requiredSpeed > _maxSpeed)
 	    requiredSpeed = _maxSpeed;
     }
@@ -119,10 +123,7 @@ float AccelStepper::desiredSpeed()
     {
 	// Decelerate clockwise, accelerate anticlockwise
 	// Need to accelerate in clockwise direction
-	if (_speed == 0.0f)
-	    requiredSpeed = -sqrt(twoa);
-	else
-	    requiredSpeed = _speed - fabs(_acceleration / _speed);
+	requiredSpeed = _speed - delta_speed;
 	if (requiredSpeed < -_maxSpeed)
 	    requiredSpeed = -_maxSpeed;
     }
@@ -153,6 +154,7 @@ AccelStepper::AccelStepper(uint8_t interface, uint8_t pin1, uint8_t pin2, uint8_
     _speed = 0.0;
     _maxSpeed = 1.0;
     _acceleration = 1.0;
+    _sqrt_twoa = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
     _enablePin = 0xff;
@@ -175,6 +177,7 @@ AccelStepper::AccelStepper(void (*forward)(), void (*backward)())
     _speed = 0.0;
     _maxSpeed = 1.0;
     _acceleration = 1.0;
+    _sqrt_twoa = 1.0;
     _stepInterval = 0;
     _minPulseWidth = 1;
     _enablePin = 0xff;
@@ -199,6 +202,7 @@ void AccelStepper::setMaxSpeed(float speed)
 void AccelStepper::setAcceleration(float acceleration)
 {
     _acceleration = acceleration;
+    _sqrt_twoa = sqrt(2.0f * _acceleration);
     computeNewSpeed();
 }
 

@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.20.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.21.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and discussion at http://groups.google.com/group/accelstepper
@@ -100,10 +100,13 @@
 ///               Some refactoring and code size reduction.
 /// \version 1.20 Improved documentation and examples to show need for correctly
 ///               specifying AccelStepper::FULL4WIRE and friends.
+/// \version 1.21 Fixed a problem where desiredSpeed could compute the wrong step acceleration
+///               when _speed was small but non-zero. 
+///               Precompute sqrt_twoa to improve performance and max possible stepping speed
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009-2012 Mike McCauley
-// $Id: AccelStepper.h,v 1.9 2012/08/24 01:48:07 mikem Exp mikem $
+// $Id: AccelStepper.h,v 1.10 2012/09/28 22:44:54 mikem Exp mikem $
 
 #ifndef AccelStepper_h
 #define AccelStepper_h
@@ -425,6 +428,7 @@ private:
     /// The acceleration to use to accelerate or decelerate the motor in steps
     /// per second per second. Must be > 0
     float          _acceleration;
+    float          _sqrt_twoa; // Precomputed sqrt(2*_acceleration)
 
     /// The current interval between steps in microseconds
     unsigned long  _stepInterval;
