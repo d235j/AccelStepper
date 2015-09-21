@@ -26,7 +26,7 @@
 /// Example Arduino programs are included to show the main modes of use.
 ///
 /// The version of the package that this documentation refers to can be downloaded 
-/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.13.zip
+/// from http://www.open.com.au/mikem/arduino/AccelStepper/AccelStepper-1.14.zip
 /// You can find the latest version at http://www.open.com.au/mikem/arduino/AccelStepper
 ///
 /// You can also find online help and disussion at http://groups.google.com/group/accelstepper
@@ -82,6 +82,7 @@
 ///    and more or less constant in all cases. This should result in slightly beter high speed performance, and
 ///    reduce anomalous speed glitches when other steppers are accelerating. 
 ///    However, its hard to see how to replace the sqrt() required at the very first step from 0 speed.
+/// \version 1.14 Fixed a problem with compiling under arduino 0021 reported by EmbeddedMan
 ///
 /// \author  Mike McCauley (mikem@open.com.au)
 // Copyright (C) 2009 Mike McCauley
@@ -94,6 +95,7 @@
 #if ARDUINO >= 100
 #include <Arduino.h>
 #else
+#include <WProgram.h>
 #include <wiring.h>
 #endif
 
